@@ -369,7 +369,7 @@ function generateApiTokenadmin() {
         
            // echo json_encode($response1);
         } else {
-            echo 'false|¡Autenticación fallida!';
+            echo 'false|¡Autenticación fallida!1';
            // echo json_encode($data);
         }
     } else {
