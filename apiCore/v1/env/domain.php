@@ -75,7 +75,7 @@ function domIntegrations() {
 
     }
     if($option==2){//desarrollo
- $sub_domain="https://dev-koiosintegrations.lugma.tech"; // o dirección IP del servidor de la base de datos remota
+ $sub_domain="https://dev-kairosGateway.lugma.tech"; // o dirección IP del servidor de la base de datos remota
  return $sub_domain;
 
     }
