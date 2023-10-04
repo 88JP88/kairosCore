@@ -3,8 +3,8 @@
     class post_functions {
         function post_users($dta) {
             
-            require_once '../../apiUsers/v1/model/modelSecurity/uuid/uuidd.php';
-            require_once '../../apiUsers/v1/model/users/post_users.php';
+            require_once '../../apiCore/v1/model/modelSecurity/uuid/uuidd.php';
+            require_once '../../apiCore/v1/model/users/post_users.php';
            
    
 
@@ -31,10 +31,10 @@
 
         function post_usersAdmin($dta) {
             
-            require_once '../../apiUsers/v1/model/modelSecurity/uuid/uuidd.php';
-            require_once '../../apiUsers/v1/model/users/post_users.php';
+            require_once '../../apiCore/v1/model/modelSecurity/uuid/uuidd.php';
+            require_once '../../apiCore/v1/model/users/post_users.php';
            
-    require_once '../../apiUsers/v1/model/modelSecurity/crypt/cryptic.php';
+    require_once '../../apiCore/v1/model/modelSecurity/crypt/cryptic.php';
 
             $gen_uuid = new generateUuid();
             $myuuid = $gen_uuid->guidv4();
