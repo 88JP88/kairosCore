@@ -315,7 +315,7 @@ $message=$array[1];
 $userid=$array[2];
 $rancode=$array[3];
 $apiToken=$array[4];
-$userName=$array[5];
+//$userName=$array[5];
 
 
 
