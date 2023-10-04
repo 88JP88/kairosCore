@@ -154,7 +154,7 @@ if($responsefu=="true"){
         'apk' => $xapk
         
     ];
-    require_once('../../apiUsers/v1/controller/users/post_functions.php');
+    require_once('../../apiCore/v1/controller/users/post_functions.php');
             
     $post_users = new post_functions();
     echo $post_users->post_users($dta);
