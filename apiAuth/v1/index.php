@@ -161,7 +161,7 @@ echo "Unauthorized";
     
 });
 
-Flight::route('POST /authApiKeyGatewayKoios', function () {
+Flight::route('POST /authApiKeyGatewayKairos', function () {
     header("Access-Control-Allow-Origin: *");
     //$conectar = conn();
     //$uri = $_SERVER['REQUEST_URI'];

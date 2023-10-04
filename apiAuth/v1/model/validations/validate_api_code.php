@@ -13,7 +13,7 @@
 
             $apiKey1 = mysqli_real_escape_string($conectar, $apiKey);
         $xApiKey1 = mysqli_real_escape_string($conectar, $xApiKey);
-            $query = mysqli_query($conectar, "SELECT clientId FROM clientSecrets WHERE clientKey = '$xApiKey'");
+            $query = mysqli_query($conectar, "SELECT clientId FROM clientSecrets WHERE apiKey = '$xApiKey'");
         
             if ($query) {
                 $result = mysqli_fetch_assoc($query);
@@ -90,7 +90,7 @@ return "true";
 
             $apiKey1 = mysqli_real_escape_string($conectar, $apiKey);
         $xApiKey1 = mysqli_real_escape_string($conectar, $xApiKey);
-            $query = mysqli_query($conectar, "SELECT clientId FROM clientSecrets WHERE clientKey = '$xApiKey'");
+            $query = mysqli_query($conectar, "SELECT clientId FROM clientSecrets WHERE apiKey = '$xApiKey'");
         
             if ($query) {
                 $result = mysqli_fetch_assoc($query);

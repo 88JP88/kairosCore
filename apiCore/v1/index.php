@@ -203,7 +203,7 @@ Flight::route('POST /postClient/@apk/@xapk', function ($apk,$xapk) {
 
         $sub_domaincon=new model_domain();
         $sub_domain=$sub_domaincon->domKoios();
-        $url = $sub_domain.'/kairosCore/apiAuth/v1/authApiKeyKairos/';
+        $url = $sub_domain.'/kairosCore/apiAuth/v1/authApiKey/';
       
         $data = array(
             'apiKey' =>$apk, 
@@ -239,7 +239,6 @@ Flight::route('POST /postClient/@apk/@xapk', function ($apk,$xapk) {
             $clientName= Flight::request()->data->clientName;
             $comments= Flight::request()->data->comments;
             $clientType= Flight::request()->data->clientType;
-            $isPublic= Flight::request()->data->isPublic;
             $ownerName= Flight::request()->data->ownerName;
             $ownerLastName= Flight::request()->data->ownerLastName;
             $rolId= Flight::request()->data->rolId;
