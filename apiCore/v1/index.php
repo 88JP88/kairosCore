@@ -311,14 +311,14 @@ Flight::route('POST /postClient/@apk/@xapk', function ($apk,$xapk) {
             $array = explode("|", $responsefull);
             $response=$array[0];
             $message=$array[1];
-            //$userid=$array[2];
-            //$rancode=$array[3];
-            //$apiToken=$array[4];
-            //$userName=$array[5];
+            $userid=$array[2];
+            $rancode=$array[3];
+            $apiToken=$array[4];
+            $userName=$array[5];
 
 
 
-
+echo $response1;
 
 function generateApiTokenadmin() {
     $characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
