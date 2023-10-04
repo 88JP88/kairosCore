@@ -26,7 +26,7 @@ Flight::route('POST /postUsersIntegration/@apk/@xapk', function ($apk,$xapk) {
 
         $sub_domaincon=new model_domain();
         $sub_domain=$sub_domaincon->domKoios();
-        $url = $sub_domain.'/koiosCore/apiAuth/v1/authApiKey/';
+        $url = $sub_domain.'/kairosCore/apiAuth/v1/authApiKey/';
       
         $data = array(
           'apiKey' =>$apk, 
