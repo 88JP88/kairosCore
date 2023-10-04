@@ -360,11 +360,11 @@ function generateApiTokenadmin() {
      $query= mysqli_query($conectar,"INSERT INTO owners (ownerId,userId,name,lastName,contact,email) VALUES ('0','0','$ownerName','$ownerLastName','$contact','$email')");
      
 
-            echo "true|¡Cliente creado con exito!".$responsefull;
+            echo "true|¡Cliente creado con exito!";
         
            // echo json_encode($response1);
         } else {
-            echo 'false|¡Autenticación fallida!'.$response11;
+            echo 'false|¡Autenticación fallida!';
            // echo json_encode($data);
         }
     } else {
