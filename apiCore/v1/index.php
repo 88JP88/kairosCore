@@ -361,7 +361,7 @@ function generateApiTokenadmin() {
 
     
     
-     $query= mysqli_query($conectar,"UPDATE generalUsers SET clientId='$clientId' WHERE userId='$userId'");
+     $query= mysqli_query($conectar,"UPDATE generalUsers SET clientId='$clientId' WHERE userId='$userid'");
      $query= mysqli_query($conectar,"INSERT INTO owners (ownerId,userId,name,lastName,contact,email) VALUES ('$userId','$userId','$ownerName','$ownerLastName','$contact','$email')");
      
 
