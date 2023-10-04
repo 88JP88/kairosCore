@@ -52,7 +52,7 @@ $fechaActual = date('Y-m-d'); // Formato: Año-Mes-Día
 $horaActual = date('H:i:s'); // Formato: Hora:Minutos:Segundos
 
 $apiToken=  $dta['apk'];
-$query= mysqli_query($conectar,"INSERT INTO generalUsers (userId,userName,name,lastName,rolId,contact,email) VALUES ('$userId','$username','$name','$lastName','$rolId','$contact','$personalMail')");
+$query= mysqli_query($conectar,"INSERT INTO generalUsers (userId,userName,name,lastName,rolId,contact,email) VALUES ('$userid','$username','$name','$lastName','$rolId','$contact','$personalMail')");
 
 $query2= mysqli_query($conectar,"INSERT INTO userSecrets (userId,apiKey,userRanCode) VALUES ('$userid','$apiToken','$ranCode')");
                                   
