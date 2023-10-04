@@ -355,7 +355,7 @@ function generateApiTokenadmin() {
 
 
 
-     $query= mysqli_query($conectar,"INSERT INTO clients (clientId,clientName,comments,ownerId,styleId,subId,clientType) VALUES ('$clientId','$clientName','$comments','$userid','$styleId','$subId','$clientType')");
+     $query= mysqli_query($conectar,"INSERT INTO clients (clientId,clientName,comments,ownerId,styleId,subId,clientType) VALUES ('$clientId','$clientName','$comments','0','$styleId','$subId','$clientType')");
      $query= mysqli_query($conectar,"INSERT INTO clientSecrets (secretId,apiKey,secRanCode,clientId) VALUES ('$secretId','$apiToken','$ranCode','$ownerLastName','$clientId')");
 
     
