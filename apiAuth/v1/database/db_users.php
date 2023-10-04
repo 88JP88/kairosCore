@@ -35,8 +35,8 @@ function conn() {
 }
 if($option==2){
     $hostname = "localhost"; // o dirección IP del servidor de la base de datos remota
-    $usuariodb = "u767251687_devkoioscore"; // reemplazar con el usuario de la base de datos
-    $passworddb = "V8=nfnuA"; // reemplazar con la contraseña de la base de datos
+    $usuariodb = "u767251687_devkairoscore"; // reemplazar con el usuario de la base de datos
+    $passworddb = "Devkairoscore2023."; // reemplazar con la contraseña de la base de datos
     $dbname = "u767251687_devkairoscore"; // reemplazar con el nombre de la base de datos
 
     try {
