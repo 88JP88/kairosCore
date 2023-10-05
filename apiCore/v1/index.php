@@ -2047,9 +2047,9 @@ Flight::route('POST /validateLogIn/@headerslink', function ($headerslink) {
                
                
 
-                echo "hola";
+               
                 if ($query1) {
-                    echo "hola";
+                    
                     while ($row = $query1->fetch_assoc()) {
                         
 
