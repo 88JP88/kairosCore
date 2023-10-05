@@ -179,6 +179,180 @@ if($responsefu=="true"){
 
 
 
+Flight::route('POST /postInternalUsersIntegration/@apk/@xapk', function ($apk,$xapk) {
+  
+    header("Access-Control-Allow-Origin: *");
+    // Verificar si los encabezados 'Api-Key' y 'Secret-Key' existen
+    if (!empty($apk) && !empty($xapk)) {    
+        // Leer los datos de la solicitud
+       
+
+
+
+
+
+
+        
+        
+
+
+
+
+        $sub_domaincon=new model_domain();
+        $sub_domain=$sub_domaincon->domKairos();
+        $url = $sub_domain.'/kairosCore/apiAuth/v1/authApiKey/';
+      
+        $data = array(
+          'apiKey' =>$apk, 
+          'xApiKey' => $xapk
+          
+          );
+      $curl = curl_init();
+      
+      // Configurar las opciones de la sesión cURL
+      curl_setopt($curl, CURLOPT_URL, $url);
+      curl_setopt($curl, CURLOPT_POST, true);
+      curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+      curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+      // curl_setopt($curl, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
+      
+      // Ejecutar la solicitud y obtener la respuesta
+      $response11 = curl_exec($curl);
+
+      
+
+
+      curl_close($curl);
+
+      
+
+        // Realizar acciones basadas en los valores de los encabezados
+
+
+        if ($response11 == 'true' ) {
+
+          
+
+            $sub_domaincon1=new model_domain();
+            $sub_domain1=$sub_domaincon1->dom();
+            
+$url1 = $sub_domain1 . "/lugmagateway/apiCore/v1/postUsersIntegration/".$apk."/".$xapk;
+// Definir los datos a enviar en la solicitud POST
+$data = array(
+    'name' => Flight::request()->data->name,
+            'lastName' => Flight::request()->data->lastName,
+            'personalMail' => Flight::request()->data->personalMail,
+            'keyWord' => Flight::request()->data->keyWord,
+            'contact' => Flight::request()->data->contact
+);
+
+// Convertir los datos a formato JSON
+$json_data = json_encode($data);
+
+// Inicializar la sesión cURL
+$curl1 = curl_init();
+
+// Configurar las opciones de la sesión cURL
+curl_setopt($curl1, CURLOPT_URL, $url1);
+curl_setopt($curl1, CURLOPT_POST, true);
+curl_setopt($curl1, CURLOPT_POSTFIELDS, $data);
+curl_setopt($curl1, CURLOPT_RETURNTRANSFER, true);
+
+
+
+// Ejecutar la solicitud y obtener la respuesta
+$response1 = curl_exec($curl1);
+
+// Cerrar la sesión cURL
+curl_close($curl1);
+
+
+$responsefull = trim($response1); // Eliminar espacios en blanco alrededor de la respuesta
+$array = explode("|", $responsefull);
+$response=$array[0];
+$message=$array[1];
+$userid=$array[2];
+$rancode=$array[3];
+$apiToken=$array[4];
+$userName=$array[5];
+//echo $_SESSION['key'];
+
+$responsefu = trim($response); // Eliminar espacios en blanco alrededor de la respuesta
+
+if($responsefu=="true"){
+
+
+
+
+    $dta = [
+            
+        'name' => Flight::request()->data->name,
+        'lastName' => Flight::request()->data->lastName,
+        'personalMail' => Flight::request()->data->personalMail,
+        'userId' => $userid,
+        'contact' => Flight::request()->data->contact,
+        'rolId' => Flight::request()->data->rolId,
+        'ranCode' => $rancode,
+        'apiToken' => $apiToken,
+        'userName' => $userName,
+        'apk' => $xapk
+        
+    ];
+    require_once('../../apiCore/v1/controller/users/post_functions.php');
+            
+    $post_users = new post_functions();
+    echo $post_users->post_internalusers($dta);
+  
+    //$response2=$post_users->post_users($dta);
+    //var_dump($response2);
+    //echo $response1;
+    
+    
+    
+}else{
+
+    //echo $message;
+
+
+    $dta = [
+            
+        'name' => Flight::request()->data->name,
+        'lastName' => Flight::request()->data->lastName,
+        'personalMail' => Flight::request()->data->personalMail,
+        'userId' => $userid,
+        'contact' => Flight::request()->data->contact,
+        'rolId' => Flight::request()->data->rolId,
+        'ranCode' => $rancode,
+        'apiToken' => $apiToken,
+        'userName' => $userName,
+        'apk' => $xapk
+        
+    ];
+    require_once('../../apiCore/v1/controller/users/post_functions.php');
+            
+    $post_users = new post_functions();
+    echo $post_users->post_users($dta);
+  
+//$response2=$post_users->post_users($dta);
+//var_dump($response2);
+//echo $response1;
+
+
+           
+}
+           // echo json_encode($response1);
+        } else {
+            echo 'false|¡Autenticación fallida!';
+           // echo json_encode($data);
+        }
+    } else {
+        echo 'false|¡Encabezados faltantes!';
+    }
+});
+
+
+
+
 
 
 

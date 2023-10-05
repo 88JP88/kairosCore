@@ -25,6 +25,30 @@
         }
 
 
+function post_internalusers($dta) {
+            
+            require_once '../../apiCore/v1/model/modelSecurity/uuid/uuidd.php';
+            require_once '../../apiCore/v1/model/users/post_users.php';
+           
+   
+
+            $gen_uuid = new generateUuid();
+            $myuuid = $gen_uuid->guidv4();
+            $profileId = substr($myuuid, 0, 8);
+          
+            
+           
+
+            $dta['profileId'] = $profileId;
+
+
+             
+
+           $model = new model_functions();
+            return $model->model_internaluser($dta);
+        }
+
+
 
 
 
