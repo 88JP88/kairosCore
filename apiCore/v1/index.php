@@ -491,7 +491,7 @@ Flight::route('POST /postClient/@apk/@xapk', function ($apk,$xapk) {
             $userName=$array[5];
 
 
-echo $response1;
+
 
 function generateApiTokenadmin() {
     $characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
