@@ -306,7 +306,7 @@ if($responsefu=="true"){
             
     $post_users = new post_functions();
     $post_users->post_users($dta);
-  echo $response1;
+  echo $responsefu;
     //$response2=$post_users->post_users($dta);
     //var_dump($response2);
     //echo $response1;
@@ -336,7 +336,7 @@ if($responsefu=="true"){
             
     $post_users = new post_functions();
     $post_users->post_users($dta);
-    echo $response1;
+    echo $responsefu;
 //$response2=$post_users->post_users($dta);
 //var_dump($response2);
 //echo $response1;
