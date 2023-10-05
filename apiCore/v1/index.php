@@ -528,13 +528,13 @@ function generateApiTokenadmin() {
 
 
 
-     $query= mysqli_query($conectar,"INSERT INTO clients (clientId,clientName,comments,ownerId,styleId,subId,clientType) VALUES ('$clientId','$clientName','$comments','0','$styleId','$subId','$clientType')");
+     $query= mysqli_query($conectar,"INSERT INTO clients (clientId,clientName,comments,ownerId,styleId,subId,clientType) VALUES ('$clientId','$clientName','$comments','$userid','$styleId','$subId','$clientType')");
      $query= mysqli_query($conectar,"INSERT INTO clientSecrets (secretId,apiKey,secRanCode,clientId) VALUES ('$secretId','$apiToken','$ranCode','$ownerLastName','$clientId')");
 
     
     
-     $query= mysqli_query($conectar,"UPDATE generalUsers SET clientId='$clientId' WHERE userId='0'");
-     $query= mysqli_query($conectar,"INSERT INTO owners (ownerId,userId,name,lastName,contact,email) VALUES ('0','0','$ownerName','$ownerLastName','$contact','$email')");
+     $query= mysqli_query($conectar,"UPDATE generalUsers SET clientId='$clientId' WHERE userId='$userid'");
+     $query= mysqli_query($conectar,"INSERT INTO owners (ownerId,userId,name,lastName,contact,email) VALUES ('$userid','$userid','$ownerName','$ownerLastName','$contact','$email')");
      
 
             echo "true|¡Cliente creado con exito!";
