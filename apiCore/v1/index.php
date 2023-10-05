@@ -2091,7 +2091,7 @@ Flight::route('POST /validateLogIn/@headerslink', function ($headerslink) {
 
 
                             $fechaActual = new DateTime(); // Crear un objeto DateTime para la fecha actual
-                            $startSub = new DateTime();
+                            //$startSub = new DateTime();
                             $intervalo = $startSub->diff($fechaActual);
                             
                             $diferenciaEnDias = $intervalo->days;
