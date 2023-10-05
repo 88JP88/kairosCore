@@ -2085,30 +2085,11 @@ Flight::route('POST /validateLogIn/@headerslink', function ($headerslink) {
                             // Obtener la fecha actual
                             $fechaActual = date('Y-m-d'); // Formato: Año-Mes-Día
                             $horaActual = date('H:i:s'); // Formato: Hora:Minutos:Segundos
-        if($fechaActual<$endSub){
-            $intervalo = $startSub->diff($$fechaActual);
+      
+                                $intervalo = $startSub->diff($$fechaActual);
 
-$diferenciaEnDias = $intervalo->days;
-$subTotal=$diferenciaEnDias;
-echo "menor la fecha";
-        }
-        elseif($fechaActual=$endSub){
-
-            $intervalo = $startSub->diff($$fechaActual);
-
-$diferenciaEnDias = $intervalo->days;
-$subTotal=$diferenciaEnDias;
-echo "igual la fecha";
-                    }
-
-                    elseif($fechaActual>$endSub){
-
-                        $intervalo = $startSub->diff($$fechaActual);
-            
-            $diferenciaEnDias = $intervalo->days;
-            $subTotal="-".$diferenciaEnDias;
-                                }
-
+                                $diferenciaEnDias = $intervalo->days;
+                                $subTotal=$diferenciaEnDias;
                     require_once '../../apiCore/v1/model/modelSecurity/uuid/uuidd.php';
                   
                    
