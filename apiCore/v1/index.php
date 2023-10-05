@@ -2119,13 +2119,13 @@ $subTotal=$diferenciaEnDias;
                             $query2= mysqli_query($conectar,"UPDATE generalUsers SET sessionCounter='$counterLoged' where mail='$mail'");
                             $query2= mysqli_query($conectar,"UPDATE subList SET subDays='$subTotal' where clientId='$clientId'");
                       
-                            $query2= mysqli_query($conectar,"INSERT INTO sessionLog (sessionId,profileId,browser,logInTime,logInDate,ipId) VALUES ('$sessionId','$profileId','$decoded_data','$horaActual','$fechaActual','$ipId')");
+                            $query2= mysqli_query($conectar,"INSERT INTO sessionLog (sessionId,userId,browser,logInTime,logInDate,ipId) VALUES ('$sessionId','$userId','$decoded_data','$horaActual','$fechaActual','$ipId')");
                       
                       
                       
                             $values= array();
                             $value=array(
-                                'profileId' => $profileId,
+                                'userId' => $userId,
                                 'mail' => $mail,
                                 'userName' => $userName1,
                                 'sessionCounter' => $counterLoged,
@@ -2139,9 +2139,8 @@ $subTotal=$diferenciaEnDias;
                                 'subDays' => $subDays,
                                 'subId' => $subId,
                                 'sessionId' => $sessionId,
-                                'xApiKey' => $headerslink,
+                                'clientKey' => $clientKey,
                                 'ranCode' => $ranCode,
-                                'isPublic' => $isPublic,
                                 'response' => "true",
                                         'message' => "¡Bienvenid@ ".$name." ".$lastName
                             );
@@ -2169,7 +2168,7 @@ $subTotal=$diferenciaEnDias;
                                 'subDays' => '',
                                 'subId' => '',
                                 'sessionId' => '',
-                                'xApiKey' => $headerslink,
+                                'clientKey' => $clientKey,
                                 'ranCode' => '',
                                 'isPublic' => '',
                                 'response' => 'false',
