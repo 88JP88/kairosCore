@@ -487,7 +487,7 @@ Flight::route('POST /postClient/@apk/@xapk', function ($apk,$xapk) {
             $message=$array[2];
             $userid=$array[3];
             $rancode=$array[4];
-            $apiToken=$array[5];
+            $apiToken1=$array[5];
             $userName=$array[6];
 
 
@@ -529,11 +529,12 @@ function generateApiTokenadmin() {
 
 
      $query= mysqli_query($conectar,"INSERT INTO clients (clientId,clientName,comments,ownerId,styleId,subId,clientType) VALUES ('$clientId','$clientName','$comments','$userid','$styleId','$subId','$clientType')");
-     $query= mysqli_query($conectar,"INSERT INTO clientSecrets (secretId,apiKey,secRanCode,clientId) VALUES ('$secretId','$apiToken','$ranCode','$ownerLastName','$clientId')");
+     $query= mysqli_query($conectar,"INSERT INTO clientSecrets (secretId,apiKey,secRanCode,clientId) VALUES ('$secretId','$apiToken','$ranCode','$clientId')");
 
     
     
      $query= mysqli_query($conectar,"UPDATE generalUsers SET clientId='$clientId' WHERE userId='$userid'");
+     $query= mysqli_query($conectar,"UPDATE userSecrets SET apiKey='$apiToken1' WHERE userId='$userid'");
      $query= mysqli_query($conectar,"INSERT INTO owners (ownerId,userId,name,lastName,contact,email) VALUES ('$userid','$userid','$ownerName','$ownerLastName','$contact','$email')");
      
 
@@ -2004,7 +2005,7 @@ Flight::route('POST /validateLogIn/@headerslink', function ($headerslink) {
         
         $sub_domaincon=new model_domain();
         $sub_domain=$sub_domaincon->dom();
-        $url = $sub_domain.'/koiosCore/apiAuth/v1/authApiKeyLog/';
+        $url = $sub_domain.'/kairosCore/apiAuth/v1/authApiKeyLog/';
       
         $data = array(
           'xApiKey' => $headerslink
@@ -2033,7 +2034,7 @@ Flight::route('POST /validateLogIn/@headerslink', function ($headerslink) {
 
         if ($response1 != 'false' ) {
             $conectar=conn();
-            require_once '../../apiUsers/v1/model/modelSecurity/crypt/cryptic.php';
+            require_once '../../apiCore/v1/model/modelSecurity/crypt/cryptic.php';
 
             
             $mail= Flight::request()->data->mail;

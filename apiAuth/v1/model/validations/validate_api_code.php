@@ -149,7 +149,7 @@ return "true";
     $xApiKey=$dta['xApiKey'];
 
        
-        $query = mysqli_query($conectar, "SELECT clientId FROM clientSecrets WHERE clientKey = '$xApiKey'");
+        $query = mysqli_query($conectar, "SELECT clientId FROM clientSecrets WHERE apiKey = '$xApiKey'");
     
         if ($query) {
             $result = mysqli_fetch_assoc($query);
