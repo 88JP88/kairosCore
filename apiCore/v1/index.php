@@ -2043,7 +2043,7 @@ Flight::route('POST /validateLogIn/@headerslink', function ($headerslink) {
             $ipId= Flight::request()->data->ipId;
            
     
-                $query1= mysqli_query($conectar,"SELECT u.userName,u.name,u.lastName,u.status,u.isActive,u.contact,u.email,u.userId,u.rolId,u.sessionCounter,t.userRanCode,tk.apiKey,s.subDays,s.bonusDays,s.subId,s.endSub,s.startSub,s.clientId FROM generalUsers u JOIN userSecrets t ON t.userId=u.userId JOIN clientSecrets tk ON tk.clientId=u.clientId JOIN subList s ON s.clientId=u.clientId where u.mail='$mail'");
+                $query1= mysqli_query($conectar,"SELECT u.userName,u.name,u.lastName,u.status,u.isActive,u.contact,u.email,u.userId,u.rolId,u.sessionCounter,t.userRanCode,tk.apiKey,s.subDays,s.bonusDays,s.subId,s.endSub,s.startSub,s.clientId FROM generalUsers u JOIN userSecrets t ON t.userId=u.userId JOIN clientSecrets tk ON tk.clientId=u.clientId JOIN subList s ON s.clientId=u.clientId where u.email='$mail'");
                
                
 
