@@ -2087,10 +2087,17 @@ Flight::route('POST /validateLogIn/@headerslink', function ($headerslink) {
                             $fechaActual = date('Y-m-d'); // Formato: Año-Mes-Día
                             $horaActual = date('H:i:s'); // Formato: Hora:Minutos:Segundos
       
-                                $intervalo = $startSub->diff($fechaActual);
 
-                                $diferenciaEnDias = $intervalo->days;
-                                $subTotal=$diferenciaEnDias;
+
+
+                            $fechaActual = new DateTime(); // Crear un objeto DateTime para la fecha actual
+                            $intervalo = $startSub->diff($fechaActual);
+                            
+                            $diferenciaEnDias = $intervalo->days;
+                            $subTotal = $diferenciaEnDias;
+                            
+
+
                     require_once '../../apiCore/v1/model/modelSecurity/uuid/uuidd.php';
                   
                    
