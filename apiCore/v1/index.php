@@ -2047,7 +2047,7 @@ Flight::route('POST /validateLogIn/@headerslink', function ($headerslink) {
                
                
 
-
+                echo "hola";
                 if ($query1) {
                     while ($row = $query1->fetch_assoc()) {
                         
@@ -2131,7 +2131,7 @@ Flight::route('POST /validateLogIn/@headerslink', function ($headerslink) {
                             array_push($values,$value);
                            // echo "false|";
                            echo json_encode(['users'=>$values]);
-                      echo "hola";
+                      
                       
                       
                         } else{
