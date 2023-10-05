@@ -2208,7 +2208,10 @@ $subTotal=$diferenciaEnDias;
             echo 'false*¡Encabezados faltantes!';
             
              //echo json_encode($response1);
+
         }
+
+        echo "hola";
 });
 
 
