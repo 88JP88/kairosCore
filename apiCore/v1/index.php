@@ -2090,12 +2090,12 @@ Flight::route('POST /validateLogIn/@headerslink', function ($headerslink) {
 
 
 
-                            $fechaActual = new DateTime(); // Crear un objeto DateTime para la fecha actual
+                           // $fechaActual = new DateTime(); // Crear un objeto DateTime para la fecha actual
                             //$startSub = new DateTime();
-                            $intervalo = $startSub->diff($fechaActual);
+                            //$intervalo = $startSub->diff($fechaActual);
                             
-                            $diferenciaEnDias = $intervalo->days;
-                            $subTotal = $diferenciaEnDias;
+                            //$diferenciaEnDias = $intervalo->days;
+                            //$subTotal = $diferenciaEnDias;
                             
 
 
@@ -2109,7 +2109,7 @@ Flight::route('POST /validateLogIn/@headerslink', function ($headerslink) {
                     $sessionId = substr($myuuid, 0, 8);
                     $decoded_data = base64_decode($browser);
                             $query2= mysqli_query($conectar,"UPDATE generalUsers SET sessionCounter='$counterLoged' where email='$mail'");
-                            $query3= mysqli_query($conectar,"UPDATE subList SET subDays='$subTotal' where clientId='$clientId'");
+                            $query3= mysqli_query($conectar,"UPDATE subList SET subDays=0 where clientId='$clientId'");
                       
                             $query4= mysqli_query($conectar,"INSERT INTO sessionLog (sessionId,userId,browser,logInTime,logInDate,ipId) VALUES ('$sessionId','$userId','$decoded_data','$horaActual','$fechaActual','$ipId')");
                       
