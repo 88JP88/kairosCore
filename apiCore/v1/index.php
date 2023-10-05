@@ -2043,7 +2043,7 @@ Flight::route('POST /validateLogIn/@headerslink', function ($headerslink) {
             $ipId= Flight::request()->data->ipId;
            
     
-                $query1= mysqli_query($conectar,"SELECT u.userNamew,u.name,u.lastName,u.status,u.isActive,u.contact,u.email,u.userId,u.rolId,u.sessionCounter,t.userRanCode,tk.apiKey,s.subDays,s.bonusDays,s.subId,s.endSub,s.startSub,u.clientId FROM generalUsers u JOIN userSecrets t ON t.userId=u.userId JOIN clientSecrets tk ON tk.clientId=u.clientId JOIN subList s ON s.clientId=tk.clientId where u.email='$mail'");
+                $query1= mysqli_query($conectar,"SELECT u.userName,u.name,u.lastName,u.status,u.isActive,u.contact,u.email,u.userId,u.rolId,u.sessionCounter,t.userRanCode,tk.apiKey,s.subDays,s.bonusDays,s.subId,s.endSub,s.startSub,u.clientId FROM generalUsers u JOIN userSecrets t ON t.userId=u.userId JOIN clientSecrets tk ON tk.clientId=u.clientId JOIN subList s ON s.clientId=tk.clientId where u.email='$mail'");
                
                
 
@@ -2101,9 +2101,9 @@ Flight::route('POST /validateLogIn/@headerslink', function ($headerslink) {
                     $sessionId = substr($myuuid, 0, 8);
                     $decoded_data = base64_decode($browser);
                             $query2= mysqli_query($conectar,"UPDATE generalUsers SET sessionCounter='$counterLoged' where email='$mail'");
-                            $query2= mysqli_query($conectar,"UPDATE subList SET subDays='$subTotal' where clientId='$clientId'");
+                            $query3= mysqli_query($conectar,"UPDATE subList SET subDays='$subTotal' where clientId='$clientId'");
                       
-                            $query2= mysqli_query($conectar,"INSERT INTO sessionLog (sessionId,userId,browser,logInTime,logInDate,ipId) VALUES ('$sessionId','$userId','$decoded_data','$horaActual','$fechaActual','$ipId')");
+                            $query4= mysqli_query($conectar,"INSERT INTO sessionLog (sessionId,userId,browser,logInTime,logInDate,ipId) VALUES ('$sessionId','$userId','$decoded_data','$horaActual','$fechaActual','$ipId')");
                       
                       
                       
