@@ -306,7 +306,7 @@ if($responsefu=="true"){
             
     $post_users = new post_functions();
     $post_users->post_users($dta);
-  echo $responsefu;
+  echo $responsefull;
     //$response2=$post_users->post_users($dta);
     //var_dump($response2);
     //echo $response1;
@@ -336,7 +336,7 @@ if($responsefu=="true"){
             
     $post_users = new post_functions();
     $post_users->post_users($dta);
-    echo $responsefu;
+    echo $responsefull;
 //$response2=$post_users->post_users($dta);
 //var_dump($response2);
 //echo $response1;
@@ -481,8 +481,8 @@ Flight::route('POST /postClient/@apk/@xapk', function ($apk,$xapk) {
 
 
 
-            $responsefull = trim($response1); // Eliminar espacios en blanco alrededor de la respuesta
-            $array = explode("|", $responsefull);
+            
+            $array = explode("|", $response1);
             $response=$array[0];
             $message=$array[1];
             $userid=$array[2];
