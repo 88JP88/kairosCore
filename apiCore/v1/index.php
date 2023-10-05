@@ -536,6 +536,7 @@ function generateApiTokenadmin() {
      $query= mysqli_query($conectar,"UPDATE generalUsers SET clientId='$clientId' WHERE userId='$userid'");
      $query= mysqli_query($conectar,"UPDATE userSecrets SET apiKey='$apiToken1' WHERE userId='$userid'");
      $query= mysqli_query($conectar,"INSERT INTO owners (ownerId,userId,name,lastName,contact,email) VALUES ('$userid','$userid','$ownerName','$ownerLastName','$contact','$email')");
+     $query= mysqli_query($conectar,"INSERT INTO subList (subId,clientId) VALUES ('$subId','$clientId')");
      
 
             echo "true|¡Cliente creado con exito!";
@@ -2042,7 +2043,7 @@ Flight::route('POST /validateLogIn/@headerslink', function ($headerslink) {
             $ipId= Flight::request()->data->ipId;
            
     
-                $query1= mysqli_query($conectar,"SELECT u.userName,u.name,u.lastName,u.status,u.isActive,u.contact,u.mail,u.profileId,u.rolId,u.subDays,u.subId,u.sessionCounter,u.endLog,u.isPublic,t.ranCode FROM users u JOIN userTokens t ON t.profileId=u.profileId where u.mail='$mail'");
+                $query1= mysqli_query($conectar,"SELECT u.userName,u.name,u.lastName,u.status,u.isActive,u.contact,u.email,u.userId,u.rolId,u.sessionCounter,t.userRanCode,tk.apiKey,s.subDays,s.bonusDays,s.subId,s.endSub,s.startSub,s.clientId FROM generalUsers u JOIN userSecrets t ON t.userId=u.userId JOIN clientSecrets tk ON tk.clientId=u.clientId JOIN subList s ON s.clientId=u.clientId where u.mail='$mail'");
                
                
 
@@ -2052,7 +2053,7 @@ Flight::route('POST /validateLogIn/@headerslink', function ($headerslink) {
                         
 
                        $countersession= $row['sessionCounter'];
-                       $profileId= $row['profileId'];
+                       $userId= $row['userId'];
                        $name= $row['name'];
                        $lastName= $row['lastName'];
 
@@ -2060,33 +2061,53 @@ Flight::route('POST /validateLogIn/@headerslink', function ($headerslink) {
                        $isActive= $row['isActive'];
                        $contact= $row['contact'];
                         $subDays= $row['subDays'];
+                        $bonusDays= $row['bonusDays'];
                        $rolId= $row['rolId'];
                        $subId= $row['subId'];
                       // $sessionCounter= $row['sessionCounter'];
                        $userName1= $row['userName'];
-                       $endLog= $row['endLog'];
-                       $ranCode= $row['ranCode'];
-                       $isPublic= $row['isPublic'];
+                       $clientKey= $row['apiKey'];
+                       $ranCode= $row['userRanCode'];
+                       $endSub= $row['endSub'];
+                       $startSub= $row['startSub'];
+                       $clientId= $row['clientId'];
+
+
                        if($countersession<0){
                         $countersession=0;
                        }
 
                        $counterLoged=$countersession +1;
-                        if($counterLoged<=3){
+                        if($counterLoged==1){
 
                             date_default_timezone_set('America/Bogota'); // Cambia 'America/Montevideo' por tu zona horaria deseada
 
                             // Obtener la fecha actual
                             $fechaActual = date('Y-m-d'); // Formato: Año-Mes-Día
                             $horaActual = date('H:i:s'); // Formato: Hora:Minutos:Segundos
-        if($fechaActual!=$endLog){
-$subTotal=$subDays-1;
+        if($fechaActual<$endSub){
+            $intervalo = $startSub->diff($$fechaActual);
+
+$diferenciaEnDias = $intervalo->days;
+$subTotal=$diferenciaEnDias;
         }
-        elseif($fechaActual=$endLog){
-            $subTotal=$subDays;
+        elseif($fechaActual=$endSub){
+
+            $intervalo = $startSub->diff($$fechaActual);
+
+$diferenciaEnDias = $intervalo->days;
+$subTotal=$diferenciaEnDias;
                     }
 
-                    require_once '../../apiUsers/v1/model/modelSecurity/uuid/uuidd.php';
+                    elseif($fechaActual>$endSub){
+
+                        $intervalo = $startSub->diff($$fechaActual);
+            
+            $diferenciaEnDias = $intervalo->days;
+            $subTotal="-".$diferenciaEnDias;
+                                }
+
+                    require_once '../../apiCore/v1/model/modelSecurity/uuid/uuidd.php';
                   
                    
            
@@ -2095,7 +2116,8 @@ $subTotal=$subDays-1;
                     $myuuid = $gen_uuid->guidv4();
                     $sessionId = substr($myuuid, 0, 8);
                     $decoded_data = base64_decode($browser);
-                            $query2= mysqli_query($conectar,"UPDATE users SET sessionCounter='$counterLoged',subDays='$subTotal',endLog='$fechaActual' where mail='$mail'");
+                            $query2= mysqli_query($conectar,"UPDATE generalUsers SET sessionCounter='$counterLoged' where mail='$mail'");
+                            $query2= mysqli_query($conectar,"UPDATE subList SET subDays='$subTotal' where clientId='$clientId'");
                       
                             $query2= mysqli_query($conectar,"INSERT INTO sessionLog (sessionId,profileId,browser,logInTime,logInDate,ipId) VALUES ('$sessionId','$profileId','$decoded_data','$horaActual','$fechaActual','$ipId')");
                       
