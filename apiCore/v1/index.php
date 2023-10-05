@@ -537,7 +537,7 @@ function generateApiTokenadmin() {
      $query= mysqli_query($conectar,"INSERT INTO owners (ownerId,userId,name,lastName,contact,email) VALUES ('$userid','$userid','$ownerName','$ownerLastName','$contact','$email')");
      
 
-            echo "true|¡Cliente creado con exito!";
+            echo "true|¡Cliente creado con exito!".$response1;
         
            // echo json_encode($response1);
         } else {
