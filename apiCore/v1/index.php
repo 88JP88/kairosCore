@@ -484,11 +484,11 @@ Flight::route('POST /postClient/@apk/@xapk', function ($apk,$xapk) {
             
             $array = explode("|", $response1);
             $response=$array[0];
-            $message=$array[1];
-            $userid=$array[2];
-            $rancode=$array[3];
-            $apiToken=$array[4];
-            $userName=$array[5];
+            $message=$array[2];
+            $userid=$array[3];
+            $rancode=$array[4];
+            $apiToken=$array[5];
+            $userName=$array[6];
 
 
 
@@ -537,7 +537,7 @@ function generateApiTokenadmin() {
      $query= mysqli_query($conectar,"INSERT INTO owners (ownerId,userId,name,lastName,contact,email) VALUES ('$userid','$userid','$ownerName','$ownerLastName','$contact','$email')");
      
 
-            echo "true|¡Cliente creado con exito!".$response1;
+            echo "true|¡Cliente creado con exito!";
         
            // echo json_encode($response1);
         } else {
