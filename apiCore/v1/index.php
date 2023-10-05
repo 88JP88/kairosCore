@@ -2090,6 +2090,7 @@ Flight::route('POST /validateLogIn/@headerslink', function ($headerslink) {
 
 $diferenciaEnDias = $intervalo->days;
 $subTotal=$diferenciaEnDias;
+echo "menor la fecha";
         }
         elseif($fechaActual=$endSub){
 
@@ -2097,6 +2098,7 @@ $subTotal=$diferenciaEnDias;
 
 $diferenciaEnDias = $intervalo->days;
 $subTotal=$diferenciaEnDias;
+echo "igual la fecha";
                     }
 
                     elseif($fechaActual>$endSub){
@@ -2211,7 +2213,7 @@ $subTotal=$diferenciaEnDias;
 
         }
 
-        echo "hola";
+        
 });
 
 
