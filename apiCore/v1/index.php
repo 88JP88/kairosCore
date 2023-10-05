@@ -2116,7 +2116,7 @@ $subTotal=$diferenciaEnDias;
                     $myuuid = $gen_uuid->guidv4();
                     $sessionId = substr($myuuid, 0, 8);
                     $decoded_data = base64_decode($browser);
-                            $query2= mysqli_query($conectar,"UPDATE generalUsers SET sessionCounter='$counterLoged' where mail='$mail'");
+                            $query2= mysqli_query($conectar,"UPDATE generalUsers SET sessionCounter='$counterLoged' where email='$mail'");
                             $query2= mysqli_query($conectar,"UPDATE subList SET subDays='$subTotal' where clientId='$clientId'");
                       
                             $query2= mysqli_query($conectar,"INSERT INTO sessionLog (sessionId,userId,browser,logInTime,logInDate,ipId) VALUES ('$sessionId','$userId','$decoded_data','$horaActual','$fechaActual','$ipId')");
