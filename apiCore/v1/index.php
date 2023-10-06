@@ -121,7 +121,9 @@ if($responsefu=="true"){
         'ranCode' => $rancode,
         'apiToken' => $apiToken,
         'userName' => $userName,
-        'apk' => $xapk
+        'apk' => $xapk,
+        
+        'clientId' => Flight::request()->data->clientId
         
     ];
     require_once('../../apiCore/v1/controller/users/post_functions.php');
@@ -151,7 +153,9 @@ if($responsefu=="true"){
         'ranCode' => $rancode,
         'apiToken' => $apiToken,
         'userName' => $userName,
-        'apk' => $xapk
+        'apk' => $xapk,
+        
+        'clientId' => Flight::request()->data->clientId
         
     ];
     require_once('../../apiCore/v1/controller/users/post_functions.php');
@@ -244,6 +248,7 @@ $data = array(
             'personalMail' => Flight::request()->data->personalMail,
             'keyWord' => Flight::request()->data->keyWord,
             'contact' => Flight::request()->data->contact
+
 );
 
 // Convertir los datos a formato JSON
@@ -295,7 +300,8 @@ if($responsefu=="true"){
         'ranCode' => $rancode,
         'apiToken' => $apiToken,
         'userName' => $userName,
-        'apk' => $xapk
+        'apk' => $xapk,
+         'clientId' => Flight::request()->data->clientId
         
     ];
     require_once('../../apiCore/v1/controller/users/post_functions.php');
@@ -325,7 +331,9 @@ if($responsefu=="true"){
         'ranCode' => $rancode,
         'apiToken' => $apiToken,
         'userName' => $userName,
-        'apk' => $xapk
+        'apk' => $xapk,
+        
+        'clientId' => Flight::request()->data->clientId
         
     ];
     require_once('../../apiCore/v1/controller/users/post_functions.php');
@@ -473,7 +481,8 @@ if($responsefu=="true"){
         'ranCode' => $rancode,
         'apiToken' => $apiToken,
         'userName' => $userName,
-        'apk' => $xapk
+        'apk' => $xapk,
+        'clientId' => Flight::request()->data->clientId,
         
     ];
     require_once('../../apiCore/v1/controller/users/post_functions.php');
@@ -503,7 +512,8 @@ if($responsefu=="true"){
         'ranCode' => $rancode,
         'apiToken' => $apiToken,
         'userName' => $userName,
-        'apk' => $xapk
+        'apk' => $xapk,
+        'clientId' => Flight::request()->data->clientId
         
     ];
     require_once('../../apiCore/v1/controller/users/post_functions.php');
@@ -631,7 +641,8 @@ Flight::route('POST /postClient/@apk/@xapk', function ($apk,$xapk) {
             
                 'keyWord' => $keyWord,
                 'contact' => $contact,
-                'rolId' => $rolId
+                'rolId' => $rolId,
+                'clientId' => $clientId
                 
             );
             

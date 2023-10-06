@@ -26,6 +26,7 @@
             $ranCode = mysqli_real_escape_string($conectar, $dta['ranCode']);
             $rolId = mysqli_real_escape_string($conectar, $dta['rolId']);
             $contact = mysqli_real_escape_string($conectar, $dta['contact']);
+            $clientId = mysqli_real_escape_string($conectar, $dta['clientId']);
             //$dato_encriptado = $keyword;
             
     
@@ -52,7 +53,7 @@ $fechaActual = date('Y-m-d'); // Formato: Año-Mes-Día
 $horaActual = date('H:i:s'); // Formato: Hora:Minutos:Segundos
 
 $apiToken=  $dta['apk'];
-$query= mysqli_query($conectar,"INSERT INTO generalUsers (userId,userName,name,lastName,rolId,contact,email) VALUES ('$userid','$username','$name','$lastName','$rolId','$contact','$personalMail')");
+$query= mysqli_query($conectar,"INSERT INTO generalUsers (userId,userName,name,lastName,rolId,contact,email,clientId) VALUES ('$userid','$username','$name','$lastName','$rolId','$contact','$personalMail','$clientId')");
 
 $query2= mysqli_query($conectar,"INSERT INTO userSecrets (userId,apiKey,userRanCode) VALUES ('$userid','$apiToken','$ranCode')");
                                   
@@ -104,6 +105,7 @@ $query2= mysqli_query($conectar,"INSERT INTO userSecrets (userId,apiKey,userRanC
             $ranCode = mysqli_real_escape_string($conectar, $dta['ranCode']);
             $rolId = mysqli_real_escape_string($conectar, $dta['rolId']);
             $contact = mysqli_real_escape_string($conectar, $dta['contact']);
+            $clientId = mysqli_real_escape_string($conectar, $dta['clientId']);
             //$dato_encriptado = $keyword;
             
     
@@ -130,7 +132,7 @@ $fechaActual = date('Y-m-d'); // Formato: Año-Mes-Día
 $horaActual = date('H:i:s'); // Formato: Hora:Minutos:Segundos
 
 $apiToken=  $dta['apk'];
-$query= mysqli_query($conectar,"INSERT INTO internalUsers (userId,userName,name,lastName,rolId,contact,email) VALUES ('$userid','$username','$name','$lastName','$rolId','$contact','$personalMail')");
+$query= mysqli_query($conectar,"INSERT INTO internalUsers (userId,userName,name,lastName,rolId,contact,email,clientId) VALUES ('$userid','$username','$name','$lastName','$rolId','$contact','$personalMail','$clientId')");
 
 $query2= mysqli_query($conectar,"INSERT INTO userSecrets (userId,apiKey,userRanCode) VALUES ('$userid','$apiToken','$ranCode')");
                                   
