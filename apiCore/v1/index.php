@@ -2448,7 +2448,7 @@ Flight::route('POST /validateLogInInternal/@headerslink', function ($headerslink
                        $status= $row['status'];
                        $isActive= $row['isActive'];
                        $contact= $row['contact'];
-                        $subDays= $row['subDays'];
+                      
                        
                        $rolId= $row['rolId'];
                       // $sessionCounter= $row['sessionCounter'];
@@ -2456,7 +2456,7 @@ Flight::route('POST /validateLogInInternal/@headerslink', function ($headerslink
                      
                        $ranCode= $row['userRanCode'];
                       
-                       $clientId= $row['clientId'];
+                      
 
 
                        if($countersession<0){
