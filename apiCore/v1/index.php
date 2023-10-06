@@ -2381,6 +2381,212 @@ Flight::route('POST /validateLogIn/@headerslink', function ($headerslink) {
 });
 
 
+Flight::route('POST /validateLogInInternal/@headerslink', function ($headerslink) {
+    header("Access-Control-Allow-Origin: *");
+    header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
+    header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept");
+    
+    // Verificar si los encabezados 'Api-Key' y 'Secret-Key' existen
+    if (!empty($headerslink)) {
+    
+       
+        
+        $sub_domaincon=new model_domain();
+        $sub_domain=$sub_domaincon->dom();
+        $url = $sub_domain.'/kairosCore/apiAuth/v1/authApiKeyLog/';
+      
+        $data = array(
+          'xApiKey' => $headerslink
+          
+          );
+      $curl = curl_init();
+      $dta1=json_encode($data);
+      // Configurar las opciones de la sesión cURL
+      curl_setopt($curl, CURLOPT_URL, $url);
+      curl_setopt($curl, CURLOPT_POST, true);
+      curl_setopt($curl, CURLOPT_POSTFIELDS, $dta1);
+      curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+      curl_setopt($curl, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
+      
+      // Ejecutar la solicitud y obtener la respuesta
+      $response1 = curl_exec($curl);
+
+      
+
+
+      curl_close($curl);
+
+
+        // Realizar acciones basadas en los valores de los encabezados
+
+
+        if ($response1 != 'false' ) {
+            $conectar=conn();
+            require_once '../../apiCore/v1/model/modelSecurity/crypt/cryptic.php';
+
+            
+            $mail= Flight::request()->data->mail;
+            $browser= Flight::request()->data->browser;
+            $ipId= Flight::request()->data->ipId;
+           
+    
+                $query1= mysqli_query($conectar,"SELECT u.userName,u.name,u.lastName,u.status,u.isActive,u.contact,u.email,u.userId,u.rolId,u.sessionCounter,t.userRanCode FROM internalUsers u JOIN userSecrets t ON t.userId=u.userId where u.email='$mail'");
+               
+               
+
+               
+                if ($query1) {
+                    
+                    while ($row = $query1->fetch_assoc()) {
+                        
+
+                       $countersession= $row['sessionCounter'];
+                       $userId= $row['userId'];
+                       $name= $row['name'];
+                       $lastName= $row['lastName'];
+
+                       $status= $row['status'];
+                       $isActive= $row['isActive'];
+                       $contact= $row['contact'];
+                        $subDays= $row['subDays'];
+                       
+                       $rolId= $row['rolId'];
+                      // $sessionCounter= $row['sessionCounter'];
+                       $userName1= $row['userName'];
+                     
+                       $ranCode= $row['userRanCode'];
+                      
+                       $clientId= $row['clientId'];
+
+
+                       if($countersession<0){
+                        $countersession=0;
+                       }
+
+                       $counterLoged=$countersession +1;
+                        if($counterLoged==1){
+
+                            date_default_timezone_set('America/Bogota'); // Cambia 'America/Montevideo' por tu zona horaria deseada
+
+                            // Obtener la fecha actual
+                            $fechaActual = date('Y-m-d'); // Formato: Año-Mes-Día
+                            $horaActual = date('H:i:s'); // Formato: Hora:Minutos:Segundos
+      
+
+
+
+                           // $fechaActual = new DateTime(); // Crear un objeto DateTime para la fecha actual
+                            //$startSub = new DateTime();
+                            //$intervalo = $startSub->diff($fechaActual);
+                            
+                            //$diferenciaEnDias = $intervalo->days;
+                            //$subTotal = $diferenciaEnDias;
+                            
+
+
+                    require_once '../../apiCore/v1/model/modelSecurity/uuid/uuidd.php';
+                  
+                   
+           
+        
+                    $gen_uuid = new generateUuid();
+                    $myuuid = $gen_uuid->guidv4();
+                    $sessionId = substr($myuuid, 0, 8);
+                    $decoded_data = base64_decode($browser);
+                            $query2= mysqli_query($conectar,"UPDATE internalUsers SET sessionCounter='$counterLoged' where email='$mail'");
+                           // $query3= mysqli_query($conectar,"UPDATE subList SET subDays=0 where clientId='$clientId'");
+                      
+                            $query4= mysqli_query($conectar,"INSERT INTO sessionLog (sessionId,userId,browser,logInTime,logInDate,ipId) VALUES ('$sessionId','$userId','$decoded_data','$horaActual','$fechaActual','$ipId')");
+                      
+                      
+                      
+                            $values= array();
+                            $value=array(
+                                'userId' => $userId,
+                                'mail' => $mail,
+                                'userName' => $userName1,
+                                'sessionCounter' => $counterLoged,
+                                'name' => $name,
+                                'lastName' => $lastName,
+                                'rolId' => $rolId,
+                                'isActive' => $isActive,
+                                'status' => $status,
+                                'contact' => $contact,
+                                
+                                
+                                'sessionId' => $sessionId,
+                               
+                                'ranCode' => $ranCode,
+                                'response' => "true",
+                                        'message' => "¡Bienvenid@ ".$name." ".$lastName
+                            );
+                            
+                            array_push($values,$value);
+                           // echo "false|";
+                           echo json_encode(['users'=>$values]);
+                      
+                      
+                      
+                        } else{
+                            $values= array();
+                            $value=array(
+                                'profileId' => '',
+                                'mail' => '',
+                                'userName' => '',
+                                'sessionCounter' => '',
+                                'name' => '',
+                                'lastName' => '',
+                                'rolId' => '',
+                                'isActive' => '',
+                                'status' => '',
+                                'contact' => '',
+                                
+                                'sessionId' => '',
+                                'ranCode' => '',
+                                'response' => 'false',
+                                'message' => '¡Exedes el número de sesiones abiertas ('.$counterLoged.')!'
+                            );
+                            
+                            array_push($values,$value);
+                           // echo "false|";
+                           echo json_encode(['users'=>$values]);
+                        }
+
+                      // $userName2= $row['sessionCounter'];
+                      
+                    
+
+              
+                    }
+                } else {
+                    // Manejar el error de la consulta
+                    echo "false*¡Error en la consulta! " . mysqli_error($conectar);
+                }
+          
+
+            
+}else {
+    
+    echo 'false|¡Autenticación fallida!';
+}
+
+
+
+
+           
+          
+           // echo json_encode($response1);
+        } else {
+            echo 'false*¡Encabezados faltantes!';
+            
+             //echo json_encode($response1);
+
+        }
+
+        
+});
+
+
 
 Flight::route('POST /validateLogInClose/@headerslink', function ($headerslink) {
     header("Access-Control-Allow-Origin: *");
