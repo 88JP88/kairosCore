@@ -631,7 +631,7 @@ Flight::route('POST /postClient/@apk/@xapk', function ($apk,$xapk) {
 
             $sub_domain=$sub_domaincon->domIntegrations();
 
-            $url = $sub_domain . "/kairosGateway/apiCore/v1/postUsersIntegrationAdmin/317Mi5bpB2rvGy6K481x/93q89NnAwIUNiOn2mOl5DqbC8";
+            $url = $sub_domain . "/kairosGateway/apiCore/v1/postUsersIntegrationAdmin/fL2jz91ptFMA3UwVkBbu/6WclAmsaP9H7SR2WmpDbl1OL9";
 
             // Definir los datos a enviar en la solicitud POST
             $data = array(
