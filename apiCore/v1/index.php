@@ -4553,7 +4553,7 @@ Flight::route('GET /getProfileInfoLogInternal/@userName/@sessionId/', function (
             $conectar=conn();
             
           
-            $query= mysqli_query($conectar,"SELECT isActive from sessionLog where userId='$userName' and sessionid='$sessionId'");
+            $query= mysqli_query($conectar,"SELECT isActive from sessionLog where userId='$userName' and sessionId='$sessionId'");
                
           
                 $values=[];
