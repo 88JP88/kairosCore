@@ -4678,7 +4678,7 @@ Flight::route('GET /getProfileInfoInternal/@userName', function ($userName) {
 
 
 
-Flight::route('GET /getMySessions/@headerslink/@userName', function ($headerslink,$userName) {
+Flight::route('GET /getMySessionsInternal/@headerslink/@userName', function ($headerslink,$userName) {
     header("Access-Control-Allow-Origin: *");
     // Leer los encabezados
     //$headers = getallheaders();
@@ -4693,7 +4693,7 @@ Flight::route('GET /getMySessions/@headerslink/@userName', function ($headerslin
         
         $sub_domaincon=new model_domain();
         $sub_domain=$sub_domaincon->domKoios();
-        $url = $sub_domain.'/koiosCore/apiAuth/v1/authApiKeyLog/';
+        $url = $sub_domain.'/kairosCore/apiAuth/v1/authApiKeyLog/';
       
         $data = array(
           'xApiKey' => $headerslink
@@ -4730,7 +4730,7 @@ Flight::route('GET /getMySessions/@headerslink/@userName', function ($headerslin
             $conectar=conn();
             
           
-            $query= mysqli_query($conectar,"SELECT sessionId,browser,logInTime,logInDate,ipId from sessionLog where profileId='$userName' and isActive=1");
+            $query= mysqli_query($conectar,"SELECT sessionId,browser,logInTime,logInDate,ipId from sessionLog where userId='$userName' and isActive=1");
                
           
                 $values=[];
