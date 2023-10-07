@@ -4561,7 +4561,7 @@ Flight::route('GET /getProfileInfoLogInternal/@userName/@sessionId/', function (
                 while($row = $query->fetch_assoc())
                 {
                         $value=[
-                            'isActive' => $row['isActive'],
+                            'isActive' => $row['isActive']
                             
                         ];
                         
