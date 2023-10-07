@@ -3191,7 +3191,7 @@ Flight::route('POST /validateLogOutInternal/@headerslink', function ($headerslin
 
            }
     if($value=="logOut"){
-                $query1= mysqli_query($conectar,"SELECT userName,name,lastName,status,isActive,contact,mail,profileId,rolId,subDays,subId,sessionCounter FROM users where userId='$userId'");
+                $query1= mysqli_query($conectar,"SELECT userName,name,lastName,status,isActive,contact,email,userId,rolId,sessionCounter FROM internalUsers where userId='$userId'");
                
                
 
@@ -3201,7 +3201,7 @@ Flight::route('POST /validateLogOutInternal/@headerslink', function ($headerslin
                         
 
                        $countersession= $row['sessionCounter'];
-                       $profileId= $row['profileId'];
+                       $userId= $row['userId'];
                   
                        if($countersession<0){
                         $countersession=0;
@@ -3213,9 +3213,9 @@ Flight::route('POST /validateLogOutInternal/@headerslink', function ($headerslin
 
 
                             
-                            $query2= mysqli_query($conectar,"UPDATE users SET sessionCounter='$counterLoged' where profileId='$profileId'");
+                            $query2= mysqli_query($conectar,"UPDATE internalUsers SET sessionCounter='$counterLoged' where userId='$userId'");
                            // $query2= mysqli_query($conectar,"UPDATE sessionLog SET isActive=0 where profileId='$profileId' and sessionId='$sessionId'");
-                            $query2= mysqli_query($conectar,"DELETE FROM sessionLog where profileId='$profileId' and sessionId='$sessionId' and isActive=1");
+                            $query2= mysqli_query($conectar,"DELETE FROM sessionLog where userId='$userId' and sessionId='$sessionId' and isActive=1");
            
                       
                       
