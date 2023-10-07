@@ -3079,7 +3079,7 @@ Flight::route('POST /closeSession/@headerslink', function ($headerslink) {
 
 
 
-Flight::route('POST /validateLogOut/@headerslink', function ($headerslink) {
+Flight::route('POST /validateLogOutInternal/@headerslink', function ($headerslink) {
     header("Access-Control-Allow-Origin: *");
     header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
     header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept");
@@ -3091,7 +3091,7 @@ Flight::route('POST /validateLogOut/@headerslink', function ($headerslink) {
         
         $sub_domaincon=new model_domain();
         $sub_domain=$sub_domaincon->dom();
-        $url = $sub_domain.'/koiosCore/apiAuth/v1/authApiKeyLog/';
+        $url = $sub_domain.'/kairosCore/apiAuth/v1/authApiKeyLog/';
       
         $data = array(
           'xApiKey' => $headerslink
@@ -3123,13 +3123,13 @@ Flight::route('POST /validateLogOut/@headerslink', function ($headerslink) {
            // require_once '../../apiUsers/v1/model/modelSecurity/crypt/cryptic.php';
 
             
-            $profileId= Flight::request()->data->profileId;
+            $userId= Flight::request()->data->userId;
   
             $sessionId= Flight::request()->data->sessionId;
             $value= Flight::request()->data->value;
            if($value=="force"){
 
-            $query2= mysqli_query($conectar,"DELETE FROM sessionLog where profileId='$profileId' and sessionId='$sessionId' and isActive=0");
+            $query2= mysqli_query($conectar,"DELETE FROM sessionLog where userId='$userId' and sessionId='$sessionId' and isActive=0");
                       
 
            }
@@ -3138,7 +3138,7 @@ Flight::route('POST /validateLogOut/@headerslink', function ($headerslink) {
 
 
 
-            $query1= mysqli_query($conectar,"SELECT userName,name,lastName,status,isActive,contact,mail,profileId,rolId,subDays,subId,sessionCounter FROM users where profileId='$profileId'");
+            $query1= mysqli_query($conectar,"SELECT userName,name,lastName,status,isActive,contact,email,userId,rolId,sessionCounter FROM internalUsers where userId='$userId'");
                
                
 
@@ -3148,7 +3148,7 @@ Flight::route('POST /validateLogOut/@headerslink', function ($headerslink) {
                     
 
                    $countersession= $row['sessionCounter'];
-                   $profileId= $row['profileId'];
+                   $userId= $row['userId'];
               
                    if($countersession<0){
                     $countersession=0;
@@ -3160,8 +3160,8 @@ Flight::route('POST /validateLogOut/@headerslink', function ($headerslink) {
 
 
                         
-                        $query2= mysqli_query($conectar,"UPDATE users SET sessionCounter='$counterLoged' where profileId='$profileId'");
-                        $query2= mysqli_query($conectar,"UPDATE sessionLog SET isActive=0 where profileId='$profileId' and sessionId='$sessionId'");
+                        $query2= mysqli_query($conectar,"UPDATE internalUsers SET sessionCounter='$counterLoged' where userId='$userId'");
+                        $query2= mysqli_query($conectar,"UPDATE sessionLog SET isActive=0 where userId='$userId' and sessionId='$sessionId'");
        //                 $query2= mysqli_query($conectar,"DELETE FROM sessionLog where profileId='$profileId' and sessionId='$sessionId' and isActive=1");
        
                   
@@ -3191,7 +3191,7 @@ Flight::route('POST /validateLogOut/@headerslink', function ($headerslink) {
 
            }
     if($value=="logOut"){
-                $query1= mysqli_query($conectar,"SELECT userName,name,lastName,status,isActive,contact,mail,profileId,rolId,subDays,subId,sessionCounter FROM users where profileId='$profileId'");
+                $query1= mysqli_query($conectar,"SELECT userName,name,lastName,status,isActive,contact,mail,profileId,rolId,subDays,subId,sessionCounter FROM users where userId='$userId'");
                
                
 
