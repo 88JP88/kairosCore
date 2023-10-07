@@ -2441,7 +2441,7 @@ Flight::route('POST /validateLogInInternal/@headerslink', function ($headerslink
             $ipId= Flight::request()->data->ipId;
            
     
-                $query1= mysqli_query($conectar,"SELECT u.userName,u.name,u.lastName,u.status,u.isActive,u.contact,u.email,u.userId,u.rolId,u.sessionCounter,t.userRanCode FROM internalUsers u JOIN userSecrets t ON t.userId=u.userId where u.email='$mail'");
+                $query1= mysqli_query($conectar,"SELECT u.userName,u.name,u.lastName,u.status,u.isActive,u.contact,u.email,u.userId,u.rolId,u.sessionCounter,t.userRanCode,t.apiKey FROM internalUsers u JOIN userSecrets t ON t.userId=u.userId  where u.email='$mail'");
                
                
 
@@ -2459,7 +2459,7 @@ Flight::route('POST /validateLogInInternal/@headerslink', function ($headerslink
                        $status= $row['status'];
                        $isActive= $row['isActive'];
                        $contact= $row['contact'];
-                      
+                       $apiKey= $row['apiKey'];
                        
                        $rolId= $row['rolId'];
                       // $sessionCounter= $row['sessionCounter'];
@@ -2523,7 +2523,7 @@ Flight::route('POST /validateLogInInternal/@headerslink', function ($headerslink
                                 'isActive' => $isActive,
                                 'status' => $status,
                                 'contact' => $contact,
-                                
+                                'key' => $apiKey,
                                 
                                 'sessionId' => $sessionId,
                                
@@ -2551,7 +2551,7 @@ Flight::route('POST /validateLogInInternal/@headerslink', function ($headerslink
                                 'isActive' => '',
                                 'status' => '',
                                 'contact' => '',
-                                
+                                'key' => $apiKey,
                                 'sessionId' => '',
                                 'ranCode' => '',
                                 'response' => 'false',
