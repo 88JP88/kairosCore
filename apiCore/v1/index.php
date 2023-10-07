@@ -4603,7 +4603,7 @@ Flight::route('GET /getProfileInfoInternal/@userName', function ($userName) {
         $xApiKey = $headers['x-api-Key'];
         
         $sub_domaincon=new model_domain();
-        $sub_domain=$sub_domaincon->domKoios();
+        $sub_domain=$sub_domaincon->domKairos();
         $url = $sub_domain.'/kairosCore/apiAuth/v1/authApiKeyLog/';
       
         $data = array(
