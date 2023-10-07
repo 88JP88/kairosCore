@@ -2264,7 +2264,7 @@ Flight::route('POST /validateLogIn/@headerslink', function ($headerslink) {
                        }
 
                        $counterLoged=$countersession +1;
-                        if($counterLoged<=3){
+                        if($counterLoged==1){
 
                             date_default_timezone_set('America/Bogota'); // Cambia 'America/Montevideo' por tu zona horaria deseada
 
@@ -2475,7 +2475,7 @@ Flight::route('POST /validateLogInInternal/@headerslink', function ($headerslink
                        }
 
                        $counterLoged=$countersession +1;
-                        if($counterLoged==1){
+                        if($counterLoged<=3){
 
                             date_default_timezone_set('America/Bogota'); // Cambia 'America/Montevideo' por tu zona horaria deseada
 
