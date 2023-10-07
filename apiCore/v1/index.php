@@ -4589,7 +4589,7 @@ Flight::route('GET /getProfileInfoLogInternal/@userName/@sessionId/', function (
 
 
 
-Flight::route('GET /getProfileInfo/@userName', function ($userName) {
+Flight::route('GET /getProfileInfoInternal/@userName', function ($userName) {
     header("Access-Control-Allow-Origin: *");
     // Leer los encabezados
     $headers = getallheaders();
@@ -4604,7 +4604,7 @@ Flight::route('GET /getProfileInfo/@userName', function ($userName) {
         
         $sub_domaincon=new model_domain();
         $sub_domain=$sub_domaincon->domKoios();
-        $url = $sub_domain.'/koiosCore/apiAuth/v1/authApiKeyLog/';
+        $url = $sub_domain.'/kairosCore/apiAuth/v1/authApiKeyLog/';
       
         $data = array(
           'xApiKey' => $xApiKey
@@ -4641,7 +4641,7 @@ Flight::route('GET /getProfileInfo/@userName', function ($userName) {
             $conectar=conn();
             
           
-            $query= mysqli_query($conectar,"SELECT name,lastName,sessionCounter,subDays,subId,isPublic from users where profileId='$userName'");
+            $query= mysqli_query($conectar,"SELECT name,lastName,sessionCounter from internalUsers where userId='$userName'");
                
           
                 $values=[];
@@ -4651,10 +4651,7 @@ Flight::route('GET /getProfileInfo/@userName', function ($userName) {
                         $value=[
                             'name' => $row['name'],
                             'lastName' => $row['lastName'],
-                            'sessionCounter' => $row['sessionCounter'],
-                            'subDays' => $row['subDays'],
-                            'subId' => $row['subId'],
-                            'isPublic' => $row['isPublic']
+                            'sessionCounter' => $row['sessionCounter']
                             
                         ];
                         
