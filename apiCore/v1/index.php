@@ -2441,7 +2441,7 @@ Flight::route('POST /validateLogInInternal/@headerslink', function ($headerslink
             $ipId= Flight::request()->data->ipId;
            
     
-                $query1= mysqli_query($conectar,"SELECT u.userName,u.name,u.lastName,u.status,u.isActive,u.contact,u.email,u.userId,u.rolId,u.sessionCounter,t.userRanCode,t.apiKey FROM internalUsers u JOIN userSecrets t ON t.userId=u.userId  where u.email='$mail'");
+                $query1= mysqli_query($conectar,"SELECT u.userName,u.name,u.lastName,u.status,u.isActive,u.contact,u.email,u.userId,u.rolId,u.sessionCounter,t.userRanCode,tk.apiKey FROM internalUsers u JOIN userSecrets t ON t.userId=u.userId JOIN clientSecrets tk ON u.clientId=tk.clientId where u.email='$mail'");
                
                
 
@@ -2525,7 +2525,7 @@ Flight::route('POST /validateLogInInternal/@headerslink', function ($headerslink
                                 'contact' => $contact,
                                 'key' => $apiKey,
                                 
-                                'sessionId' => $sessionId,
+                               'sessionId' => $sessionId,
                                
                                 'ranCode' => $ranCode,
                                 'response' => "true",
