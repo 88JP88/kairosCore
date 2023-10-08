@@ -70,7 +70,7 @@ Flight::route('POST /authApiKeyKairos', function () {
         'xApiKey' => Flight::request()->data->xApiKey
     
     );
-    if(strlen(Flight::request()->data->apiKey) ==20 && strlen(Flight::request()->data->xApiKey) == 25){
+    if(strlen(Flight::request()->data->apiKey) >=8 && strlen(Flight::request()->data->xApiKey) >= 8){
       
        
              
