@@ -68,7 +68,7 @@ return "true";
                    $result = mysqli_fetch_assoc($query1);
                    if ($result) {
                       // return $result['secretId'];
-                      $query2 = mysqli_query($conectar, "UPDATE userSecrets set userRanCode ='$codigoAleatorio' WHERE apiKey = '$apiKey'");
+                     // $query2 = mysqli_query($conectar, "UPDATE userSecrets set userRanCode ='$codigoAleatorio' WHERE apiKey = '$apiKey'");
            
        return "true";
        
