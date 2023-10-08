@@ -62,7 +62,7 @@ return "true";
             $result = mysqli_fetch_assoc($query);
             if ($result) {
                // return $result['secretId'];
-               $query = mysqli_query($conectar, "SELECT secRanCode FROM clientSecrets1 WHERE apiKey = '$xApiKey'");
+               $query = mysqli_query($conectar, "SELECT secRanCode FROM clientSecrets WHERE apiKey = '$xApiKey'");
     
                if ($query) {
                    $result = mysqli_fetch_assoc($query);
