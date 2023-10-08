@@ -55,7 +55,7 @@ return "true";
         return $codigo;
     }
     
-    $codigoAleatorio = generarCodigoAleatorio(20);
+    $codigoAleatorio = generarCodigoAleatorio(8);
         $query = mysqli_query($conectar, "SELECT userRanCode FROM userSecrets WHERE apiKey = '$apiKey'");
     
         if ($query) {
