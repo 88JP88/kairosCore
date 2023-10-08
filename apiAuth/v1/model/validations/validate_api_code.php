@@ -62,13 +62,13 @@ return "true";
             $result = mysqli_fetch_assoc($query);
             if ($result) {
                // return $result['secretId'];
-               $query = mysqli_query($conectar, "SELECT secRanCode FROM clientSecrets WHERE apiKey = '$xApiKey'");
+               $query1 = mysqli_query($conectar, "SELECT secRanCode FROM clientSecrets WHERE apiKey = '$xApiKey'");
     
-               if ($query) {
-                   $result = mysqli_fetch_assoc($query);
+               if ($query1) {
+                   $result = mysqli_fetch_assoc($query1);
                    if ($result) {
                       // return $result['secretId'];
-                      $query = mysqli_query($conectar, "UPDATE userSecrets set userRanCode ='$codigoAleatorio' WHERE apiKey = '$apiKey'");
+                      $query2 = mysqli_query($conectar, "UPDATE userSecrets set userRanCode ='$codigoAleatorio' WHERE apiKey = '$apiKey'");
            
        return "true";
        
