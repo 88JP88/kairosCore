@@ -143,10 +143,10 @@ return "true";
                   
     //return "true";
 
-    $query = mysqli_query($conectar, "SELECT apiKey FROM userSecrets WHERE userRanCode= '$apiKey'");
+    $query1 = mysqli_query($conectar, "SELECT apiKey FROM userSecrets WHERE userRanCode= '$apiKey'");
         
-    if ($query) {
-        $result = mysqli_fetch_assoc($query);
+    if ($query1) {
+        $result = mysqli_fetch_assoc($query1);
         if ($result) {
            return $result['apiKey'];
 //return "true";
