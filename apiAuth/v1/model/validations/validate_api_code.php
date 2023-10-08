@@ -56,14 +56,29 @@ return "true";
     }
     
     $codigoAleatorio = generarCodigoAleatorio(20);
-        $query = mysqli_query($conectar, "SELECT ranCode FROM clientSecrets WHERE apiKey = '$apiKey'");
+        $query = mysqli_query($conectar, "SELECT userRanCode FROM userSecrets WHERE apiKey = '$xApiKey'");
     
         if ($query) {
             $result = mysqli_fetch_assoc($query);
             if ($result) {
                // return $result['secretId'];
-               $query = mysqli_query($conectar, "UPDATE userSecrets set userRanCode ='$codigoAleatorio' WHERE apiKey = '$xApiKey'");
+               $query = mysqli_query($conectar, "SELECT secRanCode FROM clientSecrets1 WHERE apiKey = '$apiKey'");
     
+               if ($query) {
+                   $result = mysqli_fetch_assoc($query);
+                   if ($result) {
+                      // return $result['secretId'];
+                      $query = mysqli_query($conectar, "UPDATE userSecrets set userRanCode ='$codigoAleatorio' WHERE apiKey = '$xApiKey'");
+           
+       return "true";
+       
+                     
+               } else {
+                   return "UNABLE SECRET";
+               }
+           }else{
+               return "UNABLE QUERY";
+           }
 return "true";
 
               
@@ -120,15 +135,29 @@ return "true";
 
             $apiKey1 = mysqli_real_escape_string($conectar, $apiKey);
         $xApiKey1 = mysqli_real_escape_string($conectar, $xApiKey);
-            $query = mysqli_query($conectar, "SELECT tokenValue FROM userTokens WHERE ranCode= '$apiKey' and clientKey='$xApiKey'");
+            $query = mysqli_query($conectar, "SELECT apiKey FROM clientSecrets WHERE apiKey='$xApiKey'");
         
             if ($query) {
                 $result = mysqli_fetch_assoc($query);
                 if ($result) {
-                   return $result['tokenValue'];
+                  
     //return "true";
 
-                  
+    $query = mysqli_query($conectar, "SELECT apiKey FROM userSecrets WHERE userRanCode= '$apiKey'");
+        
+    if ($query) {
+        $result = mysqli_fetch_assoc($query);
+        if ($result) {
+           return $result['apiKey'];
+//return "true";
+
+          
+    } else {
+        return "UNABLE SECRET";
+    }
+}else{
+    return "UNABLE QUERY";
+}
             } else {
                 return "UNABLE SECRET";
             }

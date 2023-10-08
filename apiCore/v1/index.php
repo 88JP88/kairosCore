@@ -864,7 +864,7 @@ echo $response1;
 
 
 
-Flight::route('GET /getPublicUsers/', function () {
+Flight::route('GET /getInternalUsers/', function () {
     header("Access-Control-Allow-Origin: *");
     // Leer los encabezados
     $headers = getallheaders();
@@ -879,7 +879,7 @@ Flight::route('GET /getPublicUsers/', function () {
         
         $sub_domaincon=new model_domain();
         $sub_domain=$sub_domaincon->domKoios();
-        $url = $sub_domain.'/koiosCore/apiAuth/v1/authApiKeyKoios/';
+        $url = $sub_domain.'/kairosCore/apiAuth/v1/authApiKeyKairos/';
       
         $data = array(
           'apiKey' =>$apiKey, 
@@ -917,7 +917,7 @@ Flight::route('GET /getPublicUsers/', function () {
             $conectar=conn();
             
           
-            $query= mysqli_query($conectar,"SELECT profileId,name,lastName,mail,userName FROM users where isPublic=1");
+            $query= mysqli_query($conectar,"SELECT u.userId,u.name,u.lastName,u.email,u.userName,u.isActive,u.status,u.rolId,u.contact,u.sessionCounter,u.clientId,c.clientName FROM internalUsers u JOIN clients c ON c.clientId=u.clientId");
                
           
                 $values=[];
@@ -925,11 +925,18 @@ Flight::route('GET /getPublicUsers/', function () {
                 while($row = $query->fetch_assoc())
                 {
                         $value=[
-                            'profileId' => $row['profileId'],
+                            'userId' => $row['userId'],
                             'name' => $row['name'],
                             'lastName' => $row['lastName'],
-                            'mail' => $row['mail'],
-                            'userName' => $row['userName']
+                            'email' => $row['email'],
+                            'userName' => $row['userName'],
+                            'isActive' => $row['isActive'],
+                            'status' => $row['status'],
+                            'rolId' => $row['rolId'],
+                            'contact' => $row['contact'],
+                            'sessionCounter' => $row['sessionCounter'],
+                            'clientId' => $row['clientId'],
+                            'clientName' => $row['clientName']
                         ];
                         
                         array_push($values,$value);
