@@ -56,19 +56,19 @@ return "true";
     }
     
     $codigoAleatorio = generarCodigoAleatorio(20);
-        $query = mysqli_query($conectar, "SELECT userRanCode FROM userSecrets WHERE apiKey = '$xApiKey'");
+        $query = mysqli_query($conectar, "SELECT userRanCode FROM userSecrets WHERE apiKey = '$apiKey'");
     
         if ($query) {
             $result = mysqli_fetch_assoc($query);
             if ($result) {
                // return $result['secretId'];
-               $query = mysqli_query($conectar, "SELECT secRanCode FROM clientSecrets WHERE apiKey = '$apiKey'");
+               $query = mysqli_query($conectar, "SELECT secRanCode FROM clientSecrets WHERE apiKey = '$xApiKey'");
     
                if ($query) {
                    $result = mysqli_fetch_assoc($query);
                    if ($result) {
                       // return $result['secretId'];
-                      $query = mysqli_query($conectar, "UPDATE userSecrets set userRanCode ='$codigoAleatorio' WHERE apiKey = '$xApiKey'");
+                      $query = mysqli_query($conectar, "UPDATE userSecrets set userRanCode ='$codigoAleatorio' WHERE apiKey = '$apiKey'");
            
        return "true";
        
@@ -79,7 +79,7 @@ return "true";
            }else{
                return "UNABLE QUERY";
            }
-return "true";
+
 
               
         } else {
