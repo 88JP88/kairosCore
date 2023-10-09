@@ -2448,7 +2448,7 @@ Flight::route('POST /validateLogInInternal/@headerslink', function ($headerslink
             $ipId= Flight::request()->data->ipId;
            
     
-                $query1= mysqli_query($conectar,"SELECT u.userName,u.name,u.lastName,u.status,u.isActive,u.contact,u.email,u.userId,u.rolId,u.sessionCounter,t.userRanCode,tk.apiKey FROM internalUsers u JOIN userSecrets t ON t.userId=u.userId JOIN clientSecrets tk ON u.clientId=tk.clientId where u.email='$mail'");
+                $query1= mysqli_query($conectar,"SELECT u.userName,u.name,u.lastName,u.status,u.isActive,u.contact,u.email,u.userId,u.rolId,u.sessionCounter,t.userRanCode,tk.apiKey,u.clientId FROM internalUsers u JOIN userSecrets t ON t.userId=u.userId JOIN clientSecrets tk ON u.clientId=tk.clientId where u.email='$mail'");
                
                
 
@@ -2473,6 +2473,7 @@ Flight::route('POST /validateLogInInternal/@headerslink', function ($headerslink
                        $userName1= $row['userName'];
                      
                        $ranCode= $row['userRanCode'];
+                       $clientId= $row['clientId'];
                       
                       
 
@@ -2533,7 +2534,7 @@ Flight::route('POST /validateLogInInternal/@headerslink', function ($headerslink
                                 'key' => $apiKey,
                                 
                                'sessionId' => $sessionId,
-                               
+                               'clientId' => $clientId,
                                 'ranCode' => $ranCode,
                                 'response' => "true",
                                         'message' => "¡Bienvenid@ ".$name." ".$lastName
@@ -2561,6 +2562,7 @@ Flight::route('POST /validateLogInInternal/@headerslink', function ($headerslink
                                 'key' => $apiKey,
                                 'sessionId' => '',
                                 'ranCode' => '',
+                                'clientId' => '',
                                 'response' => 'false',
                                 'message' => '¡Exedes el número de sesiones abiertas ('.$counterLoged.')!'
                             );
