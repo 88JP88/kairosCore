@@ -963,6 +963,107 @@ Flight::route('GET /getInternalUsers/', function () {
 
 
 
+Flight::route('GET /getInternalClients/', function () {
+    header("Access-Control-Allow-Origin: *");
+    // Leer los encabezados
+    $headers = getallheaders();
+    
+    // Verificar si los encabezados 'Api-Key' y 'Secret-Key' existen
+    if (isset($headers['Api-Key']) && isset($headers['x-api-Key'])) {
+        // Leer los datos de la solicitud
+       
+        // Acceder a los encabezados
+        $apiKey = $headers['Api-Key'];
+        $xApiKey = $headers['x-api-Key'];
+        
+        $sub_domaincon=new model_domain();
+        $sub_domain=$sub_domaincon->domKairos();
+        $url = $sub_domain.'/kairosCore/apiAuth/v1/authApiKeyKairos/';
+      
+        $data = array(
+          'apiKey' =>$apiKey, 
+          'xApiKey' => $xApiKey
+          
+          );
+      $curl = curl_init();
+      
+      // Configurar las opciones de la sesión cURL
+      curl_setopt($curl, CURLOPT_URL, $url);
+      curl_setopt($curl, CURLOPT_POST, true);
+      curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+      curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+      // curl_setopt($curl, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
+      
+      // Ejecutar la solicitud y obtener la respuesta
+      $response1 = curl_exec($curl);
+
+      
+
+
+      curl_close($curl);
+
+      
+
+        // Realizar acciones basadas en los valores de los encabezados
+
+
+        if ($response1 == 'true' ) {
+           
+
+
+
+           
+            $conectar=conn();
+            
+          
+            $query= mysqli_query($conectar,"SELECT c.clientId,c.clientName,c.comments,c.isActive,c.status,c.ownerId,c.styleId,c.subId,c.clientType,o.name,o.lastName,o.contact,o.email,s.apiKey FROM clients c JOIN owners o ON c.ownerId=o.ownerId JOIN clientSecrets s ON s.clientId=c.clientId");
+               
+          
+                $values=[];
+          
+                while($row = $query->fetch_assoc())
+                {
+                        $value=[
+                            'ownerId' => $row['ownerId'],
+                            'name' => $row['name'],
+                            'lastName' => $row['lastName'],
+                            'email' => $row['email'],
+                            'key' => $row['apiKey'],
+                            'isActive' => $row['isActive'],
+                            'status' => $row['status'],
+                            'styleId' => $row['styleId'],
+                            'contact' => $row['contact'],
+                            'subId' => $row['subId'],
+                            'clientId' => $row['clientId'],
+                            'clientName' => $row['clientName'],
+                            'comments' => $row['comments'],
+                            'clientType' => $row['clientType']
+                        ];
+                        
+                        array_push($values,$value);
+                        
+                }
+                $row=$query->fetch_assoc();
+                //echo json_encode($students) ;
+                echo json_encode(['clients'=>$values]);
+          
+               
+           
+
+        } else {
+            echo 'Error: Autenticación fallida';
+             //echo json_encode($response1);
+        }
+    } else {
+        echo 'Error: Encabezados faltantes';
+    }
+});
+
+
+
+
+
+
 
 
 
@@ -2562,7 +2663,7 @@ Flight::route('POST /validateLogInInternal/@headerslink', function ($headerslink
                                 'key' => $apiKey,
                                 'sessionId' => '',
                                 'ranCode' => '',
-                                'clientId' => '',
+                                'clientId' => $clientId,
                                 'response' => 'false',
                                 'message' => '¡Exedes el número de sesiones abiertas ('.$counterLoged.')!'
                             );
