@@ -963,7 +963,7 @@ Flight::route('GET /getInternalUsers/', function () {
 
 
 
-Flight::route('GET /getInternalClients/', function () {
+Flight::route('GET /getInternalClients/@filter', function ($filter) {
     header("Access-Control-Allow-Origin: *");
     // Leer los encabezados
     $headers = getallheaders();
@@ -1014,10 +1014,15 @@ Flight::route('GET /getInternalClients/', function () {
 
            
             $conectar=conn();
-            
+            if($filter=="unlock"){
+                $query= mysqli_query($conectar,"SELECT c.clientId,c.clientName,c.comments,c.isActive,c.status,c.ownerId,c.styleId,c.subId,c.clientType,o.name,o.lastName,o.contact,o.email,s.apiKey FROM clients c JOIN owners o ON c.ownerId=o.ownerId JOIN clientSecrets s ON s.clientId=c.clientId WHERE c.status=1");
+           
+            }
           
-            $query= mysqli_query($conectar,"SELECT c.clientId,c.clientName,c.comments,c.isActive,c.status,c.ownerId,c.styleId,c.subId,c.clientType,o.name,o.lastName,o.contact,o.email,s.apiKey FROM clients c JOIN owners o ON c.ownerId=o.ownerId JOIN clientSecrets s ON s.clientId=c.clientId");
-               
+            if($filter=="lock"){
+                $query= mysqli_query($conectar,"SELECT c.clientId,c.clientName,c.comments,c.isActive,c.status,c.ownerId,c.styleId,c.subId,c.clientType,o.name,o.lastName,o.contact,o.email,s.apiKey FROM clients c JOIN owners o ON c.ownerId=o.ownerId JOIN clientSecrets s ON s.clientId=c.clientId WHERE c.status=0");
+           
+            }
           
                 $values=[];
           
