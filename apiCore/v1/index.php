@@ -805,9 +805,12 @@ Flight::route('POST /putExtClient/@apk/@xapk', function ($apk,$xapk) {
 
             $conectar=conn();
            if($value=="del"){
+       
+            $query= mysqli_query($conectar,"DELETE FROM owners WHERE ownerId IN (SELECT ownerId FROM clients WHERE clientId = '$clientId')");
+           
+            $query= mysqli_query($conectar,"DELETE FROM subList WHERE clientId='$clientId'");
+            $query= mysqli_query($conectar,"DELETE FROM clientSecrets WHERE clientId='$clientId'");
             $query= mysqli_query($conectar,"DELETE FROM clients WHERE clientId='$clientId'");
- 
-
             echo "true|¡Cliente removido con exito!";
            }
            else if($value=="delAll"){
