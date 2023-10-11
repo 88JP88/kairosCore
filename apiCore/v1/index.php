@@ -1015,14 +1015,14 @@ Flight::route('POST /putGenUser/@apk/@xapk', function ($apk,$xapk) {
             $query= mysqli_query($conectar,"DELETE FROM sessionLog WHERE userId ='$userId'");
             $query= mysqli_query($conectar,"DELETE FROM generalUsers WHERE userId='$userId'");
  
-            echo "true|¡Usuario interno removido con exito!";
+            echo "true|¡Usuario removido con exito!";
            }
           
            else if($value!="del"){
             $query= mysqli_query($conectar,"UPDATE generalUsers SET $filter='$value' WHERE userId='$userId'");
  
 
-            echo "true|¡Usuario interno actualizado con exito!";
+            echo "true|¡Usuario actualizado con exito!";
            }
 
     
