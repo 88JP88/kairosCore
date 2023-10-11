@@ -864,7 +864,7 @@ echo $response1;
 
 
 
-Flight::route('GET /getInternalUsers/', function () {
+Flight::route('GET /getInternalUsers/@filter', function ($filter) {
     header("Access-Control-Allow-Origin: *");
     // Leer los encabezados
     $headers = getallheaders();
@@ -916,9 +916,14 @@ Flight::route('GET /getInternalUsers/', function () {
            
             $conectar=conn();
             
+          if($filter=="unlock"){
+            $query= mysqli_query($conectar,"SELECT u.userId,u.name,u.lastName,u.email,u.userName,u.isActive,u.status,u.rolId,u.contact,u.sessionCounter,u.clientId,c.clientName FROM internalUsers u JOIN clients c ON c.clientId=u.clientId WHERE u.status=1");
           
-            $query= mysqli_query($conectar,"SELECT u.userId,u.name,u.lastName,u.email,u.userName,u.isActive,u.status,u.rolId,u.contact,u.sessionCounter,u.clientId,c.clientName FROM internalUsers u JOIN clients c ON c.clientId=u.clientId");
-               
+          }
+          if($filter=="lock"){
+            $query= mysqli_query($conectar,"SELECT u.userId,u.name,u.lastName,u.email,u.userName,u.isActive,u.status,u.rolId,u.contact,u.sessionCounter,u.clientId,c.clientName FROM internalUsers u JOIN clients c ON c.clientId=u.clientId WHERE u.status=0");
+          
+          }
           
                 $values=[];
           
