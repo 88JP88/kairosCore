@@ -850,6 +850,103 @@ Flight::route('POST /putExtClient/@apk/@xapk', function ($apk,$xapk) {
 
 
 
+Flight::route('POST /putIntUser/@apk/@xapk', function ($apk,$xapk) {
+  
+    header("Access-Control-Allow-Origin: *");
+    // Verificar si los encabezados 'Api-Key' y 'Secret-Key' existen
+    if (!empty($apk) && !empty($xapk)) {    
+        // Leer los datos de la solicitud
+       
+
+
+
+
+        
+
+
+
+
+        $sub_domaincon=new model_domain();
+        $sub_domain=$sub_domaincon->domKairos();
+        $url = $sub_domain.'/kairosCore/apiAuth/v1/authApiKey/';
+      
+        $data = array(
+            'apiKey' =>$apk, 
+            'xApiKey' => $xapk
+          
+          );
+      $curl = curl_init();
+      
+      // Configurar las opciones de la sesión cURL
+      curl_setopt($curl, CURLOPT_URL, $url);
+      curl_setopt($curl, CURLOPT_POST, true);
+      curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+      curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+      // curl_setopt($curl, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
+      
+      // Ejecutar la solicitud y obtener la respuesta
+      $response11 = curl_exec($curl);
+
+      
+
+
+      curl_close($curl);
+
+      
+
+        // Realizar acciones basadas en los valores de los encabezados
+
+
+        if ($response11 == 'true' ) {
+
+
+
+            $userId= Flight::request()->data->userId;
+            $filter= Flight::request()->data->filter;
+            $value= Flight::request()->data->value;
+
+
+            require_once '../../apiCore/v1/model/modelSecurity/uuid/uuidd.php';
+           
+   
+
+            $conectar=conn();
+           if($value=="del"){
+       
+            $query= mysqli_query($conectar,"DELETE FROM owners WHERE userId ='$userId'");
+           
+            $query= mysqli_query($conectar,"DELETE FROM userSecrets WHERE userId='$userId'");
+            
+            $query= mysqli_query($conectar,"DELETE FROM sessionLog WHERE userId ='$userId'");
+            $query= mysqli_query($conectar,"DELETE FROM generalUsers WHERE userId='$userId'");
+ 
+            echo "true|¡Usuario removido con exito!";
+           }
+          
+           else if($value!="del"){
+            $query= mysqli_query($conectar,"UPDATE generalUsers SET $filter='$value' WHERE userId='$userId'");
+ 
+
+            echo "true|¡Usuario actualizado con exito!";
+           }
+
+    
+     
+        
+           // echo json_encode($response1);
+        } else {
+            echo 'false|¡Autenticación fallida!';
+           // echo json_encode($data);
+        }
+    } else {
+        echo 'false|¡Encabezados faltantes!';
+    }
+});
+
+
+
+
+
 
 
 
