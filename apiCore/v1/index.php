@@ -804,13 +804,34 @@ Flight::route('POST /putExtClient/@apk/@xapk', function ($apk,$xapk) {
    
 
             $conectar=conn();
+           if($value=="del"){
+            $query= mysqli_query($conectar,"DELETE FROM clients WHERE clientId='$clientId'");
+ 
+
+            echo "true|¡Cliente removido con exito!";
+           }
+           else if($value=="delAll"){
+            $query= mysqli_query($conectar,"DELETE FROM owners WHERE ownerId IN (SELECT ownerId FROM clients WHERE clientId = '$clientId')");
+            $query= mysqli_query($conectar,"DELETE FROM userSecrets WHERE userId IN (SELECT userId FROM generalUsers WHERE clientId = '$clientId')");
+            $query= mysqli_query($conectar,"DELETE FROM sessionLog WHERE userId IN (SELECT userId FROM generalUsers WHERE clientId = '$clientId')");
+ 
+            $query= mysqli_query($conectar,"DELETE FROM generalUsers WHERE clientId='$clientId'");
+            $query= mysqli_query($conectar,"DELETE FROM clientSecrets WHERE clientId='$clientId'");
+            $query= mysqli_query($conectar,"DELETE FROM subList WHERE clientId='$clientId'");
+            $query= mysqli_query($conectar,"DELETE FROM clients WHERE clientId='$clientId'");
            
 
-    
-     $query= mysqli_query($conectar,"UPDATE clients SET $filter='$value' WHERE clientId='$clientId'");
+            echo "true|¡Cliente removido con toda su información con exito!";
+           }
+           else if($value!="del" && $value!="delAll"){
+            $query= mysqli_query($conectar,"UPDATE clients SET $filter='$value' WHERE clientId='$clientId'");
  
 
             echo "true|¡Cliente actualizado con exito!";
+           }
+
+    
+     
         
            // echo json_encode($response1);
         } else {
