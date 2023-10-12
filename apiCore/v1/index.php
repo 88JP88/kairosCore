@@ -723,7 +723,7 @@ function generateApiTokenadmin() {
      $query= mysqli_query($conectar,"INSERT INTO owners (ownerId,userId,name,lastName,contact,email) VALUES ('$userid','$userid','$ownerName','$ownerLastName','$contact','$email')");
      $query= mysqli_query($conectar,"INSERT INTO subList (subId,clientId) VALUES ('$subId','$clientId')");
      
-     $query= mysqli_query($conectar,"INSERT INTO clientStyle (styleId,clientId) VALUES ('$styleId','$clientId')");
+     $query= mysqli_query($conectar,"INSERT INTO clientStyle (styleId,clientId,bgColor,textColor) VALUES ('$styleId','$clientId','000000','FFFFFF')");
      
             echo "true|¡Cliente creado con exito!";
         
