@@ -97,7 +97,7 @@ Flight::route('POST /postClientCalendar/@apk/@xapk', function ($apk,$xapk) {
         if($s<1 || $s>$monthDays){
             $ss="0";
         }
-        if($s>0){
+        if($s>0 && $s<=$monthDays){
             $ss=$s;
         }
      $query= mysqli_query($conectar,"INSERT INTO calendarDaysAssign (calendarId,calendarDay,calendarNumber,clientId,registId) VALUES ('$calendarId','sunday',$ss,'$clientId','$regestId')");
@@ -123,7 +123,7 @@ Flight::route('POST /postClientCalendar/@apk/@xapk', function ($apk,$xapk) {
     if($s<1 || $s>$monthDays){
         $ss="0";
     }
-    if($s>0){
+    if($s>0 && $s<=$monthDays){
         $ss=$s;
     }
      $query= mysqli_query($conectar,"INSERT INTO calendarDaysAssign (calendarId,calendarDay,calendarNumber,clientId,registId) VALUES ('$calendarId','monday','$ss','$clientId','$regestId')");
@@ -150,7 +150,7 @@ Flight::route('POST /postClientCalendar/@apk/@xapk', function ($apk,$xapk) {
     if($s<1 || $s>$monthDays){
         $ss="0";
     }
-    if($s>0){
+    if($s>0 && $s<=$monthDays){
         $ss=$s;
     }
      $query= mysqli_query($conectar,"INSERT INTO calendarDaysAssign (calendarId,calendarDay,calendarNumber,clientId,registId) VALUES ('$calendarId','tuesday','$ss','$clientId','$regestId')");
@@ -174,7 +174,7 @@ Flight::route('POST /postClientCalendar/@apk/@xapk', function ($apk,$xapk) {
     if($s<1 || $s>$monthDays){
         $ss="0";
     }
-    if($s>0){
+    if($s>0 && $s<=$monthDays){
         $ss=$s;
     }
      $query= mysqli_query($conectar,"INSERT INTO calendarDaysAssign (calendarId,calendarDay,calendarNumber,clientId,registId) VALUES ('$calendarId','wednesday','$ss','$clientId','$regestId')");
@@ -197,7 +197,7 @@ Flight::route('POST /postClientCalendar/@apk/@xapk', function ($apk,$xapk) {
     if($s<1 || $s>$monthDays){
         $ss="0";
     }
-    if($s>0){
+    if($s>0 && $s<=$monthDays){
         $ss=$s;
     }
      $query= mysqli_query($conectar,"INSERT INTO calendarDaysAssign (calendarId,calendarDay,calendarNumber,clientId,registId) VALUES ('$calendarId','thursday','$ss','$clientId','$regestId')");
@@ -220,7 +220,7 @@ Flight::route('POST /postClientCalendar/@apk/@xapk', function ($apk,$xapk) {
     if($s<1 || $s>$monthDays){
         $ss="0";
     }
-    if($s>0){
+    if($s>0 && $s<=$monthDays){
         $ss=$s;
     }
      $query= mysqli_query($conectar,"INSERT INTO calendarDaysAssign (calendarId,calendarDay,calendarNumber,clientId,registId) VALUES ('$calendarId','friday','$ss','$clientId','$regestId')");
@@ -244,7 +244,7 @@ Flight::route('POST /postClientCalendar/@apk/@xapk', function ($apk,$xapk) {
     if($s<1 || $s>$monthDays){
         $ss="0";
     }
-    if($s>0){
+    if($s>0 && $s<=$monthDays){
         $ss=$s;
     }
      $query= mysqli_query($conectar,"INSERT INTO calendarDaysAssign (calendarId,calendarDay,calendarNumber,clientId,registId) VALUES ('$calendarId','saturday','$ss','$clientId','$regestId')");
@@ -257,7 +257,7 @@ Flight::route('POST /postClientCalendar/@apk/@xapk', function ($apk,$xapk) {
         $tt=$ht.":"."00";
       
      $query= mysqli_query($conectar,"INSERT INTO calendarTime (registId,calendarTime,clientId,timeId) VALUES ('$regestId','$tt','$clientId','$registId1')");
-     
+     $ht++;
     }
 
     }
