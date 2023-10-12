@@ -667,34 +667,54 @@ Flight::route('POST /putExtClient/@apk/@xapk', function ($apk,$xapk) {
    
 
             $conectar=conn();
-           if($value=="del"){
-       
-            $query= mysqli_query($conectar,"DELETE FROM owners WHERE ownerId IN (SELECT ownerId FROM clients WHERE clientId = '$clientId')");
-           
-            $query= mysqli_query($conectar,"DELETE FROM subList WHERE clientId='$clientId'");
-            $query= mysqli_query($conectar,"DELETE FROM clientSecrets WHERE clientId='$clientId'");
-            $query= mysqli_query($conectar,"DELETE FROM clients WHERE clientId='$clientId'");
-            echo "true|¡Cliente removido con exito!";
-           }
-           else if($value=="delAll"){
-            $query= mysqli_query($conectar,"DELETE FROM owners WHERE ownerId IN (SELECT ownerId FROM clients WHERE clientId = '$clientId')");
-            $query= mysqli_query($conectar,"DELETE FROM userSecrets WHERE userId IN (SELECT userId FROM generalUsers WHERE clientId = '$clientId')");
-            $query= mysqli_query($conectar,"DELETE FROM sessionLog WHERE userId IN (SELECT userId FROM generalUsers WHERE clientId = '$clientId')");
- 
-            $query= mysqli_query($conectar,"DELETE FROM generalUsers WHERE clientId='$clientId'");
-            $query= mysqli_query($conectar,"DELETE FROM clientSecrets WHERE clientId='$clientId'");
-            $query= mysqli_query($conectar,"DELETE FROM subList WHERE clientId='$clientId'");
-            $query= mysqli_query($conectar,"DELETE FROM clients WHERE clientId='$clientId'");
+          
+            $query= mysqli_query($conectar,"DELETE FROM calendarTime WHERE registId IN (SELECT registId FROM calendarDaysAssign WHERE calendarId IN (SELECT calendarId FROM calendarDays WHERE clientId='$clientId'))");
+          
+            if ($query) {
+                $q1="¡1- Horas removidas!";
+               
+                
+            } else {
+                $q1="¡1- No se pudo remover las horas!";
+               
+            }
+
            
 
-            echo "true|¡Cliente removido con toda su información con exito!";
-           }
-           else if($value!="del" && $value!="delAll"){
-            $query= mysqli_query($conectar,"UPDATE clients SET $filter='$value' WHERE clientId='$clientId'");
- 
+            $query2= mysqli_query($conectar,"DELETE FROM calendarDaysAssign WHERE calendarId IN (SELECT calendarId FROM calendarDays WHERE clientId='$clientId')");
+            if ($query2) {
+                $q2="¡2- Días removidos!";
+               
+                
+            } else {
+                $q2="¡2- No se pudo remover los días!";
+               
+            }
+            
+            $query3= mysqli_query($conectar,"DELETE FROM calendarDays WHERE clientId='$clientId'");
+            if ($query3) {
+                $q3="¡3- Calendario removido!";
+               
+                
+            } else {
+                $q3="¡3- No se pudo remover el calendario!";
+               
+            }
+            $query4= mysqli_query($conectar,"DELETE FROM calendarApplyList WHERE clientId='$clientId'");
+          
+            if ($query4) {
+                $q4="¡4- Asignaciones removidas!";
+               
+                
+            } else {
+                $q4="¡4- No se pudo remover asignaciones!";
+               
+            }
+           
 
-            echo "true|¡Cliente actualizado con exito!";
-           }
+            echo $q1." ".$q2." ".$q3." ".$q4;
+           
+      
 
     
      

@@ -824,8 +824,42 @@ Flight::route('POST /putExtClient/@apk/@xapk', function ($apk,$xapk) {
             $query= mysqli_query($conectar,"DELETE FROM subList WHERE clientId='$clientId'");
             $query= mysqli_query($conectar,"DELETE FROM clients WHERE clientId='$clientId'");
            
+            $dta = array(
+            
+                'clientId' => Flight::request()->data->clientId
+                
+            );
+            $dt=json_encode($dta);
+            
+            $url = $sub_domain."/kairosCore/apiCompanies/v1/putExtClient/$apk/$xapk";
+      
+            $curl = curl_init();
+            
+            // Configurar las opciones de la sesión cURL
+            curl_setopt($curl, CURLOPT_URL, $url);
+            curl_setopt($curl, CURLOPT_POST, true);
+            curl_setopt($curl, CURLOPT_POSTFIELDS, $dt);
+            curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+      
+            $headers = array(
+              'Content-Type: application/json'
+          );
+          curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
+            
+            // Ejecutar la solicitud y obtener la respuesta
+            $response2 = curl_exec($curl);
+            
+      
+       
+          curl_close($curl);
 
-            echo "true|¡Cliente removido con toda su información con exito!";
+
+
+
+
+
+
+            echo "true|¡Cliente removido con toda su información con exito! -> ".$response2;
            }
            else if($value!="del" && $value!="delAll"){
             $query= mysqli_query($conectar,"UPDATE clients SET $filter='$value' WHERE clientId='$clientId'");
