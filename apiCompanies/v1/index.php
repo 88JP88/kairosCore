@@ -104,6 +104,12 @@ Flight::route('POST /postClientCalendar/@apk/@xapk', function ($apk,$xapk) {
     
      $numVeces1=24;
      $ht=0;
+     if($ss==0){
+
+     }
+     if($ss>0){
+
+    
      for ($ii = 0; $ii < $numVeces1; $ii++) {
         $myuuid1 = $gen_uuid->guidv4();
         $registId1 = substr($myuuid1, 0, 8);
@@ -114,7 +120,7 @@ Flight::route('POST /postClientCalendar/@apk/@xapk', function ($apk,$xapk) {
     }
 
 
-
+     }
 
 
     $myuuid1 = $gen_uuid->guidv4();
@@ -131,6 +137,11 @@ Flight::route('POST /postClientCalendar/@apk/@xapk', function ($apk,$xapk) {
      
      $ht=0;
      $numVeces1=24;
+     if($ss==0){
+
+     }
+     if($ss>0){
+
      for ($ii = 0; $ii < $numVeces1; $ii++) {
         $myuuid1 = $gen_uuid->guidv4();
         $registId1 = substr($myuuid1, 0, 8);
@@ -140,7 +151,7 @@ Flight::route('POST /postClientCalendar/@apk/@xapk', function ($apk,$xapk) {
      $ht++;
     }
 
-
+     }
 
 
     
@@ -157,6 +168,11 @@ Flight::route('POST /postClientCalendar/@apk/@xapk', function ($apk,$xapk) {
     
      $ht=0;
      $numVeces1=24;
+     if($ss==0){
+
+     }
+     if($ss>0){
+
      for ($ii = 0; $ii < $numVeces1; $ii++) {
         $myuuid1 = $gen_uuid->guidv4();
         $registId1 = substr($myuuid1, 0, 8);
@@ -166,7 +182,7 @@ Flight::route('POST /postClientCalendar/@apk/@xapk', function ($apk,$xapk) {
      $ht++;
     }
 
-
+     }
     
     $myuuid1 = $gen_uuid->guidv4();
     $regestId = substr($myuuid1, 0, 8);
@@ -181,6 +197,11 @@ Flight::route('POST /postClientCalendar/@apk/@xapk', function ($apk,$xapk) {
      
      $ht=0;
      $numVeces1=24;
+     if($ss==0){
+
+     }
+     if($ss>0){
+
      for ($ii = 0; $ii < $numVeces1; $ii++) {
         $myuuid1 = $gen_uuid->guidv4();
         $registId1 = substr($myuuid1, 0, 8);
@@ -189,7 +210,7 @@ Flight::route('POST /postClientCalendar/@apk/@xapk', function ($apk,$xapk) {
      $query= mysqli_query($conectar,"INSERT INTO calendarTime (registId,calendarTime,clientId,timeId) VALUES ('$regestId','$tt','$clientId','$registId1')");
      $ht++;
     }
-
+     }
     
     $myuuid1 = $gen_uuid->guidv4();
     $regestId = substr($myuuid1, 0, 8);
@@ -204,6 +225,11 @@ Flight::route('POST /postClientCalendar/@apk/@xapk', function ($apk,$xapk) {
    
      $ht=0;
      $numVeces1=24;
+     if($ss==0){
+
+     }
+     if($ss>0){
+
      for ($ii = 0; $ii < $numVeces1; $ii++) {
         $myuuid1 = $gen_uuid->guidv4();
         $registId1 = substr($myuuid1, 0, 8);
@@ -212,7 +238,7 @@ Flight::route('POST /postClientCalendar/@apk/@xapk', function ($apk,$xapk) {
      $query= mysqli_query($conectar,"INSERT INTO calendarTime (registId,calendarTime,clientId,timeId) VALUES ('$regestId','$tt','$clientId','$registId1')");
      $ht++;
     }
-
+     }
     
     $myuuid1 = $gen_uuid->guidv4();
     $regestId = substr($myuuid1, 0, 8);
@@ -227,6 +253,11 @@ Flight::route('POST /postClientCalendar/@apk/@xapk', function ($apk,$xapk) {
      
      $ht=0;
      $numVeces1=24;
+     if($ss==0){
+
+     }
+     if($ss>0){
+
      for ($ii = 0; $ii < $numVeces1; $ii++) {
         $myuuid1 = $gen_uuid->guidv4();
         $registId1 = substr($myuuid1, 0, 8);
@@ -235,7 +266,7 @@ Flight::route('POST /postClientCalendar/@apk/@xapk', function ($apk,$xapk) {
      $query= mysqli_query($conectar,"INSERT INTO calendarTime (registId,calendarTime,clientId,timeId) VALUES ('$regestId','$tt','$clientId','$registId1')");
      $ht++;
     }
-
+     }
 
     
     $myuuid1 = $gen_uuid->guidv4();
@@ -251,6 +282,11 @@ Flight::route('POST /postClientCalendar/@apk/@xapk', function ($apk,$xapk) {
      
      $ht=0;
      $numVeces1=24;
+     if($ss==0){
+
+     }
+     if($ss>0){
+
      for ($ii = 0; $ii < $numVeces1; $ii++) {
         $myuuid1 = $gen_uuid->guidv4();
         $registId1 = substr($myuuid1, 0, 8);
@@ -259,7 +295,7 @@ Flight::route('POST /postClientCalendar/@apk/@xapk', function ($apk,$xapk) {
      $query= mysqli_query($conectar,"INSERT INTO calendarTime (registId,calendarTime,clientId,timeId) VALUES ('$regestId','$tt','$clientId','$registId1')");
      $ht++;
     }
-
+     }
     }
      
      
