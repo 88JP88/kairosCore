@@ -60,6 +60,7 @@ Flight::route('POST /postClientCalendar/@apk/@xapk', function ($apk,$xapk) {
             $clientId= Flight::request()->data->clientId;
             $month= Flight::request()->data->month;
             $monthDays= Flight::request()->data->monthDays;
+            $dayWeek= Flight::request()->data->dayWeek;
 
 
             require_once '../../apiCore/v1/model/modelSecurity/uuid/uuidd.php';
@@ -83,7 +84,8 @@ Flight::route('POST /postClientCalendar/@apk/@xapk', function ($apk,$xapk) {
 
             $numVeces=5;
      $query= mysqli_query($conectar,"INSERT INTO calendarDays (calendarId,clientId,month,monthDays) VALUES ('$calendarId','$clientId','$month','$monthDays')");
-     $s=0;
+     
+     $s=-$dayWeek;
 
      for ($i = 0; $i < $numVeces; $i++) {
 
@@ -92,8 +94,14 @@ Flight::route('POST /postClientCalendar/@apk/@xapk', function ($apk,$xapk) {
         $myuuid1 = $gen_uuid->guidv4();
         $regestId = substr($myuuid1, 0, 8);
         $s++;
-     $query= mysqli_query($conectar,"INSERT INTO calendarDaysAssign (calendarId,calendarDay,calendarNumber,clientId,registId) VALUES ('$calendarId','sunday',$s,'$clientId','$regestId')");
-     $s++;
+        if($s<1 || $s>$monthDays){
+            $ss="0";
+        }
+        if($s>1){
+            $ss=$s;
+        }
+     $query= mysqli_query($conectar,"INSERT INTO calendarDaysAssign (calendarId,calendarDay,calendarNumber,clientId,registId) VALUES ('$calendarId','sunday',$ss,'$clientId','$regestId')");
+    
      $numVeces1=23;
      $ht=0;
      for ($ii = 0; $ii < $numVeces1; $ii++) {
@@ -111,8 +119,16 @@ Flight::route('POST /postClientCalendar/@apk/@xapk', function ($apk,$xapk) {
 
     $myuuid1 = $gen_uuid->guidv4();
     $regestId = substr($myuuid1, 0, 8);
-     $query= mysqli_query($conectar,"INSERT INTO calendarDaysAssign (calendarId,calendarDay,calendarNumber,clientId,registId) VALUES ('$calendarId','monday','$s','$clientId','$regestId')");
-     $s++;
+    $s++;
+    if($s<1 || $s>$monthDays){
+        $ss="0";
+    }
+    if($s>1){
+        $ss=$s;
+    }
+     $query= mysqli_query($conectar,"INSERT INTO calendarDaysAssign (calendarId,calendarDay,calendarNumber,clientId,registId) VALUES ('$calendarId','monday','$ss','$clientId','$regestId')");
+     
+     
      $ht=0;
      $numVeces1=23;
      for ($ii = 0; $ii < $numVeces1; $ii++) {
@@ -130,8 +146,15 @@ Flight::route('POST /postClientCalendar/@apk/@xapk', function ($apk,$xapk) {
     
     $myuuid1 = $gen_uuid->guidv4();
     $regestId = substr($myuuid1, 0, 8);
-     $query= mysqli_query($conectar,"INSERT INTO calendarDaysAssign (calendarId,calendarDay,calendarNumber,clientId,registId) VALUES ('$calendarId','tuesday','$s','$clientId','$regestId')");
-     $s++;
+    $s++;
+    if($s<1 || $s>$monthDays){
+        $ss="0";
+    }
+    if($s>1){
+        $ss=$s;
+    }
+     $query= mysqli_query($conectar,"INSERT INTO calendarDaysAssign (calendarId,calendarDay,calendarNumber,clientId,registId) VALUES ('$calendarId','tuesday','$ss','$clientId','$regestId')");
+    
      $ht=0;
      $numVeces1=23;
      for ($ii = 0; $ii < $numVeces1; $ii++) {
@@ -147,8 +170,15 @@ Flight::route('POST /postClientCalendar/@apk/@xapk', function ($apk,$xapk) {
     
     $myuuid1 = $gen_uuid->guidv4();
     $regestId = substr($myuuid1, 0, 8);
-     $query= mysqli_query($conectar,"INSERT INTO calendarDaysAssign (calendarId,calendarDay,calendarNumber,clientId,registId) VALUES ('$calendarId','wednesday','$s','$clientId','$regestId')");
-     $s++;
+    $s++;
+    if($s<1 || $s>$monthDays){
+        $ss="0";
+    }
+    if($s>1){
+        $ss=$s;
+    }
+     $query= mysqli_query($conectar,"INSERT INTO calendarDaysAssign (calendarId,calendarDay,calendarNumber,clientId,registId) VALUES ('$calendarId','wednesday','$ss','$clientId','$regestId')");
+     
      $ht=0;
      $numVeces1=23;
      for ($ii = 0; $ii < $numVeces1; $ii++) {
@@ -163,8 +193,15 @@ Flight::route('POST /postClientCalendar/@apk/@xapk', function ($apk,$xapk) {
     
     $myuuid1 = $gen_uuid->guidv4();
     $regestId = substr($myuuid1, 0, 8);
-     $query= mysqli_query($conectar,"INSERT INTO calendarDaysAssign (calendarId,calendarDay,calendarNumber,clientId,registId) VALUES ('$calendarId','thursday','$s','$clientId','$regestId')");
-     $s++;
+    $s++;
+    if($s<1 || $s>$monthDays){
+        $ss="0";
+    }
+    if($s>1){
+        $ss=$s;
+    }
+     $query= mysqli_query($conectar,"INSERT INTO calendarDaysAssign (calendarId,calendarDay,calendarNumber,clientId,registId) VALUES ('$calendarId','thursday','$ss','$clientId','$regestId')");
+   
      $ht=0;
      $numVeces1=23;
      for ($ii = 0; $ii < $numVeces1; $ii++) {
@@ -179,8 +216,15 @@ Flight::route('POST /postClientCalendar/@apk/@xapk', function ($apk,$xapk) {
     
     $myuuid1 = $gen_uuid->guidv4();
     $regestId = substr($myuuid1, 0, 8);
-     $query= mysqli_query($conectar,"INSERT INTO calendarDaysAssign (calendarId,calendarDay,calendarNumber,clientId,registId) VALUES ('$calendarId','friday','$s','$clientId','$regestId')");
-     $s++;
+    $s++;
+    if($s<1 || $s>$monthDays){
+        $ss="0";
+    }
+    if($s>1){
+        $ss=$s;
+    }
+     $query= mysqli_query($conectar,"INSERT INTO calendarDaysAssign (calendarId,calendarDay,calendarNumber,clientId,registId) VALUES ('$calendarId','friday','$ss','$clientId','$regestId')");
+     
      $ht=0;
      $numVeces1=23;
      for ($ii = 0; $ii < $numVeces1; $ii++) {
@@ -196,8 +240,15 @@ Flight::route('POST /postClientCalendar/@apk/@xapk', function ($apk,$xapk) {
     
     $myuuid1 = $gen_uuid->guidv4();
     $regestId = substr($myuuid1, 0, 8);
-     $query= mysqli_query($conectar,"INSERT INTO calendarDaysAssign (calendarId,calendarDay,calendarNumber,clientId,registId) VALUES ('$calendarId','saturday','$s','$clientId','$regestId')");
-     $s++;
+    $s++;
+    if($s<1 || $s>$monthDays){
+        $ss="0";
+    }
+    if($s>1){
+        $ss=$s;
+    }
+     $query= mysqli_query($conectar,"INSERT INTO calendarDaysAssign (calendarId,calendarDay,calendarNumber,clientId,registId) VALUES ('$calendarId','saturday','$ss','$clientId','$regestId')");
+     
      $ht=0;
      $numVeces1=23;
      for ($ii = 0; $ii < $numVeces1; $ii++) {
