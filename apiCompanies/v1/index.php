@@ -101,7 +101,7 @@ Flight::route('POST /postClientCalendar/@apk/@xapk', function ($apk,$xapk) {
         $registId1 = substr($myuuid1, 0, 8);
         $tt=$ht.":"."00";
       
-     $query= mysqli_query($conectar,"INSERT INTO calendarTime (registId,calendarTime,clientId,timeId) VALUES ('$registId','$tt','$clientId','$registId1')");
+     $query= mysqli_query($conectar,"INSERT INTO calendarTime (registId,calendarTime,clientId,timeId) VALUES ('$regestId','$tt','$clientId','$registId1')");
      $ht++;
     }
 
@@ -120,7 +120,7 @@ Flight::route('POST /postClientCalendar/@apk/@xapk', function ($apk,$xapk) {
         $registId1 = substr($myuuid1, 0, 8);
         $tt=$ht.":"."00";
       
-     $query= mysqli_query($conectar,"INSERT INTO calendarTime (registId,calendarTime,clientId,timeId) VALUES ('$registId','$tt','$clientId','$registId1')");
+     $query= mysqli_query($conectar,"INSERT INTO calendarTime (registId,calendarTime,clientId,timeId) VALUES ('$regestId','$tt','$clientId','$registId1')");
      $ht++;
     }
 
@@ -139,7 +139,7 @@ Flight::route('POST /postClientCalendar/@apk/@xapk', function ($apk,$xapk) {
         $registId1 = substr($myuuid1, 0, 8);
         $tt=$ht.":"."00";
       
-     $query= mysqli_query($conectar,"INSERT INTO calendarTime (registId,calendarTime,clientId,timeId) VALUES ('$registId','$tt','$clientId','$registId1')");
+     $query= mysqli_query($conectar,"INSERT INTO calendarTime (registId,calendarTime,clientId,timeId) VALUES ('$regestId','$tt','$clientId','$registId1')");
      $ht++;
     }
 
@@ -156,7 +156,7 @@ Flight::route('POST /postClientCalendar/@apk/@xapk', function ($apk,$xapk) {
         $registId1 = substr($myuuid1, 0, 8);
         $tt=$ht.":"."00";
       
-     $query= mysqli_query($conectar,"INSERT INTO calendarTime (registId,calendarTime,clientId,timeId) VALUES ('$registId','$tt','$clientId','$registId1')");
+     $query= mysqli_query($conectar,"INSERT INTO calendarTime (registId,calendarTime,clientId,timeId) VALUES ('$regestId','$tt','$clientId','$registId1')");
      $ht++;
     }
 
@@ -172,7 +172,7 @@ Flight::route('POST /postClientCalendar/@apk/@xapk', function ($apk,$xapk) {
         $registId1 = substr($myuuid1, 0, 8);
         $tt=$ht.":"."00";
       
-     $query= mysqli_query($conectar,"INSERT INTO calendarTime (registId,calendarTime,clientId,timeId) VALUES ('$registId','$tt','$clientId','$registId1')");
+     $query= mysqli_query($conectar,"INSERT INTO calendarTime (registId,calendarTime,clientId,timeId) VALUES ('$regestId','$tt','$clientId','$registId1')");
      $ht++;
     }
 
@@ -188,7 +188,7 @@ Flight::route('POST /postClientCalendar/@apk/@xapk', function ($apk,$xapk) {
         $registId1 = substr($myuuid1, 0, 8);
         $tt=$ht.":"."00";
       
-     $query= mysqli_query($conectar,"INSERT INTO calendarTime (registId,calendarTime,clientId,timeId) VALUES ('$registId','$tt','$clientId','$registId1')");
+     $query= mysqli_query($conectar,"INSERT INTO calendarTime (registId,calendarTime,clientId,timeId) VALUES ('$regestId','$tt','$clientId','$registId1')");
      $ht++;
     }
 
@@ -205,7 +205,7 @@ Flight::route('POST /postClientCalendar/@apk/@xapk', function ($apk,$xapk) {
         $registId1 = substr($myuuid1, 0, 8);
         $tt=$ht.":"."00";
       
-     $query= mysqli_query($conectar,"INSERT INTO calendarTime (registId,calendarTime,clientId,timeId) VALUES ('$registId','$tt','$clientId','$registId1')");
+     $query= mysqli_query($conectar,"INSERT INTO calendarTime (registId,calendarTime,clientId,timeId) VALUES ('$regestId','$tt','$clientId','$registId1')");
      
     }
 
