@@ -12,10 +12,10 @@ function conn() {
     $option=$sub_domain;
 
     if($option==1){
-        $hostname = "localhost"; // o dirección IP del servidor de la base de datos remota
-        $usuariodb = "root"; // reemplazar con el usuario de la base de datos
+        $hostname = ""; // o dirección IP del servidor de la base de datos remota
+        $usuariodb = ""; // reemplazar con el usuario de la base de datos
         $passworddb = ""; // reemplazar con la contraseña de la base de datos
-        $dbname = "crystalcor"; // reemplazar con el nombre de la base de datos
+        $dbname = ""; // reemplazar con el nombre de la base de datos
     
     try {
         // Conexión a la base de datos
@@ -35,9 +35,9 @@ function conn() {
 }
 if($option==2){
     $hostname = "localhost"; // o dirección IP del servidor de la base de datos remota
-    $usuariodb = "u767251687_devkairoscore"; // reemplazar con el usuario de la base de datos
-    $passworddb = "Devkairoscore2023."; // reemplazar con la contraseña de la base de datos
-    $dbname = "u767251687_devkairoscore"; // reemplazar con el nombre de la base de datos
+    $usuariodb = "u767251687_devkairosint"; // reemplazar con el usuario de la base de datos
+    $passworddb = "Devkairosint2023."; // reemplazar con la contraseña de la base de datos
+    $dbname = "u767251687_devkairosint"; // reemplazar con el nombre de la base de datos
 
     try {
         // Conexión a la base de datos

@@ -5,187 +5,8 @@ require 'flight/Flight.php';
 require_once 'database/db_users.php';
 require_once 'env/domain.php';
 
-Flight::route('POST /postUsersIntegration/@apk/@xapk', function ($apk,$xapk) {
-  
-    header("Access-Control-Allow-Origin: *");
-    // Verificar si los encabezados 'Api-Key' y 'Secret-Key' existen
-    if (!empty($apk) && !empty($xapk)) {    
-        // Leer los datos de la solicitud
-       
 
-
-
-
-
-
-        
-        
-
-
-
-
-        $sub_domaincon=new model_domain();
-        $sub_domain=$sub_domaincon->domKoios();
-        $url = $sub_domain.'/koiosCore/apiAuth/v1/authApiKey/';
-      
-        $data = array(
-          'apiKey' =>$apk, 
-          'xApiKey' => $xapk
-          
-          );
-      $curl = curl_init();
-      
-      // Configurar las opciones de la sesión cURL
-      curl_setopt($curl, CURLOPT_URL, $url);
-      curl_setopt($curl, CURLOPT_POST, true);
-      curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
-      curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-      // curl_setopt($curl, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
-      
-      // Ejecutar la solicitud y obtener la respuesta
-      $response11 = curl_exec($curl);
-
-      
-
-
-      curl_close($curl);
-
-      
-
-        // Realizar acciones basadas en los valores de los encabezados
-
-
-        if ($response11 == 'true' ) {
-
-          
-
-            $sub_domaincon1=new model_domain();
-            $sub_domain1=$sub_domaincon1->dom();
-            
-$url1 = $sub_domain1 . "/lugmagateway/apiCore/v1/postUsersIntegration/".$apk."/".$xapk;
-// Definir los datos a enviar en la solicitud POST
-$data = array(
-    'name' => Flight::request()->data->name,
-            'lastName' => Flight::request()->data->lastName,
-            'personalMail' => Flight::request()->data->personalMail,
-            'keyWord' => Flight::request()->data->keyWord,
-            'contact' => Flight::request()->data->contact
-);
-
-// Convertir los datos a formato JSON
-$json_data = json_encode($data);
-
-// Inicializar la sesión cURL
-$curl1 = curl_init();
-
-// Configurar las opciones de la sesión cURL
-curl_setopt($curl1, CURLOPT_URL, $url1);
-curl_setopt($curl1, CURLOPT_POST, true);
-curl_setopt($curl1, CURLOPT_POSTFIELDS, $data);
-curl_setopt($curl1, CURLOPT_RETURNTRANSFER, true);
-
-
-
-// Ejecutar la solicitud y obtener la respuesta
-$response1 = curl_exec($curl1);
-
-// Cerrar la sesión cURL
-curl_close($curl1);
-
-
-$responsefull = trim($response1); // Eliminar espacios en blanco alrededor de la respuesta
-$array = explode("|", $responsefull);
-$response=$array[0];
-$message=$array[1];
-$userid=$array[2];
-$rancode=$array[3];
-$apiToken=$array[4];
-$userName=$array[5];
-//echo $_SESSION['key'];
-
-$responsefu = trim($response); // Eliminar espacios en blanco alrededor de la respuesta
-
-if($responsefu=="true"){
-
-
-
-
-    $dta = [
-            
-        'name' => Flight::request()->data->name,
-        'lastName' => Flight::request()->data->lastName,
-        'personalMail' => Flight::request()->data->personalMail,
-        'userId' => $userid,
-        'contact' => Flight::request()->data->contact,
-        'rolId' => Flight::request()->data->rolId,
-        'ranCode' => $rancode,
-        'apiToken' => $apiToken,
-        'userName' => $userName,
-        'apk' => $xapk
-        
-    ];
-    require_once('../../apiUsers/v1/controller/users/post_functions.php');
-            
-    $post_users = new post_functions();
-    echo $post_users->post_users($dta);
-  
-    //$response2=$post_users->post_users($dta);
-    //var_dump($response2);
-    //echo $response1;
-    
-    
-    
-}else{
-
-    //echo $message;
-
-
-    $dta = [
-            
-        'name' => Flight::request()->data->name,
-        'lastName' => Flight::request()->data->lastName,
-        'personalMail' => Flight::request()->data->personalMail,
-        'userId' => $userid,
-        'contact' => Flight::request()->data->contact,
-        'rolId' => Flight::request()->data->rolId,
-        'ranCode' => $rancode,
-        'apiToken' => $apiToken,
-        'userName' => $userName,
-        'apk' => $xapk
-        
-    ];
-    require_once('../../apiUsers/v1/controller/users/post_functions.php');
-            
-    $post_users = new post_functions();
-    echo $post_users->post_users($dta);
-  
-//$response2=$post_users->post_users($dta);
-//var_dump($response2);
-//echo $response1;
-
-
-           
-}
-           // echo json_encode($response1);
-        } else {
-            echo 'false|¡Autenticación fallida!';
-           // echo json_encode($data);
-        }
-    } else {
-        echo 'false|¡Encabezados faltantes!';
-    }
-});
-
-
-
-
-
-
-
-
-
-
-Flight::route('POST /putMyProfile/@apk/@xapk', function ($apk,$xapk) {
+Flight::route('POST /postClientCalendar/@apk/@xapk', function ($apk,$xapk) {
   
     header("Access-Control-Allow-Origin: *");
     // Verificar si los encabezados 'Api-Key' y 'Secret-Key' existen
@@ -202,8 +23,8 @@ Flight::route('POST /putMyProfile/@apk/@xapk', function ($apk,$xapk) {
 
 
         $sub_domaincon=new model_domain();
-        $sub_domain=$sub_domaincon->domKoios();
-        $url = $sub_domain.'/koiosCore/apiAuth/v1/authApiKeyKoios/';
+        $sub_domain=$sub_domaincon->domKairos();
+        $url = $sub_domain.'/kairosCore/apiAuth/v1/authApiKey/';
       
         $data = array(
             'apiKey' =>$apk, 
@@ -236,16 +57,466 @@ Flight::route('POST /putMyProfile/@apk/@xapk', function ($apk,$xapk) {
 
 
 
-            $profileId= Flight::request()->data->profileId;
-            $name= Flight::request()->data->name;
-            $lastName= Flight::request()->data->lastName;
-            $isPublic= Flight::request()->data->isPublic;
+            $clientId= Flight::request()->data->clientId;
+            $month= Flight::request()->data->month;
+            $monthDays= Flight::request()->data->monthDays;
 
+
+            require_once '../../apiCore/v1/model/modelSecurity/uuid/uuidd.php';
+           
+   
+
+            $gen_uuid = new generateUuid();
+            $myuuid = $gen_uuid->guidv4();
+         
+            $myuuid2 = $gen_uuid->guidv4();
+            $myuuid3 = $gen_uuid->guidv4();
+
+            $calendarId = substr($myuuid, 0, 8);
+            
+         
+          
 
             $conectar=conn();
-            $query= mysqli_query($conectar,"UPDATE users SET name='$name',lastName='$lastName',isPublic='$isPublic' where profileId='$profileId'");
+           
                        
-            echo "true|¡Perfil actualizado con exito!";
+
+            $numVeces=5;
+     $query= mysqli_query($conectar,"INSERT INTO calendarDays (calendarId,clientId,month,monthDays) VALUES ('$calendarId','$clientId','$month','$monthDays')");
+     $s=0;
+
+     for ($i = 0; $i < $numVeces; $i++) {
+
+
+
+        $myuuid1 = $gen_uuid->guidv4();
+        $regestId = substr($myuuid1, 0, 8);
+        $s++;
+     $query= mysqli_query($conectar,"INSERT INTO calendarDaysAssign (calendarId,calendarDay,calendarNumber,clientId,registId) VALUES ('$calendarId','sunday',$s,'$clientId','$regestId')");
+     $s++;
+     $numVeces1=23;
+     $ht=0;
+     for ($ii = 0; $ii < $numVeces1; $ii++) {
+        $myuuid1 = $gen_uuid->guidv4();
+        $regestId1 = substr($myuuid1, 0, 8);
+        $tt=$ht.":"."00";
+      
+     $query= mysqli_query($conectar,"INSERT INTO calendarTime (registId,calendarTime,clientId,timeId) VALUES ('$registId','$tt','$clientId','$regestId1')");
+     $ht++;
+    }
+
+
+
+
+
+    $myuuid1 = $gen_uuid->guidv4();
+    $regestId = substr($myuuid1, 0, 8);
+     $query= mysqli_query($conectar,"INSERT INTO calendarDaysAssign (calendarId,calendarDay,calendarNumber,clientId,registId) VALUES ('$calendarId','monday','$s','$clientId','$regestId')");
+     $s++;
+     $ht=0;
+     $numVeces1=23;
+     for ($ii = 0; $ii < $numVeces1; $ii++) {
+        $myuuid1 = $gen_uuid->guidv4();
+        $regestId1 = substr($myuuid1, 0, 8);
+        $tt=$ht.":"."00";
+      
+     $query= mysqli_query($conectar,"INSERT INTO calendarTime (registId,calendarTime,clientId,timeId) VALUES ('$registId','$tt','$clientId','$regestId1')");
+     $ht++;
+    }
+
+
+
+
+    
+    $myuuid1 = $gen_uuid->guidv4();
+    $regestId = substr($myuuid1, 0, 8);
+     $query= mysqli_query($conectar,"INSERT INTO calendarDaysAssign (calendarId,calendarDay,calendarNumber,clientId,registId) VALUES ('$calendarId','tuesday','$s','$clientId','$regestId')");
+     $s++;
+     $ht=0;
+     $numVeces1=23;
+     for ($ii = 0; $ii < $numVeces1; $ii++) {
+        $myuuid1 = $gen_uuid->guidv4();
+        $regestId1 = substr($myuuid1, 0, 8);
+        $tt=$ht.":"."00";
+      
+     $query= mysqli_query($conectar,"INSERT INTO calendarTime (registId,calendarTime,clientId,timeId) VALUES ('$registId','$tt','$clientId','$regestId1')");
+     $ht++;
+    }
+
+
+    
+    $myuuid1 = $gen_uuid->guidv4();
+    $regestId = substr($myuuid1, 0, 8);
+     $query= mysqli_query($conectar,"INSERT INTO calendarDaysAssign (calendarId,calendarDay,calendarNumber,clientId,registId) VALUES ('$calendarId','wednesday','$s','$clientId','$regestId')");
+     $s++;
+     $ht=0;
+     $numVeces1=23;
+     for ($ii = 0; $ii < $numVeces1; $ii++) {
+        $myuuid1 = $gen_uuid->guidv4();
+        $regestId1 = substr($myuuid1, 0, 8);
+        $tt=$ht.":"."00";
+      
+     $query= mysqli_query($conectar,"INSERT INTO calendarTime (registId,calendarTime,clientId,timeId) VALUES ('$registId','$tt','$clientId','$regestId1')");
+     $ht++;
+    }
+
+    
+    $myuuid1 = $gen_uuid->guidv4();
+    $regestId = substr($myuuid1, 0, 8);
+     $query= mysqli_query($conectar,"INSERT INTO calendarDaysAssign (calendarId,calendarDay,calendarNumber,clientId,registId) VALUES ('$calendarId','thursday','$s','$clientId','$regestId')");
+     $s++;
+     $ht=0;
+     $numVeces1=23;
+     for ($ii = 0; $ii < $numVeces1; $ii++) {
+        $myuuid1 = $gen_uuid->guidv4();
+        $regestId1 = substr($myuuid1, 0, 8);
+        $tt=$ht.":"."00";
+      
+     $query= mysqli_query($conectar,"INSERT INTO calendarTime (registId,calendarTime,clientId,timeId) VALUES ('$registId','$tt','$clientId','$regestId1')");
+     $ht++;
+    }
+
+    
+    $myuuid1 = $gen_uuid->guidv4();
+    $regestId = substr($myuuid1, 0, 8);
+     $query= mysqli_query($conectar,"INSERT INTO calendarDaysAssign (calendarId,calendarDay,calendarNumber,clientId,registId) VALUES ('$calendarId','friday','$s','$clientId','$regestId')");
+     $s++;
+     $ht=0;
+     $numVeces1=23;
+     for ($ii = 0; $ii < $numVeces1; $ii++) {
+        $myuuid1 = $gen_uuid->guidv4();
+        $regestId1 = substr($myuuid1, 0, 8);
+        $tt=$ht.":"."00";
+      
+     $query= mysqli_query($conectar,"INSERT INTO calendarTime (registId,calendarTime,clientId,timeId) VALUES ('$registId','$tt','$clientId','$regestId1')");
+     $ht++;
+    }
+
+
+    
+    $myuuid1 = $gen_uuid->guidv4();
+    $regestId = substr($myuuid1, 0, 8);
+     $query= mysqli_query($conectar,"INSERT INTO calendarDaysAssign (calendarId,calendarDay,calendarNumber,clientId,registId) VALUES ('$calendarId','saturday','$s','$clientId','$regestId')");
+     $s++;
+     $ht=0;
+     $numVeces1=23;
+     for ($ii = 0; $ii < $numVeces1; $ii++) {
+        $myuuid1 = $gen_uuid->guidv4();
+        $regestId1 = substr($myuuid1, 0, 8);
+        $tt=$ht.":"."00";
+      
+     $query= mysqli_query($conectar,"INSERT INTO calendarTime (registId,calendarTime,clientId,timeId) VALUES ('$registId','$tt','$clientId','$regestId1')");
+     
+    }
+
+    }
+     
+     
+     
+
+            echo "true|¡Calendario creado con exito!";
+        
+           // echo json_encode($response1);
+        } else {
+            echo 'false|¡Autenticación fallida!';
+           // echo json_encode($data);
+        }
+    } else {
+        echo 'false|¡Encabezados faltantes!';
+    }
+});
+
+
+
+
+
+
+
+
+Flight::route('POST /putExtClient/@apk/@xapk', function ($apk,$xapk) {
+  
+    header("Access-Control-Allow-Origin: *");
+    // Verificar si los encabezados 'Api-Key' y 'Secret-Key' existen
+    if (!empty($apk) && !empty($xapk)) {    
+        // Leer los datos de la solicitud
+       
+
+
+
+
+        
+
+
+
+
+        $sub_domaincon=new model_domain();
+        $sub_domain=$sub_domaincon->domKairos();
+        $url = $sub_domain.'/kairosCore/apiAuth/v1/authApiKey/';
+      
+        $data = array(
+            'apiKey' =>$apk, 
+            'xApiKey' => $xapk
+          
+          );
+      $curl = curl_init();
+      
+      // Configurar las opciones de la sesión cURL
+      curl_setopt($curl, CURLOPT_URL, $url);
+      curl_setopt($curl, CURLOPT_POST, true);
+      curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+      curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+      // curl_setopt($curl, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
+      
+      // Ejecutar la solicitud y obtener la respuesta
+      $response11 = curl_exec($curl);
+
+      
+
+
+      curl_close($curl);
+
+      
+
+        // Realizar acciones basadas en los valores de los encabezados
+
+
+        if ($response11 == 'true' ) {
+
+
+
+            $clientId= Flight::request()->data->clientId;
+            $filter= Flight::request()->data->filter;
+            $value= Flight::request()->data->value;
+
+
+            require_once '../../apiCore/v1/model/modelSecurity/uuid/uuidd.php';
+           
+   
+
+            $conectar=conn();
+           if($value=="del"){
+       
+            $query= mysqli_query($conectar,"DELETE FROM owners WHERE ownerId IN (SELECT ownerId FROM clients WHERE clientId = '$clientId')");
+           
+            $query= mysqli_query($conectar,"DELETE FROM subList WHERE clientId='$clientId'");
+            $query= mysqli_query($conectar,"DELETE FROM clientSecrets WHERE clientId='$clientId'");
+            $query= mysqli_query($conectar,"DELETE FROM clients WHERE clientId='$clientId'");
+            echo "true|¡Cliente removido con exito!";
+           }
+           else if($value=="delAll"){
+            $query= mysqli_query($conectar,"DELETE FROM owners WHERE ownerId IN (SELECT ownerId FROM clients WHERE clientId = '$clientId')");
+            $query= mysqli_query($conectar,"DELETE FROM userSecrets WHERE userId IN (SELECT userId FROM generalUsers WHERE clientId = '$clientId')");
+            $query= mysqli_query($conectar,"DELETE FROM sessionLog WHERE userId IN (SELECT userId FROM generalUsers WHERE clientId = '$clientId')");
+ 
+            $query= mysqli_query($conectar,"DELETE FROM generalUsers WHERE clientId='$clientId'");
+            $query= mysqli_query($conectar,"DELETE FROM clientSecrets WHERE clientId='$clientId'");
+            $query= mysqli_query($conectar,"DELETE FROM subList WHERE clientId='$clientId'");
+            $query= mysqli_query($conectar,"DELETE FROM clients WHERE clientId='$clientId'");
+           
+
+            echo "true|¡Cliente removido con toda su información con exito!";
+           }
+           else if($value!="del" && $value!="delAll"){
+            $query= mysqli_query($conectar,"UPDATE clients SET $filter='$value' WHERE clientId='$clientId'");
+ 
+
+            echo "true|¡Cliente actualizado con exito!";
+           }
+
+    
+     
+        
+           // echo json_encode($response1);
+        } else {
+            echo 'false|¡Autenticación fallida!';
+           // echo json_encode($data);
+        }
+    } else {
+        echo 'false|¡Encabezados faltantes!';
+    }
+});
+
+
+
+
+
+Flight::route('POST /putIntUser/@apk/@xapk', function ($apk,$xapk) {
+  
+    header("Access-Control-Allow-Origin: *");
+    // Verificar si los encabezados 'Api-Key' y 'Secret-Key' existen
+    if (!empty($apk) && !empty($xapk)) {    
+        // Leer los datos de la solicitud
+       
+
+
+
+
+        
+
+
+
+
+        $sub_domaincon=new model_domain();
+        $sub_domain=$sub_domaincon->domKairos();
+        $url = $sub_domain.'/kairosCore/apiAuth/v1/authApiKey/';
+      
+        $data = array(
+            'apiKey' =>$apk, 
+            'xApiKey' => $xapk
+          
+          );
+      $curl = curl_init();
+      
+      // Configurar las opciones de la sesión cURL
+      curl_setopt($curl, CURLOPT_URL, $url);
+      curl_setopt($curl, CURLOPT_POST, true);
+      curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+      curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+      // curl_setopt($curl, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
+      
+      // Ejecutar la solicitud y obtener la respuesta
+      $response11 = curl_exec($curl);
+
+      
+
+
+      curl_close($curl);
+
+      
+
+        // Realizar acciones basadas en los valores de los encabezados
+
+
+        if ($response11 == 'true' ) {
+
+
+
+            $userId= Flight::request()->data->userId;
+            $filter= Flight::request()->data->filter;
+            $value= Flight::request()->data->value;
+
+
+            require_once '../../apiCore/v1/model/modelSecurity/uuid/uuidd.php';
+           
+   
+
+            $conectar=conn();
+           if($value=="del"){
+       
+           
+            $query= mysqli_query($conectar,"DELETE FROM userSecrets WHERE userId='$userId'");
+            
+            $query= mysqli_query($conectar,"DELETE FROM sessionLog WHERE userId ='$userId'");
+            $query= mysqli_query($conectar,"DELETE FROM internalUsers WHERE userId='$userId'");
+ 
+            echo "true|¡Usuario interno removido con exito!";
+           }
+          
+           else if($value!="del"){
+            $query= mysqli_query($conectar,"UPDATE internalUsers SET $filter='$value' WHERE userId='$userId'");
+ 
+
+            echo "true|¡Usuario interno actualizado con exito!";
+           }
+
+    
+     
+        
+           // echo json_encode($response1);
+        } else {
+            echo 'false|¡Autenticación fallida!';
+           // echo json_encode($data);
+        }
+    } else {
+        echo 'false|¡Encabezados faltantes!';
+    }
+});
+
+
+
+
+
+Flight::route('POST /putGenUser/@apk/@xapk', function ($apk,$xapk) {
+  
+    header("Access-Control-Allow-Origin: *");
+    // Verificar si los encabezados 'Api-Key' y 'Secret-Key' existen
+    if (!empty($apk) && !empty($xapk)) {    
+        // Leer los datos de la solicitud
+       
+
+
+
+
+        
+
+
+
+
+        $sub_domaincon=new model_domain();
+        $sub_domain=$sub_domaincon->domKairos();
+        $url = $sub_domain.'/kairosCore/apiAuth/v1/authApiKey/';
+      
+        $data = array(
+            'apiKey' =>$apk, 
+            'xApiKey' => $xapk
+          
+          );
+      $curl = curl_init();
+      
+      // Configurar las opciones de la sesión cURL
+      curl_setopt($curl, CURLOPT_URL, $url);
+      curl_setopt($curl, CURLOPT_POST, true);
+      curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+      curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+      // curl_setopt($curl, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
+      
+      // Ejecutar la solicitud y obtener la respuesta
+      $response11 = curl_exec($curl);
+
+      
+
+
+      curl_close($curl);
+
+      
+
+        // Realizar acciones basadas en los valores de los encabezados
+
+
+        if ($response11 == 'true' ) {
+
+
+
+            $userId= Flight::request()->data->userId;
+            $filter= Flight::request()->data->filter;
+            $value= Flight::request()->data->value;
+
+
+            require_once '../../apiCore/v1/model/modelSecurity/uuid/uuidd.php';
+           
+   
+
+            $conectar=conn();
+           if($value=="del"){
+       
+           
+            $query= mysqli_query($conectar,"DELETE FROM userSecrets WHERE userId='$userId'");
+            
+            $query= mysqli_query($conectar,"DELETE FROM sessionLog WHERE userId ='$userId'");
+            $query= mysqli_query($conectar,"DELETE FROM generalUsers WHERE userId='$userId'");
+ 
+            echo "true|¡Usuario removido con exito!";
+           }
+          
+           else if($value!="del"){
+            $query= mysqli_query($conectar,"UPDATE generalUsers SET $filter='$value' WHERE userId='$userId'");
+ 
+
+            echo "true|¡Usuario actualizado con exito!";
+           }
+
+    
+     
         
            // echo json_encode($response1);
         } else {
@@ -385,7 +656,7 @@ echo $response1;
 
 
 
-Flight::route('GET /getPublicUsers/', function () {
+Flight::route('GET /getInternalUsers/@filter', function ($filter) {
     header("Access-Control-Allow-Origin: *");
     // Leer los encabezados
     $headers = getallheaders();
@@ -399,8 +670,8 @@ Flight::route('GET /getPublicUsers/', function () {
         $xApiKey = $headers['x-api-Key'];
         
         $sub_domaincon=new model_domain();
-        $sub_domain=$sub_domaincon->domKoios();
-        $url = $sub_domain.'/koiosCore/apiAuth/v1/authApiKeyKoios/';
+        $sub_domain=$sub_domaincon->domKairos();
+        $url = $sub_domain.'/kairosCore/apiAuth/v1/authApiKeyKairos/';
       
         $data = array(
           'apiKey' =>$apiKey, 
@@ -437,20 +708,32 @@ Flight::route('GET /getPublicUsers/', function () {
            
             $conectar=conn();
             
+          if($filter=="unlock"){
+            $query= mysqli_query($conectar,"SELECT u.userId,u.name,u.lastName,u.email,u.userName,u.isActive,u.status,u.rolId,u.contact,u.sessionCounter,u.clientId,c.clientName FROM internalUsers u JOIN clients c ON c.clientId=u.clientId WHERE u.status=1");
           
-            $query= mysqli_query($conectar,"SELECT profileId,name,lastName,mail,userName FROM users where isPublic=1");
-               
+          }
+          if($filter=="lock"){
+            $query= mysqli_query($conectar,"SELECT u.userId,u.name,u.lastName,u.email,u.userName,u.isActive,u.status,u.rolId,u.contact,u.sessionCounter,u.clientId,c.clientName FROM internalUsers u JOIN clients c ON c.clientId=u.clientId WHERE u.status=0");
+          
+          }
           
                 $values=[];
           
                 while($row = $query->fetch_assoc())
                 {
                         $value=[
-                            'profileId' => $row['profileId'],
+                            'userId' => $row['userId'],
                             'name' => $row['name'],
                             'lastName' => $row['lastName'],
-                            'mail' => $row['mail'],
-                            'userName' => $row['userName']
+                            'email' => $row['email'],
+                            'userName' => $row['userName'],
+                            'isActive' => $row['isActive'],
+                            'status' => $row['status'],
+                            'rolId' => $row['rolId'],
+                            'contact' => $row['contact'],
+                            'sessionCounter' => $row['sessionCounter'],
+                            'clientId' => $row['clientId'],
+                            'clientName' => $row['clientName']
                         ];
                         
                         array_push($values,$value);
@@ -459,6 +742,212 @@ Flight::route('GET /getPublicUsers/', function () {
                 $row=$query->fetch_assoc();
                 //echo json_encode($students) ;
                 echo json_encode(['users'=>$values]);
+          
+               
+           
+
+        } else {
+            echo 'Error: Autenticación fallida';
+             //echo json_encode($response1);
+        }
+    } else {
+        echo 'Error: Encabezados faltantes';
+    }
+});
+
+
+Flight::route('GET /getGeneralUsers/@filter', function ($filter) {
+    header("Access-Control-Allow-Origin: *");
+    // Leer los encabezados
+    $headers = getallheaders();
+    
+    // Verificar si los encabezados 'Api-Key' y 'Secret-Key' existen
+    if (isset($headers['Api-Key']) && isset($headers['x-api-Key'])) {
+        // Leer los datos de la solicitud
+       
+        // Acceder a los encabezados
+        $apiKey = $headers['Api-Key'];
+        $xApiKey = $headers['x-api-Key'];
+        
+        $sub_domaincon=new model_domain();
+        $sub_domain=$sub_domaincon->domKairos();
+        $url = $sub_domain.'/kairosCore/apiAuth/v1/authApiKeyKairos/';
+      
+        $data = array(
+          'apiKey' =>$apiKey, 
+          'xApiKey' => $xApiKey
+          
+          );
+      $curl = curl_init();
+      
+      // Configurar las opciones de la sesión cURL
+      curl_setopt($curl, CURLOPT_URL, $url);
+      curl_setopt($curl, CURLOPT_POST, true);
+      curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+      curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+      // curl_setopt($curl, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
+      
+      // Ejecutar la solicitud y obtener la respuesta
+      $response1 = curl_exec($curl);
+
+      
+
+
+      curl_close($curl);
+
+      
+
+        // Realizar acciones basadas en los valores de los encabezados
+
+
+        if ($response1 == 'true' ) {
+           
+
+
+
+           
+            $conectar=conn();
+            
+          if($filter=="unlock"){
+            $query= mysqli_query($conectar,"SELECT u.userId,u.name,u.lastName,u.email,u.userName,u.isActive,u.status,u.rolId,u.contact,u.sessionCounter,u.clientId,c.clientName FROM generalUsers u JOIN clients c ON c.clientId=u.clientId WHERE u.status=1");
+          
+          }
+          if($filter=="lock"){
+            $query= mysqli_query($conectar,"SELECT u.userId,u.name,u.lastName,u.email,u.userName,u.isActive,u.status,u.rolId,u.contact,u.sessionCounter,u.clientId,c.clientName FROM generalUsers u JOIN clients c ON c.clientId=u.clientId WHERE u.status=0");
+          
+          }
+          
+                $values=[];
+          
+                while($row = $query->fetch_assoc())
+                {
+                        $value=[
+                            'userId' => $row['userId'],
+                            'name' => $row['name'],
+                            'lastName' => $row['lastName'],
+                            'email' => $row['email'],
+                            'userName' => $row['userName'],
+                            'isActive' => $row['isActive'],
+                            'status' => $row['status'],
+                            'rolId' => $row['rolId'],
+                            'contact' => $row['contact'],
+                            'sessionCounter' => $row['sessionCounter'],
+                            'clientId' => $row['clientId'],
+                            'clientName' => $row['clientName']
+                        ];
+                        
+                        array_push($values,$value);
+                        
+                }
+                $row=$query->fetch_assoc();
+                //echo json_encode($students) ;
+                echo json_encode(['users'=>$values]);
+          
+               
+           
+
+        } else {
+            echo 'Error: Autenticación fallida';
+             //echo json_encode($response1);
+        }
+    } else {
+        echo 'Error: Encabezados faltantes';
+    }
+});
+
+
+
+
+
+
+Flight::route('GET /getInternalClients/@filter', function ($filter) {
+    header("Access-Control-Allow-Origin: *");
+    // Leer los encabezados
+    $headers = getallheaders();
+    
+    // Verificar si los encabezados 'Api-Key' y 'Secret-Key' existen
+    if (isset($headers['Api-Key']) && isset($headers['x-api-Key'])) {
+        // Leer los datos de la solicitud
+       
+        // Acceder a los encabezados
+        $apiKey = $headers['Api-Key'];
+        $xApiKey = $headers['x-api-Key'];
+        
+        $sub_domaincon=new model_domain();
+        $sub_domain=$sub_domaincon->domKairos();
+        $url = $sub_domain.'/kairosCore/apiAuth/v1/authApiKeyKairos/';
+      
+        $data = array(
+          'apiKey' =>$apiKey, 
+          'xApiKey' => $xApiKey
+          
+          );
+      $curl = curl_init();
+      
+      // Configurar las opciones de la sesión cURL
+      curl_setopt($curl, CURLOPT_URL, $url);
+      curl_setopt($curl, CURLOPT_POST, true);
+      curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+      curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+      // curl_setopt($curl, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
+      
+      // Ejecutar la solicitud y obtener la respuesta
+      $response1 = curl_exec($curl);
+
+      
+
+
+      curl_close($curl);
+
+      
+
+        // Realizar acciones basadas en los valores de los encabezados
+
+
+        if ($response1 == 'true' ) {
+           
+
+
+
+           
+            $conectar=conn();
+            if($filter=="unlock"){
+                $query= mysqli_query($conectar,"SELECT c.clientId,c.clientName,c.comments,c.isActive,c.status,c.ownerId,c.styleId,c.subId,c.clientType,o.name,o.lastName,o.contact,o.email,s.apiKey FROM clients c JOIN owners o ON c.ownerId=o.ownerId JOIN clientSecrets s ON s.clientId=c.clientId WHERE c.status=1");
+           
+            }
+          
+            if($filter=="lock"){
+                $query= mysqli_query($conectar,"SELECT c.clientId,c.clientName,c.comments,c.isActive,c.status,c.ownerId,c.styleId,c.subId,c.clientType,o.name,o.lastName,o.contact,o.email,s.apiKey FROM clients c JOIN owners o ON c.ownerId=o.ownerId JOIN clientSecrets s ON s.clientId=c.clientId WHERE c.status=0");
+           
+            }
+          
+                $values=[];
+          
+                while($row = $query->fetch_assoc())
+                {
+                        $value=[
+                            'ownerId' => $row['ownerId'],
+                            'name' => $row['name'],
+                            'lastName' => $row['lastName'],
+                            'email' => $row['email'],
+                            'key' => $row['apiKey'],
+                            'isActive' => $row['isActive'],
+                            'status' => $row['status'],
+                            'styleId' => $row['styleId'],
+                            'contact' => $row['contact'],
+                            'subId' => $row['subId'],
+                            'clientId' => $row['clientId'],
+                            'clientName' => $row['clientName'],
+                            'comments' => $row['comments'],
+                            'clientType' => $row['clientType']
+                        ];
+                        
+                        array_push($values,$value);
+                        
+                }
+                $row=$query->fetch_assoc();
+                //echo json_encode($students) ;
+                echo json_encode(['clients'=>$values]);
           
                
            
@@ -1712,7 +2201,7 @@ Flight::route('POST /validateLogIn/@headerslink', function ($headerslink) {
         
         $sub_domaincon=new model_domain();
         $sub_domain=$sub_domaincon->dom();
-        $url = $sub_domain.'/koiosCore/apiAuth/v1/authApiKeyLog/';
+        $url = $sub_domain.'/kairosCore/apiAuth/v1/authApiKeyLog/';
       
         $data = array(
           'xApiKey' => $headerslink
@@ -1741,7 +2230,7 @@ Flight::route('POST /validateLogIn/@headerslink', function ($headerslink) {
 
         if ($response1 != 'false' ) {
             $conectar=conn();
-            require_once '../../apiUsers/v1/model/modelSecurity/crypt/cryptic.php';
+            require_once '../../apiCore/v1/model/modelSecurity/crypt/cryptic.php';
 
             
             $mail= Flight::request()->data->mail;
@@ -1749,17 +2238,18 @@ Flight::route('POST /validateLogIn/@headerslink', function ($headerslink) {
             $ipId= Flight::request()->data->ipId;
            
     
-                $query1= mysqli_query($conectar,"SELECT u.userName,u.name,u.lastName,u.status,u.isActive,u.contact,u.mail,u.profileId,u.rolId,u.subDays,u.subId,u.sessionCounter,u.endLog,u.isPublic,t.ranCode FROM users u JOIN userTokens t ON t.profileId=u.profileId where u.mail='$mail'");
+                $query1= mysqli_query($conectar,"SELECT u.userName,u.name,u.lastName,u.status,u.isActive,u.contact,u.email,u.userId,u.rolId,u.sessionCounter,t.userRanCode,tk.apiKey,s.subDays,s.bonusDays,s.subId,s.endSub,s.startSub,u.clientId FROM generalUsers u JOIN userSecrets t ON t.userId=u.userId JOIN clientSecrets tk ON tk.clientId=u.clientId JOIN subList s ON s.clientId=tk.clientId where u.email='$mail'");
                
                
 
-
+               
                 if ($query1) {
+                    
                     while ($row = $query1->fetch_assoc()) {
                         
 
                        $countersession= $row['sessionCounter'];
-                       $profileId= $row['profileId'];
+                       $userId= $row['userId'];
                        $name= $row['name'];
                        $lastName= $row['lastName'];
 
@@ -1767,33 +2257,44 @@ Flight::route('POST /validateLogIn/@headerslink', function ($headerslink) {
                        $isActive= $row['isActive'];
                        $contact= $row['contact'];
                         $subDays= $row['subDays'];
+                        $bonusDays= $row['bonusDays'];
                        $rolId= $row['rolId'];
                        $subId= $row['subId'];
                       // $sessionCounter= $row['sessionCounter'];
                        $userName1= $row['userName'];
-                       $endLog= $row['endLog'];
-                       $ranCode= $row['ranCode'];
-                       $isPublic= $row['isPublic'];
+                       $clientKey= $row['apiKey'];
+                       $ranCode= $row['userRanCode'];
+                       $endSub= $row['endSub'];
+                       $startSub= $row['startSub'];
+                       $clientId= $row['clientId'];
+
+
                        if($countersession<0){
                         $countersession=0;
                        }
 
                        $counterLoged=$countersession +1;
-                        if($counterLoged<=3){
+                        if($counterLoged==1){
 
                             date_default_timezone_set('America/Bogota'); // Cambia 'America/Montevideo' por tu zona horaria deseada
 
                             // Obtener la fecha actual
                             $fechaActual = date('Y-m-d'); // Formato: Año-Mes-Día
                             $horaActual = date('H:i:s'); // Formato: Hora:Minutos:Segundos
-        if($fechaActual!=$endLog){
-$subTotal=$subDays-1;
-        }
-        elseif($fechaActual=$endLog){
-            $subTotal=$subDays;
-                    }
+      
 
-                    require_once '../../apiUsers/v1/model/modelSecurity/uuid/uuidd.php';
+
+
+                           // $fechaActual = new DateTime(); // Crear un objeto DateTime para la fecha actual
+                            //$startSub = new DateTime();
+                            //$intervalo = $startSub->diff($fechaActual);
+                            
+                            //$diferenciaEnDias = $intervalo->days;
+                            //$subTotal = $diferenciaEnDias;
+                            
+
+
+                    require_once '../../apiCore/v1/model/modelSecurity/uuid/uuidd.php';
                   
                    
            
@@ -1802,15 +2303,16 @@ $subTotal=$subDays-1;
                     $myuuid = $gen_uuid->guidv4();
                     $sessionId = substr($myuuid, 0, 8);
                     $decoded_data = base64_decode($browser);
-                            $query2= mysqli_query($conectar,"UPDATE users SET sessionCounter='$counterLoged',subDays='$subTotal',endLog='$fechaActual' where mail='$mail'");
+                            $query2= mysqli_query($conectar,"UPDATE generalUsers SET sessionCounter='$counterLoged' where email='$mail'");
+                            $query3= mysqli_query($conectar,"UPDATE subList SET subDays=0 where clientId='$clientId'");
                       
-                            $query2= mysqli_query($conectar,"INSERT INTO sessionLog (sessionId,profileId,browser,logInTime,logInDate,ipId) VALUES ('$sessionId','$profileId','$decoded_data','$horaActual','$fechaActual','$ipId')");
+                            $query4= mysqli_query($conectar,"INSERT INTO sessionLog (sessionId,userId,browser,logInTime,logInDate,ipId) VALUES ('$sessionId','$userId','$decoded_data','$horaActual','$fechaActual','$ipId')");
                       
                       
                       
                             $values= array();
                             $value=array(
-                                'profileId' => $profileId,
+                                'userId' => $userId,
                                 'mail' => $mail,
                                 'userName' => $userName1,
                                 'sessionCounter' => $counterLoged,
@@ -1824,9 +2326,8 @@ $subTotal=$subDays-1;
                                 'subDays' => $subDays,
                                 'subId' => $subId,
                                 'sessionId' => $sessionId,
-                                'xApiKey' => $headerslink,
+                                'clientKey' => $clientKey,
                                 'ranCode' => $ranCode,
-                                'isPublic' => $isPublic,
                                 'response' => "true",
                                         'message' => "¡Bienvenid@ ".$name." ".$lastName
                             );
@@ -1854,7 +2355,7 @@ $subTotal=$subDays-1;
                                 'subDays' => '',
                                 'subId' => '',
                                 'sessionId' => '',
-                                'xApiKey' => $headerslink,
+                                'clientKey' => $clientKey,
                                 'ranCode' => '',
                                 'isPublic' => '',
                                 'response' => 'false',
@@ -1894,7 +2395,218 @@ $subTotal=$subDays-1;
             echo 'false*¡Encabezados faltantes!';
             
              //echo json_encode($response1);
+
         }
+
+        
+});
+
+
+Flight::route('POST /validateLogInInternal/@headerslink', function ($headerslink) {
+    header("Access-Control-Allow-Origin: *");
+    header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
+    header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept");
+    
+    // Verificar si los encabezados 'Api-Key' y 'Secret-Key' existen
+    if (!empty($headerslink)) {
+    
+       
+        
+        $sub_domaincon=new model_domain();
+        $sub_domain=$sub_domaincon->dom();
+        $url = $sub_domain.'/kairosCore/apiAuth/v1/authApiKeyLog/';
+      
+        $data = array(
+          'xApiKey' => $headerslink
+          
+          );
+      $curl = curl_init();
+      $dta1=json_encode($data);
+      // Configurar las opciones de la sesión cURL
+      curl_setopt($curl, CURLOPT_URL, $url);
+      curl_setopt($curl, CURLOPT_POST, true);
+      curl_setopt($curl, CURLOPT_POSTFIELDS, $dta1);
+      curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+      curl_setopt($curl, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
+      
+      // Ejecutar la solicitud y obtener la respuesta
+      $response1 = curl_exec($curl);
+
+      
+
+
+      curl_close($curl);
+
+
+        // Realizar acciones basadas en los valores de los encabezados
+
+
+        if ($response1 != 'false' ) {
+            $conectar=conn();
+            require_once '../../apiCore/v1/model/modelSecurity/crypt/cryptic.php';
+
+            
+            $mail= Flight::request()->data->mail;
+            $browser= Flight::request()->data->browser;
+            $ipId= Flight::request()->data->ipId;
+           
+    
+                $query1= mysqli_query($conectar,"SELECT u.userName,u.name,u.lastName,u.status,u.isActive,u.contact,u.email,u.userId,u.rolId,u.sessionCounter,t.userRanCode,tk.apiKey,u.clientId FROM internalUsers u JOIN userSecrets t ON t.userId=u.userId JOIN clientSecrets tk ON u.clientId=tk.clientId where u.email='$mail'");
+               
+               
+
+               
+                if ($query1) {
+                    
+                    while ($row = $query1->fetch_assoc()) {
+                        
+
+                       $countersession= $row['sessionCounter'];
+                       $userId= $row['userId'];
+                       $name= $row['name'];
+                       $lastName= $row['lastName'];
+
+                       $status= $row['status'];
+                       $isActive= $row['isActive'];
+                       $contact= $row['contact'];
+                       $apiKey= $row['apiKey'];
+                       
+                       $rolId= $row['rolId'];
+                      // $sessionCounter= $row['sessionCounter'];
+                       $userName1= $row['userName'];
+                     
+                       $ranCode= $row['userRanCode'];
+                       $clientId= $row['clientId'];
+                      
+                      
+
+
+                       if($countersession<0){
+                        $countersession=0;
+                       }
+
+                       $counterLoged=$countersession +1;
+                        if($counterLoged<=3){
+
+                            date_default_timezone_set('America/Bogota'); // Cambia 'America/Montevideo' por tu zona horaria deseada
+
+                            // Obtener la fecha actual
+                            $fechaActual = date('Y-m-d'); // Formato: Año-Mes-Día
+                            $horaActual = date('H:i:s'); // Formato: Hora:Minutos:Segundos
+      
+
+
+
+                           // $fechaActual = new DateTime(); // Crear un objeto DateTime para la fecha actual
+                            //$startSub = new DateTime();
+                            //$intervalo = $startSub->diff($fechaActual);
+                            
+                            //$diferenciaEnDias = $intervalo->days;
+                            //$subTotal = $diferenciaEnDias;
+                            
+
+
+                    require_once '../../apiCore/v1/model/modelSecurity/uuid/uuidd.php';
+                  
+                   
+           
+        
+                    $gen_uuid = new generateUuid();
+                    $myuuid = $gen_uuid->guidv4();
+                    $sessionId = substr($myuuid, 0, 8);
+                    $decoded_data = base64_decode($browser);
+                            $query2= mysqli_query($conectar,"UPDATE internalUsers SET sessionCounter='$counterLoged' where email='$mail'");
+                           // $query3= mysqli_query($conectar,"UPDATE subList SET subDays=0 where clientId='$clientId'");
+                      
+                            $query4= mysqli_query($conectar,"INSERT INTO sessionLog (sessionId,userId,browser,logInTime,logInDate,ipId) VALUES ('$sessionId','$userId','$decoded_data','$horaActual','$fechaActual','$ipId')");
+                      
+                      
+                      
+                            $values= array();
+                            $value=array(
+                                'userId' => $userId,
+                                'mail' => $mail,
+                                'userName' => $userName1,
+                                'sessionCounter' => $counterLoged,
+                                'name' => $name,
+                                'lastName' => $lastName,
+                                'rolId' => $rolId,
+                                'isActive' => $isActive,
+                                'status' => $status,
+                                'contact' => $contact,
+                                'key' => $apiKey,
+                                
+                               'sessionId' => $sessionId,
+                               'clientId' => $clientId,
+                                'ranCode' => $ranCode,
+                                'response' => "true",
+                                        'message' => "¡Bienvenid@ ".$name." ".$lastName
+                            );
+                            
+                            array_push($values,$value);
+                           // echo "false|";
+                           echo json_encode(['users'=>$values]);
+                      
+                      
+                      
+                        } else{
+                            $values= array();
+                            $value=array(
+                                'profileId' => '',
+                                'mail' => '',
+                                'userName' => '',
+                                'sessionCounter' => '',
+                                'name' => '',
+                                'lastName' => '',
+                                'rolId' => '',
+                                'isActive' => '',
+                                'status' => '',
+                                'contact' => '',
+                                'key' => $apiKey,
+                                'sessionId' => '',
+                                'ranCode' => '',
+                                'clientId' => $clientId,
+                                'response' => 'false',
+                                'message' => '¡Exedes el número de sesiones abiertas ('.$counterLoged.')!'
+                            );
+                            
+                            array_push($values,$value);
+                           // echo "false|";
+                           echo json_encode(['users'=>$values]);
+                        }
+
+                      // $userName2= $row['sessionCounter'];
+                      
+                    
+
+              
+                    }
+                } else {
+                    // Manejar el error de la consulta
+                    echo "false*¡Error en la consulta! " . mysqli_error($conectar);
+                }
+          
+
+            
+}else {
+    
+    echo 'false|¡Autenticación fallida!';
+}
+
+
+
+
+           
+          
+           // echo json_encode($response1);
+        } else {
+            echo 'false*¡Encabezados faltantes!';
+            
+             //echo json_encode($response1);
+
+        }
+
+        
 });
 
 
@@ -2379,7 +3091,7 @@ Flight::route('POST /closeSession/@headerslink', function ($headerslink) {
 
 
 
-Flight::route('POST /validateLogOut/@headerslink', function ($headerslink) {
+Flight::route('POST /validateLogOutInternal/@headerslink', function ($headerslink) {
     header("Access-Control-Allow-Origin: *");
     header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
     header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept");
@@ -2391,7 +3103,7 @@ Flight::route('POST /validateLogOut/@headerslink', function ($headerslink) {
         
         $sub_domaincon=new model_domain();
         $sub_domain=$sub_domaincon->dom();
-        $url = $sub_domain.'/koiosCore/apiAuth/v1/authApiKeyLog/';
+        $url = $sub_domain.'/kairosCore/apiAuth/v1/authApiKeyLog/';
       
         $data = array(
           'xApiKey' => $headerslink
@@ -2423,13 +3135,13 @@ Flight::route('POST /validateLogOut/@headerslink', function ($headerslink) {
            // require_once '../../apiUsers/v1/model/modelSecurity/crypt/cryptic.php';
 
             
-            $profileId= Flight::request()->data->profileId;
+            $userId= Flight::request()->data->userId;
   
             $sessionId= Flight::request()->data->sessionId;
             $value= Flight::request()->data->value;
            if($value=="force"){
 
-            $query2= mysqli_query($conectar,"DELETE FROM sessionLog where profileId='$profileId' and sessionId='$sessionId' and isActive=0");
+            $query2= mysqli_query($conectar,"DELETE FROM sessionLog where userId='$userId' and sessionId='$sessionId' and isActive=0");
                       
 
            }
@@ -2438,7 +3150,7 @@ Flight::route('POST /validateLogOut/@headerslink', function ($headerslink) {
 
 
 
-            $query1= mysqli_query($conectar,"SELECT userName,name,lastName,status,isActive,contact,mail,profileId,rolId,subDays,subId,sessionCounter FROM users where profileId='$profileId'");
+            $query1= mysqli_query($conectar,"SELECT userName,name,lastName,status,isActive,contact,email,userId,rolId,sessionCounter FROM internalUsers where userId='$userId'");
                
                
 
@@ -2448,7 +3160,7 @@ Flight::route('POST /validateLogOut/@headerslink', function ($headerslink) {
                     
 
                    $countersession= $row['sessionCounter'];
-                   $profileId= $row['profileId'];
+                   $userId= $row['userId'];
               
                    if($countersession<0){
                     $countersession=0;
@@ -2460,8 +3172,8 @@ Flight::route('POST /validateLogOut/@headerslink', function ($headerslink) {
 
 
                         
-                        $query2= mysqli_query($conectar,"UPDATE users SET sessionCounter='$counterLoged' where profileId='$profileId'");
-                        $query2= mysqli_query($conectar,"UPDATE sessionLog SET isActive=0 where profileId='$profileId' and sessionId='$sessionId'");
+                        $query2= mysqli_query($conectar,"UPDATE internalUsers SET sessionCounter='$counterLoged' where userId='$userId'");
+                        $query2= mysqli_query($conectar,"UPDATE sessionLog SET isActive=0 where userId='$userId' and sessionId='$sessionId'");
        //                 $query2= mysqli_query($conectar,"DELETE FROM sessionLog where profileId='$profileId' and sessionId='$sessionId' and isActive=1");
        
                   
@@ -2491,7 +3203,7 @@ Flight::route('POST /validateLogOut/@headerslink', function ($headerslink) {
 
            }
     if($value=="logOut"){
-                $query1= mysqli_query($conectar,"SELECT userName,name,lastName,status,isActive,contact,mail,profileId,rolId,subDays,subId,sessionCounter FROM users where profileId='$profileId'");
+                $query1= mysqli_query($conectar,"SELECT userName,name,lastName,status,isActive,contact,email,userId,rolId,sessionCounter FROM internalUsers where userId='$userId'");
                
                
 
@@ -2501,7 +3213,7 @@ Flight::route('POST /validateLogOut/@headerslink', function ($headerslink) {
                         
 
                        $countersession= $row['sessionCounter'];
-                       $profileId= $row['profileId'];
+                       $userId= $row['userId'];
                   
                        if($countersession<0){
                         $countersession=0;
@@ -2513,9 +3225,9 @@ Flight::route('POST /validateLogOut/@headerslink', function ($headerslink) {
 
 
                             
-                            $query2= mysqli_query($conectar,"UPDATE users SET sessionCounter='$counterLoged' where profileId='$profileId'");
+                            $query2= mysqli_query($conectar,"UPDATE internalUsers SET sessionCounter='$counterLoged' where userId='$userId'");
                            // $query2= mysqli_query($conectar,"UPDATE sessionLog SET isActive=0 where profileId='$profileId' and sessionId='$sessionId'");
-                            $query2= mysqli_query($conectar,"DELETE FROM sessionLog where profileId='$profileId' and sessionId='$sessionId' and isActive=1");
+                            $query2= mysqli_query($conectar,"DELETE FROM sessionLog where userId='$userId' and sessionId='$sessionId' and isActive=1");
            
                       
                       
@@ -3801,7 +4513,7 @@ Flight::route('GET /getOneUserByAdmin/@adminId/@profileId', function ($adminId,$
 
 
 
-Flight::route('GET /getProfileInfoLog/@userName/@sessionId/', function ($userName,$sessionId) {
+Flight::route('GET /getProfileInfoLogInternal/@userName/@sessionId/', function ($userName,$sessionId) {
     header("Access-Control-Allow-Origin: *");
     // Leer los encabezados
     $headers = getallheaders();
@@ -3815,8 +4527,8 @@ Flight::route('GET /getProfileInfoLog/@userName/@sessionId/', function ($userNam
         $xApiKey = $headers['x-api-Key'];
         
         $sub_domaincon=new model_domain();
-        $sub_domain=$sub_domaincon->domKoios();
-        $url = $sub_domain.'/koiosCore/apiAuth/v1/authApiKeyLog/';
+        $sub_domain=$sub_domaincon->domKairos();
+        $url = $sub_domain.'/kairosCore/apiAuth/v1/authApiKeyLog/';
       
         $data = array(
           'xApiKey' => $xApiKey
@@ -3853,7 +4565,7 @@ Flight::route('GET /getProfileInfoLog/@userName/@sessionId/', function ($userNam
             $conectar=conn();
             
           
-            $query= mysqli_query($conectar,"SELECT isActive from sessionLog where profileId='$userName' and sessionid='$sessionId'");
+            $query= mysqli_query($conectar,"SELECT isActive from sessionLog where userId='$userName' and sessionId='$sessionId'");
                
           
                 $values=[];
@@ -3861,7 +4573,7 @@ Flight::route('GET /getProfileInfoLog/@userName/@sessionId/', function ($userNam
                 while($row = $query->fetch_assoc())
                 {
                         $value=[
-                            'isActive' => $row['isActive'],
+                            'isActive' => $row['isActive']
                             
                         ];
                         
@@ -3889,7 +4601,7 @@ Flight::route('GET /getProfileInfoLog/@userName/@sessionId/', function ($userNam
 
 
 
-Flight::route('GET /getProfileInfo/@userName', function ($userName) {
+Flight::route('GET /getProfileInfoInternal/@userName', function ($userName) {
     header("Access-Control-Allow-Origin: *");
     // Leer los encabezados
     $headers = getallheaders();
@@ -3903,8 +4615,8 @@ Flight::route('GET /getProfileInfo/@userName', function ($userName) {
         $xApiKey = $headers['x-api-Key'];
         
         $sub_domaincon=new model_domain();
-        $sub_domain=$sub_domaincon->domKoios();
-        $url = $sub_domain.'/koiosCore/apiAuth/v1/authApiKeyLog/';
+        $sub_domain=$sub_domaincon->domKairos();
+        $url = $sub_domain.'/kairosCore/apiAuth/v1/authApiKeyLog/';
       
         $data = array(
           'xApiKey' => $xApiKey
@@ -3941,7 +4653,7 @@ Flight::route('GET /getProfileInfo/@userName', function ($userName) {
             $conectar=conn();
             
           
-            $query= mysqli_query($conectar,"SELECT name,lastName,sessionCounter,subDays,subId,isPublic from users where profileId='$userName'");
+            $query= mysqli_query($conectar,"SELECT name,lastName,sessionCounter from internalUsers where userId='$userName'");
                
           
                 $values=[];
@@ -3951,10 +4663,7 @@ Flight::route('GET /getProfileInfo/@userName', function ($userName) {
                         $value=[
                             'name' => $row['name'],
                             'lastName' => $row['lastName'],
-                            'sessionCounter' => $row['sessionCounter'],
-                            'subDays' => $row['subDays'],
-                            'subId' => $row['subId'],
-                            'isPublic' => $row['isPublic']
+                            'sessionCounter' => $row['sessionCounter']
                             
                         ];
                         
@@ -3981,7 +4690,7 @@ Flight::route('GET /getProfileInfo/@userName', function ($userName) {
 
 
 
-Flight::route('GET /getMySessions/@headerslink/@userName', function ($headerslink,$userName) {
+Flight::route('GET /getMySessionsInternal/@headerslink/@userName', function ($headerslink,$userName) {
     header("Access-Control-Allow-Origin: *");
     // Leer los encabezados
     //$headers = getallheaders();
@@ -3995,8 +4704,8 @@ Flight::route('GET /getMySessions/@headerslink/@userName', function ($headerslin
         
         
         $sub_domaincon=new model_domain();
-        $sub_domain=$sub_domaincon->domKoios();
-        $url = $sub_domain.'/koiosCore/apiAuth/v1/authApiKeyLog/';
+        $sub_domain=$sub_domaincon->domKairos();
+        $url = $sub_domain.'/kairosCore/apiAuth/v1/authApiKeyLog/';
       
         $data = array(
           'xApiKey' => $headerslink
@@ -4033,7 +4742,7 @@ Flight::route('GET /getMySessions/@headerslink/@userName', function ($headerslin
             $conectar=conn();
             
           
-            $query= mysqli_query($conectar,"SELECT sessionId,browser,logInTime,logInDate,ipId from sessionLog where profileId='$userName' and isActive=1");
+            $query= mysqli_query($conectar,"SELECT sessionId,browser,logInTime,logInDate,ipId from sessionLog where userId='$userName' and isActive=1");
                
           
                 $values=[];
