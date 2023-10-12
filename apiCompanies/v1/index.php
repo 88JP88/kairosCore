@@ -468,7 +468,7 @@ Flight::route('GET /getCalendarDaysAssign/@filter', function ($filter) {
             
           
            
-                $query= mysqli_query($conectar,"SELECT calendarId,calendarDay,calendarNumber,clientId,status,isActive,calendarTime,registId FROM calendarDaysAssign where calendarId='$filter'");
+                $query= mysqli_query($conectar,"SELECT calendarId,calendarDay,calendarNumber,clientId,status,isActive,calendarTime,registId FROM calendarDaysAssign where calendarId='$filter' and calendarNumber>0");
           
           
                 $values=[];
