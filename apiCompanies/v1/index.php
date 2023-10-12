@@ -82,7 +82,7 @@ Flight::route('POST /postClientCalendar/@apk/@xapk', function ($apk,$xapk) {
            
                        
 
-            $numVeces=5;
+            $numVeces=6;
      $query= mysqli_query($conectar,"INSERT INTO calendarDays (calendarId,clientId,month,monthDays) VALUES ('$calendarId','$clientId','$month','$monthDays')");
      
      $s=-$dayWeek+1;
