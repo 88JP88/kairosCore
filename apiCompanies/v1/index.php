@@ -379,7 +379,7 @@ Flight::route('POST /putClientCalendar/@apk/@xapk', function ($apk,$xapk) {
 
             $conectar=conn();
            if($reason=="calendarDays"){
-            $query= mysqli_query($conectar,"UPDATE calendarDays SET $filter = '$value' WHERE calendarId=$'$calendarId'");
+            $query= mysqli_query($conectar,"UPDATE calendarDays SET $filter = '$value' WHERE calendarId='$calendarId'");
      
             echo "true|¡Calendario actualizado con exito!";
 
