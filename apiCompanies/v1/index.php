@@ -369,12 +369,12 @@ Flight::route('GET /getCalendarDays/@filter', function ($filter) {
            
             $conectar=conn();
             if($filter=="all"){
-                $query= mysqli_query($conectar,"SELECT calendarId,clientId,isActive,status,month,monthDays FROM calendarDays where isActive=1");
+                $query= mysqli_query($conectar,"SELECT calendarId,clientId,isActive,status,month,monthDays FROM calendarDays");
            
             }
           
             if($filter!="all"){
-                $query= mysqli_query($conectar,"SELECT calendarId,clientId,isActive,status,month,monthDays FROM calendarDays WHERE clientId='$filter' and isActive=1");
+                $query= mysqli_query($conectar,"SELECT calendarId,clientId,isActive,status,month,monthDays FROM calendarDays WHERE clientId='$filter'");
            
             }
           
