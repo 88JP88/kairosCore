@@ -385,14 +385,14 @@ Flight::route('POST /putClientCalendar/@apk/@xapk', function ($apk,$xapk) {
 
            }
            if($reason=="calendarDaysAssign"){
-            $query= mysqli_query($conectar,"UPDATE calendarDaysAssign SET $filter = '$value' WHERE registId=$'$calendarId'");
+            $query= mysqli_query($conectar,"UPDATE calendarDaysAssign SET $filter = '$value' WHERE registId='$calendarId'");
             echo "true|¡Día actualizado con exito!";
      
 
            }
                        
            if($reason=="calendarTime"){
-            $query= mysqli_query($conectar,"UPDATE calendarTime SET $filter = '$value' WHERE timeId=$'$calendarId'");
+            $query= mysqli_query($conectar,"UPDATE calendarTime SET $filter = '$value' WHERE timeId='$calendarId'");
             echo "true|¡Hora actualizada con exito!";
      
 
