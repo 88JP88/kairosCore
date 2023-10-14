@@ -482,7 +482,7 @@ Flight::route('POST /postClientRoom/@apk/@xapk', function ($apk,$xapk) {
             $conectar=conn();
 
            
-            $query= mysqli_query($conectar,"INSERT INTO rooms (roomId,comments,clientId) VALUES ('$roomId','$clientId','$comments')");
+            $query= mysqli_query($conectar,"INSERT INTO rooms (roomId,comments,clientId) VALUES ('$roomId','$comments','$clientId')");
             echo "true|¡Room creado con exito!";
      
 
