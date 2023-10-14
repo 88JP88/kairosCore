@@ -479,7 +479,7 @@ Flight::route('POST /postClientRoom/@apk/@xapk', function ($apk,$xapk) {
             $roomId = substr($myuuid, 0, 8);
 
          
-          
+            $conectar=conn();
 
            
             $query= mysqli_query($conectar,"INSERT INTO rooms (roomId,comments,clientId) VALUES ('$roomId','$clientId','$comments')");
