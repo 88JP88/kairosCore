@@ -490,6 +490,12 @@ Flight::route('POST /putClientRoom/@apk/@xapk', function ($apk,$xapk) {
             if($value==0){            echo "true|¡Room desactivado con exito!";
             }
            }
+           if($reason=="del"){
+            $query= mysqli_query($conectar,"DELETE FROM rooms WHERE roomId='$roomId'");
+     
+            echo "true|¡Room removido con exito!";
+
+           }
               
      
 
@@ -585,6 +591,12 @@ Flight::route('POST /putClientElement/@apk/@xapk', function ($apk,$xapk) {
 
             if($value==0){            echo "true|¡Elemento desactivado con exito!";
             }
+           }
+           if($reason=="del"){
+            $query= mysqli_query($conectar,"DELETE FROM clientElements WHERE elementId='$elementId'");
+     
+            echo "true|¡Elemento removido con exito!";
+
            }
               
      
