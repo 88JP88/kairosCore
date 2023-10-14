@@ -1121,7 +1121,7 @@ Flight::route('GET /getClientElements/@filter', function ($filter) {
       
           
                 $query= mysqli_query($conectar,"SELECT elementId,elementName,caracts,comments,isActive,status,barnd,type,clientId,isApply,imgElements FROM clientElements WHERE clientId='$filter'");
-           
+            
           
                 $values=[];
           
