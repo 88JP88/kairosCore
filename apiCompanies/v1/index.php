@@ -478,7 +478,7 @@ Flight::route('POST /putClientRoom/@apk/@xapk', function ($apk,$xapk) {
            if($reason=="comments"){
             $query= mysqli_query($conectar,"UPDATE rooms SET $filter = '$value' WHERE roomId='$roomId'");
      
-            echo "true|¡Calendario actualizado con exito!";
+            echo "true|¡Room actualizado con exito!";
 
            }
            if($reason=="isActive"){
