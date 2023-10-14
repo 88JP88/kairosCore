@@ -463,7 +463,7 @@ Flight::route('POST /putClientRoom/@apk/@xapk', function ($apk,$xapk) {
 
 
 
-            $calendarId= Flight::request()->data->calendarId;
+            $roomId= Flight::request()->data->roomId;
             $filter= Flight::request()->data->filter;
             $reason= Flight::request()->data->reason;
             $value= Flight::request()->data->value;
@@ -476,14 +476,14 @@ Flight::route('POST /putClientRoom/@apk/@xapk', function ($apk,$xapk) {
 
             $conectar=conn();
            if($reason=="comments"){
-            $query= mysqli_query($conectar,"UPDATE rooms SET $filter = '$value' WHERE roomId='$calendarId'");
+            $query= mysqli_query($conectar,"UPDATE rooms SET $filter = '$value' WHERE roomId='$roomId'");
      
             echo "true|¡Calendario actualizado con exito!";
 
            }
            if($reason=="isActive"){
-            $query= mysqli_query($conectar,"UPDATE rooms SET $filter = '$value' WHERE roomId='$calendarId'");
-            echo "true|¡Día actualizado con exito!";
+            $query= mysqli_query($conectar,"UPDATE rooms SET $filter = '$value' WHERE roomId='$roomId'");
+            echo "true|¡Room actualizado con exito!";
      
 
            }
