@@ -483,9 +483,12 @@ Flight::route('POST /putClientRoom/@apk/@xapk', function ($apk,$xapk) {
            }
            if($reason=="isActive"){
             $query= mysqli_query($conectar,"UPDATE rooms SET $filter = '$value' WHERE roomId='$roomId'");
-            echo "true|¡Room actualizado con exito!";
-     
 
+            if($value==1){            echo "true|¡Room activado con exito!";
+            }
+
+            if($value==0){            echo "true|¡Room desactivado con exito!";
+            }
            }
               
      
