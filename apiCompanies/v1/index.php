@@ -505,6 +505,103 @@ Flight::route('POST /putClientRoom/@apk/@xapk', function ($apk,$xapk) {
     }
 });
 
+
+
+
+Flight::route('POST /putClientElement/@apk/@xapk', function ($apk,$xapk) {
+  
+    header("Access-Control-Allow-Origin: *");
+    // Verificar si los encabezados 'Api-Key' y 'Secret-Key' existen
+    if (!empty($apk) && !empty($xapk)) {    
+        // Leer los datos de la solicitud
+       
+
+
+
+
+        
+
+
+
+
+        $sub_domaincon=new model_domain();
+        $sub_domain=$sub_domaincon->domKairos();
+        $url = $sub_domain.'/kairosCore/apiAuth/v1/authApiKey/';
+      
+        $data = array(
+            'apiKey' =>$apk, 
+            'xApiKey' => $xapk
+          
+          );
+      $curl = curl_init();
+      
+      // Configurar las opciones de la sesión cURL
+      curl_setopt($curl, CURLOPT_URL, $url);
+      curl_setopt($curl, CURLOPT_POST, true);
+      curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+      curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+      // curl_setopt($curl, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
+      
+      // Ejecutar la solicitud y obtener la respuesta
+      $response11 = curl_exec($curl);
+
+      
+
+
+      curl_close($curl);
+
+      
+
+        // Realizar acciones basadas en los valores de los encabezados
+
+
+        if ($response11 == 'true' ) {
+
+
+
+            $elementId= Flight::request()->data->elementId;
+            $filter= Flight::request()->data->filter;
+            $reason= Flight::request()->data->reason;
+            $value= Flight::request()->data->value;
+
+
+         
+
+         
+          
+
+            $conectar=conn();
+           if($reason=="data"){
+            $query= mysqli_query($conectar,"UPDATE clientElements SET $filter = '$value' WHERE elementId='$elementId'");
+     
+            echo "true|¡Elemento actualizado con exito!";
+
+           }
+           if($reason=="isActive"){
+            $query= mysqli_query($conectar,"UPDATE clientElements SET $filter = '$value' WHERE elementId='$elementId'");
+
+            if($value==1){            echo "true|¡Elemento activado con exito!";
+            }
+
+            if($value==0){            echo "true|¡Elemento desactivado con exito!";
+            }
+           }
+              
+     
+
+       
+        
+           // echo json_encode($response1);
+        } else {
+            echo 'false|¡Autenticación fallida!';
+           // echo json_encode($data);
+        }
+    } else {
+        echo 'false|¡Encabezados faltantes!';
+    }
+});
+
+
 Flight::route('POST /postClientRoom/@apk/@xapk', function ($apk,$xapk) {
   
     header("Access-Control-Allow-Origin: *");
