@@ -777,8 +777,36 @@ Flight::route('POST /postAssignRoom/@apk/@xapk', function ($apk,$xapk) {
             $conectar=conn();
 
            
-            $query= mysqli_query($conectar,"INSERT INTO roomAssign (assignId,roomId,timeId,clientId,userId) VALUES ('$assignId','$roomId','$timeId','$clientId','$userId')");
-            echo "true|¡Room asignado con exito!";
+            
+           
+                    $query1= mysqli_query($conectar,"SELECT COUNT(r.roomId) as counterId FROM rooms r WHERE r.roomId NOT IN (SELECT ra.roomId FROM roomAssign ra WHERE ra.timeId = '$timeId') and r.clientId='$clientId' and r.status=1 and r.isActive=1");
+                    $row1 = mysqli_fetch_assoc($query1);
+                    $counterId = $row1['counterId'];
+           
+                    $query2= mysqli_query($conectar,"SELECT COUNT(r.roomId) as counterIdr FROM rooms r WHERE r.clientId='$clientId' and r.status=1 and r.isActive=1");
+                    $row2 = mysqli_fetch_assoc($query2);
+                    $counterIdRoom = $row2['counterIdr'];
+$sum= $counterId+1;
+                    if($sum==$counterIdRoom){
+
+                        $query2= mysqli_query($conectar,"UPDATE calendarTime SET status=0 WHERE timeId='$timeId'");
+                        $query= mysqli_query($conectar,"INSERT INTO roomAssign (assignId,roomId,timeId,clientId,userId) VALUES ('$assignId','$roomId','$timeId','$clientId','$userId')");
+                        echo "true|¡Room asignado con exito!";
+                    }
+                    if($sum<$counterIdRoom){
+
+                        
+                        $query= mysqli_query($conectar,"INSERT INTO roomAssign (assignId,roomId,timeId,clientId,userId) VALUES ('$assignId','$roomId','$timeId','$clientId','$userId')");
+                        echo "true|¡Room asignado con exito!";
+                    }
+                    if($sum>$counterIdRoom){
+                        echo "false|¡Room no asignado!";
+                        
+                    }
+           
+                    
+           
+           
      
 
            
