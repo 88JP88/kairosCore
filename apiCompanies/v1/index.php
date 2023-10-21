@@ -869,7 +869,7 @@ Flight::route('GET /getCalendarDays/@filter', function ($filter) {
                 while($row = $query->fetch_assoc())
                 {
 $calid=$row['calendarId'];
-                    $query1= mysqli_query($conectar,"SELECT COUNT(registId) as counterId FROM calendarDaysAssign WHERE calendarId='$calid' and status=1");
+                    $query1= mysqli_query($conectar,"SELECT COUNT(registId) as counterId FROM calendarDaysAssign WHERE calendarId='$calid' and status=1 and calendarNumber>0 and calendarNumber<32");
                     $row1 = mysqli_fetch_assoc($query1);
                     $counterId = $row1['counterId'];
                         $value=[
