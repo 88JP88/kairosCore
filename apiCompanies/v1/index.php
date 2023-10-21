@@ -1143,7 +1143,7 @@ Flight::route('GET /getClientRooms/@filter/@timeid', function ($filter,$timeid) 
            
       }    
       if($timeid!="all"){
-        $query= mysqli_query($conectar,"SELECT r.roomId,r.comments,r.isActive,r.status,r.clientId FROM rooms r LEFT JOIN roomAssign ra ON r.roomId=ra.roomId WHERE ra.roomId IS NULL");
+        $query= mysqli_query($conectar,"SELECT r.roomId,r.comments,r.isActive,r.status,r.clientId FROM rooms r LEFT JOIN roomAssign ra ON r.roomId=ra.roomId WHERE ra.timeId='$timeid'");
            
       }        
           
