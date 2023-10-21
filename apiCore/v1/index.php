@@ -1301,7 +1301,7 @@ Flight::route('GET /getInternalUsers/@filter', function ($filter) {
 });
 
 
-Flight::route('GET /getGeneralUsers/@filter', function ($filter) {
+Flight::route('GET /getGeneralUsers/@filter/@user', function ($filter,$user) {
     header("Access-Control-Allow-Origin: *");
     // Leer los encabezados
     $headers = getallheaders();
@@ -1352,15 +1352,23 @@ Flight::route('GET /getGeneralUsers/@filter', function ($filter) {
 
            
             $conectar=conn();
-            
-          if($filter=="unlock"){
-            $query= mysqli_query($conectar,"SELECT u.userId,u.name,u.lastName,u.email,u.userName,u.isActive,u.status,u.rolId,u.contact,u.sessionCounter,u.clientId,c.clientName FROM generalUsers u JOIN clients c ON c.clientId=u.clientId WHERE u.status=1");
-          
-          }
-          if($filter=="lock"){
-            $query= mysqli_query($conectar,"SELECT u.userId,u.name,u.lastName,u.email,u.userName,u.isActive,u.status,u.rolId,u.contact,u.sessionCounter,u.clientId,c.clientName FROM generalUsers u JOIN clients c ON c.clientId=u.clientId WHERE u.status=0");
-          
-          }
+            if($user=="all"){
+                if($filter=="unlock"){
+                    $query= mysqli_query($conectar,"SELECT u.userId,u.name,u.lastName,u.email,u.userName,u.isActive,u.status,u.rolId,u.contact,u.sessionCounter,u.clientId,c.clientName FROM generalUsers u JOIN clients c ON c.clientId=u.clientId WHERE u.status=1");
+                  
+                  }
+                  if($filter=="lock"){
+                    $query= mysqli_query($conectar,"SELECT u.userId,u.name,u.lastName,u.email,u.userName,u.isActive,u.status,u.rolId,u.contact,u.sessionCounter,u.clientId,c.clientName FROM generalUsers u JOIN clients c ON c.clientId=u.clientId WHERE u.status=0");
+                  
+                  }
+
+            }
+            if($user!="all"){
+                
+                    $query= mysqli_query($conectar,"SELECT u.userId,u.name,u.lastName,u.email,u.userName,u.isActive,u.status,u.rolId,u.contact,u.sessionCounter,u.clientId,c.clientName FROM generalUsers u JOIN clients c ON c.clientId=u.clientId WHERE u.status=1 and u.clientId='$user'");
+                
+
+            }
           
                 $values=[];
           
