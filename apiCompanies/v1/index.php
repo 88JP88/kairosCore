@@ -1066,6 +1066,12 @@ Flight::route('GET /getCalendarTime/@filter', function ($filter) {
           
                 while($row = $query->fetch_assoc())
                 {
+                    $cid=$row['clientId'];
+                    $calid=$row['timeId'];
+                    $query1= mysqli_query($conectar,"SELECT COUNT(r.roomId) as counterId FROM rooms r WHERE r.roomId NOT IN (SELECT ra.roomId FROM roomAssign ra WHERE ra.timeId = '$calid') and r.clientId='$cid' and r.status=1 and r.isActive=1");
+                    $row1 = mysqli_fetch_assoc($query1);
+                    $counterId = $row1['counterId'];
+
                         $value=[
                             'registId' => $row['registId'],
                             'userApply' => $row['userApply'],
@@ -1157,7 +1163,7 @@ Flight::route('GET /getClientRooms/@filter/@timeid', function ($filter,$timeid) 
            
       }    
       if($timeid!="all"){
-        $query= mysqli_query($conectar,"SELECT r.roomId, r.comments, r.isActive, r.status, r.clientId FROM rooms r WHERE r.roomId NOT IN (SELECT ra.roomId FROM roomAssign ra WHERE ra.timeId = '$timeid') and r.clientId='$filter'");
+        $query= mysqli_query($conectar,"SELECT r.roomId, r.comments, r.isActive, r.status, r.clientId FROM rooms r WHERE r.roomId NOT IN (SELECT ra.roomId FROM roomAssign ra WHERE ra.timeId = '$timeid') and r.clientId='$filter' and r.isActive=1");
            
       }        
           
