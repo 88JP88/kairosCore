@@ -800,7 +800,7 @@ Flight::route('POST /postAssignRoom/@apk/@xapk', function ($apk,$xapk) {
                         echo "true|¡Room asignado con exito!";
                     }
                     if($sum>$counterIdRoom){
-                        echo "false|¡Room no asignado!";
+                        echo "false|¡Room no asignado!".$counterId;
                         
                     }
            
