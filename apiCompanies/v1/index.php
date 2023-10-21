@@ -1086,7 +1086,7 @@ Flight::route('GET /getCalendarTime/@filter', function ($filter) {
 
 
 
-Flight::route('GET /getClientRooms/@filter', function ($filter) {
+Flight::route('GET /getClientRooms/@filter/@timeid', function ($filter,$timeid) {
     header("Access-Control-Allow-Origin: *");
     // Leer los encabezados
     $headers = getallheaders();
@@ -1138,9 +1138,14 @@ Flight::route('GET /getClientRooms/@filter', function ($filter) {
            
             $conectar=conn();
       
-          
-                $query= mysqli_query($conectar,"SELECT roomId,comments,isActive,status,clientId FROM rooms WHERE clientId='$filter'");
+      if($timeid=="all"){
+        $query= mysqli_query($conectar,"SELECT roomId,comments,isActive,status,clientId FROM rooms WHERE clientId='$filter'");
            
+      }    
+      if($timeid!="all"){
+        $query= mysqli_query($conectar,"SELECT r.roomId,r.comments FROM rooms r LEFT JOIN roomAssign ra ON r.roomId=ra.roomId WHERE ra.timeId='$timeid'");
+           
+      }        
           
                 $values=[];
           
