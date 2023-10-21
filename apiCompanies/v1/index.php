@@ -706,7 +706,7 @@ Flight::route('POST /postClientRoom/@apk/@xapk', function ($apk,$xapk) {
 
 
 
-Flight::route('POST /postAssignRoom/@apk/@xapk', function ($apk,$xapk) {
+Flight::route('POST /postAssignRoom/@apk/@xapk/', function ($apk,$xapk) {
   
     header("Access-Control-Allow-Origin: *");
     // Verificar si los encabezados 'Api-Key' y 'Secret-Key' existen
@@ -761,6 +761,7 @@ Flight::route('POST /postAssignRoom/@apk/@xapk', function ($apk,$xapk) {
             $roomId= Flight::request()->data->roomId;
             $userId= Flight::request()->data->userId;
             $timeId= Flight::request()->data->timeId;
+            $param= Flight::request()->data->param;
 
 
             require_once '../../apiCompanies/v1/model/modelSecurity/uuid/uuidd.php';
@@ -780,37 +781,64 @@ Flight::route('POST /postAssignRoom/@apk/@xapk', function ($apk,$xapk) {
             $userid=$array[0];
             $username=$array[1];
             
-           
-                    $query1= mysqli_query($conectar,"SELECT COUNT(r.roomId) as counterId FROM rooms r WHERE r.roomId IN (SELECT ra.roomId FROM roomAssign ra WHERE ra.timeId = '$timeId') and r.clientId='$clientId' and r.status=1 and r.isActive=1");
-                    $row1 = mysqli_fetch_assoc($query1);
-                    $counterId = $row1['counterId'];
-           
-                    $query2= mysqli_query($conectar,"SELECT COUNT(r.roomId) as counterIdr FROM rooms r WHERE r.clientId='$clientId' and r.status=1 and r.isActive=1");
-                    $row2 = mysqli_fetch_assoc($query2);
-                    $counterIdRoom = $row2['counterIdr'];
-            $sum= $counterId*2;
-                    if($sum==$counterIdRoom){
+           if($param=="assign"){
 
-                        $query2= mysqli_query($conectar,"UPDATE calendarTime SET status=0 WHERE timeId='$timeId'");
-                        $query= mysqli_query($conectar,"INSERT INTO roomAssign (assignId,roomId,timeId,clientId,userId,userName) VALUES ('$assignId','$roomId','$timeId','$clientId','$userid','$username')");
-                        echo "true|¡Room asignado con exito!";
-                    }
-                    if($sum<$counterIdRoom){
+            $query1= mysqli_query($conectar,"SELECT COUNT(r.roomId) as counterId FROM rooms r WHERE r.roomId IN (SELECT ra.roomId FROM roomAssign ra WHERE ra.timeId = '$timeId') and r.clientId='$clientId' and r.status=1 and r.isActive=1");
+            $row1 = mysqli_fetch_assoc($query1);
+            $counterId = $row1['counterId'];
+   
+            $query2= mysqli_query($conectar,"SELECT COUNT(r.roomId) as counterIdr FROM rooms r WHERE r.clientId='$clientId' and r.status=1 and r.isActive=1");
+            $row2 = mysqli_fetch_assoc($query2);
+            $counterIdRoom = $row2['counterIdr'];
+    $sum= $counterId*2;
+            if($sum==$counterIdRoom){
 
-                        
-                        $query= mysqli_query($conectar,"INSERT INTO roomAssign (assignId,roomId,timeId,clientId,userId,userName) VALUES ('$assignId','$roomId','$timeId','$clientId','$userid','$username')");
-                        echo "true|¡Room asignado con exito!";
-                    }
-                    if($sum>$counterIdRoom){
-                        echo "false|¡Room no asignado!";
-                        
-                    }
+                $query2= mysqli_query($conectar,"UPDATE calendarTime SET status=0 WHERE timeId='$timeId'");
+                $query= mysqli_query($conectar,"INSERT INTO roomAssign (assignId,roomId,timeId,clientId,userId,userName) VALUES ('$assignId','$roomId','$timeId','$clientId','$userid','$username')");
+                echo "true|¡Room asignado con exito!";
+            }
+            if($sum<$counterIdRoom){
+
+                
+                $query= mysqli_query($conectar,"INSERT INTO roomAssign (assignId,roomId,timeId,clientId,userId,userName) VALUES ('$assignId','$roomId','$timeId','$clientId','$userid','$username')");
+                echo "true|¡Room asignado con exito!";
+            }
+            if($sum>$counterIdRoom){
+                echo "false|¡Room no asignado!";
+                
+            }
+           }
+                   
+
+
+
+
            
-                    
+           if($param=="notassign"){
+
            
+   
+            $query2= mysqli_query($conectar,"SELECT status FROM calendarTime WHERE timeId='$timeId'");
+            $row2 = mysqli_fetch_assoc($query2);
+            $status1 = $row2['status'];
+    
+            if($status1==1){
+
+                
+                $query= mysqli_query($conectar,"DELETE FROM roomAssign where timeId='$timeId' and userId='$userId' and roomId='$roomId' and assignId='$clientId'");
+                echo "true|¡Room desasignado con exito!";
            
+           }   
+           
+           if($status1==0){
+
+            $query2= mysqli_query($conectar,"UPDATE calendarTime SET status=1 WHERE timeId='$timeId'");
+            $query= mysqli_query($conectar,"DELETE FROM roomAssign where timeId='$timeId' and userId='$userId' and roomId='$roomId' and assignId='$clientId'");
+            echo "true|¡Room desasignado con exito!";
+       
+       }
      
-
+    }
            
      
 
