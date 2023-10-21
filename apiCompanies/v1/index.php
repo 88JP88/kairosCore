@@ -868,7 +868,7 @@ Flight::route('GET /getCalendarDays/@filter', function ($filter) {
           
                 while($row = $query->fetch_assoc())
                 {
-$calid=$row['calendarId'];
+    $calid=$row['calendarId'];
                     $query1= mysqli_query($conectar,"SELECT COUNT(registId) as counterId FROM calendarDaysAssign WHERE calendarId='$calid' and status=1 and calendarNumber>0 and calendarNumber<32 and isActive=1");
                     $row1 = mysqli_fetch_assoc($query1);
                     $counterId = $row1['counterId'];
@@ -966,6 +966,12 @@ Flight::route('GET /getCalendarDaysAssign/@filter', function ($filter) {
           
                 while($row = $query->fetch_assoc())
                 {
+
+
+                    $calid=$row['registId'];
+                    $query1= mysqli_query($conectar,"SELECT COUNT(timeId) as counterId FROM calendarTime WHERE registId='$calid' and status=1 and notApply='free' and isActive=1");
+                    $row1 = mysqli_fetch_assoc($query1);
+                    $counterId = $row1['counterId'];
                         $value=[
                             'calendarId' => $row['calendarId'],
                             'calendarDay' => $row['calendarDay'],
@@ -974,7 +980,8 @@ Flight::route('GET /getCalendarDaysAssign/@filter', function ($filter) {
                             'status' => $row['status'],
                             'isActive' => $row['isActive'],
                             'calendarTime' => $row['calendarTime'],
-                            'registId' => $row['registId']
+                            'registId' => $row['registId'],
+                            'counterId' => $counterId
                         ];
                         
                         array_push($values,$value);
