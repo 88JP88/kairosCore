@@ -858,6 +858,8 @@ Flight::route('GET /getCalendarDays/@filter', function ($filter) {
             }
           
             if($filter!="all"){
+
+              
                 $query= mysqli_query($conectar,"SELECT calendarId,clientId,isActive,status,month,monthDays FROM calendarDays WHERE clientId='$filter'");
            
             }
@@ -866,13 +868,18 @@ Flight::route('GET /getCalendarDays/@filter', function ($filter) {
           
                 while($row = $query->fetch_assoc())
                 {
+$calid=$row['calendarId'];
+                    $query1= mysqli_query($conectar,"SELECT COUNT(registId) as counterId FROM calendarDaysAssign WHERE calendarId='$calid' and status=1");
+                    $row1 = mysqli_fetch_assoc($query1);
+                    $counterId = $row1['counterId'];
                         $value=[
                             'calendarId' => $row['calendarId'],
                             'clientId' => $row['clientId'],
                             'isActive' => $row['isActive'],
                             'status' => $row['status'],
                             'month' => $row['month'],
-                            'monthDays' => $row['monthDays']
+                            'monthDays' => $row['monthDays'],
+                            'counterId' => $counterId
                         ];
                         
                         array_push($values,$value);
