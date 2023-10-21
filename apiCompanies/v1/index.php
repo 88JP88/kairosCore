@@ -786,7 +786,7 @@ Flight::route('POST /postAssignRoom/@apk/@xapk', function ($apk,$xapk) {
                     $query2= mysqli_query($conectar,"SELECT COUNT(r.roomId) as counterIdr FROM rooms r WHERE r.clientId='$clientId' and r.status=1 and r.isActive=1");
                     $row2 = mysqli_fetch_assoc($query2);
                     $counterIdRoom = $row2['counterIdr'];
-$sum= $counterId+1;
+            $sum= $counterId+1;
                     if($sum==$counterIdRoom){
 
                         $query2= mysqli_query($conectar,"UPDATE calendarTime SET status=0 WHERE timeId='$timeId'");
