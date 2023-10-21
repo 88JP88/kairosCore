@@ -1081,7 +1081,8 @@ Flight::route('GET /getCalendarTime/@filter', function ($filter) {
                             'calendarTime' => $row['calendarTime'],
                             'notApply' => $row['notApply'],
                             
-                            'timeId' => $row['timeId']
+                            'timeId' => $row['timeId'],
+                            'counterId' => $counterId
                         ];
                         
                         array_push($values,$value);
