@@ -917,6 +917,7 @@ Flight::route('POST /postClientElement/@apk/@xapk', function ($apk,$xapk) {
              $brand= Flight::request()->data->brand;
              $type= Flight::request()->data->type;
               $img= Flight::request()->data->img;
+              $val= Flight::request()->data->value;
 
 
             require_once '../../apiCompanies/v1/model/modelSecurity/uuid/uuidd.php';
@@ -933,7 +934,7 @@ Flight::route('POST /postClientElement/@apk/@xapk', function ($apk,$xapk) {
             $conectar=conn();
 
            
-            $query= mysqli_query($conectar,"INSERT INTO clientElements (elementId,elementName,caracts,comments,brand,type,clientId,imgElements) VALUES ('$elementId','$name','$caract','$comments','$brand','$type','$clientId','$img')");
+            $query= mysqli_query($conectar,"INSERT INTO clientElements (elementId,elementName,caracts,comments,brand,type,clientId,imgElements,amount) VALUES ('$elementId','$name','$caract','$comments','$brand','$type','$clientId','$img','$val')");
             echo "true|¡Elemento creado con exito!";
      
 
@@ -1502,7 +1503,7 @@ Flight::route('GET /getClientElements/@filter', function ($filter) {
             $conectar=conn();
       
           
-                $query= mysqli_query($conectar,"SELECT elementId,elementName,caracts,comments,isActive,status,brand,type,clientId,isApply,imgElements FROM clientElements WHERE clientId='$filter'");
+                $query= mysqli_query($conectar,"SELECT elementId,elementName,caracts,comments,isActive,status,brand,type,clientId,isApply,imgElements,amount FROM clientElements WHERE clientId='$filter'");
             
           
                 $values=[];
@@ -1520,7 +1521,8 @@ Flight::route('GET /getClientElements/@filter', function ($filter) {
                             'type' => $row['type'],
                             'clientId' => $row['clientId'],
                             'isApply' => $row['isApply'],
-                            'imgElements' => $row['imgElements']
+                            'imgElements' => $row['imgElements'],
+                             'amount' => $row['amount']
                         ];
                         
                         array_push($values,$value);
