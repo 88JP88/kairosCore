@@ -762,6 +762,7 @@ Flight::route('POST /postAssignRoom/@apk/@xapk/', function ($apk,$xapk) {
             $userId= Flight::request()->data->userId;
             $timeId= Flight::request()->data->timeId;
             $param= Flight::request()->data->param;
+            $assignments= Flight::request()->data->assignments;
 
 
             require_once '../../apiCompanies/v1/model/modelSecurity/uuid/uuidd.php';
@@ -770,9 +771,11 @@ Flight::route('POST /postAssignRoom/@apk/@xapk/', function ($apk,$xapk) {
 
             $gen_uuid = new generateUuid();
             $myuuid = $gen_uuid->guidv4();
+            $myuuid1 = $gen_uuid->guidv4();
          
 
             $assignId = substr($myuuid, 0, 8);
+            $elId = substr($myuuid1, 0, 8);
 
          
             $conectar=conn();
@@ -795,7 +798,36 @@ Flight::route('POST /postAssignRoom/@apk/@xapk/', function ($apk,$xapk) {
 
                 $query2= mysqli_query($conectar,"UPDATE calendarTime SET status=0 WHERE timeId='$timeId'");
                 $query= mysqli_query($conectar,"INSERT INTO roomAssign (assignId,roomId,timeId,clientId,userId,userName) VALUES ('$assignId','$roomId','$timeId','$clientId','$userid','$username')");
+           
+           
+                
+
+                // Divide la cadena en un array utilizando '|'
+                $elementos = explode("|", $assignments);
+                
+                // Itera sobre los elementos del array
+                foreach ($elementos as $elemento) {
+                    // Ejecuta tu código para cada elemento
+                    
+                    $query3= mysqli_query($conectar,"INSERT INTO elementAssign (assignElement,elementId,assignId,clientId,userId,roomId,timeId) VALUES ('$elIdd','$elemento','$assignId','$clientId','$userid','$roomId','$timeId')");
+           
+
+
+                    // Puedes hacer lo que necesites con $elemento en esta iteración
+                }
+           
+           
+           
+           
+           
+           
+           
+           
                 echo "true|¡Room asignado con exito!";
+           
+           
+           
+           
             }
             if($sum<$counterIdRoom){
 
@@ -803,6 +835,9 @@ Flight::route('POST /postAssignRoom/@apk/@xapk/', function ($apk,$xapk) {
                 $query= mysqli_query($conectar,"INSERT INTO roomAssign (assignId,roomId,timeId,clientId,userId,userName) VALUES ('$assignId','$roomId','$timeId','$clientId','$userid','$username')");
                 echo "true|¡Room asignado con exito!";
             }
+
+
+
             if($sum>$counterIdRoom){
                 echo "false|¡Room no asignado!";
                 
