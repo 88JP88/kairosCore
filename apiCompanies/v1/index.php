@@ -1486,7 +1486,7 @@ Flight::route('GET /getCalendarTimedes/@filter/', function ($filter) {
 
 
 
-Flight::route('GET /getClientElements/@filter', function ($filter) {
+Flight::route('GET /getClientElements/@filter/@param/@rid', function ($filter,$param,$rid) {
     header("Access-Control-Allow-Origin: *");
     // Leer los encabezados
     $headers = getallheaders();
@@ -1538,10 +1538,12 @@ Flight::route('GET /getClientElements/@filter', function ($filter) {
            
             $conectar=conn();
       
-          
+          if($param=="all"){
                 $query= mysqli_query($conectar,"SELECT elementId,elementName,caracts,comments,isActive,status,brand,type,clientId,isApply,imgElements,amount FROM clientElements WHERE clientId='$filter'");
-            
-          
+          }
+          if($param=="free"){
+            $query= mysqli_query($conectar,"SELECT elementId,elementName,caracts,comments,isActive,status,brand,type,clientId,isApply,imgElements,amount FROM clientElements WHERE clientId='$filter' and isActive=1 and isApply=1 and roomId=$rid OR clientId='$filter' and isActive=1 and isApply=0");
+      }
                 $values=[];
           
                 while($row = $query->fetch_assoc())
