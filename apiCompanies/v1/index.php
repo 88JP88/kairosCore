@@ -771,11 +771,11 @@ Flight::route('POST /postAssignRoom/@apk/@xapk/', function ($apk,$xapk) {
 
             $gen_uuid = new generateUuid();
             $myuuid = $gen_uuid->guidv4();
-            $myuuid1 = $gen_uuid->guidv4();
+            
          
 
             $assignId = substr($myuuid, 0, 8);
-            $elId = substr($myuuid1, 0, 8);
+            
 
          
             $conectar=conn();
@@ -808,8 +808,9 @@ Flight::route('POST /postAssignRoom/@apk/@xapk/', function ($apk,$xapk) {
                 // Itera sobre los elementos del array
                 foreach ($elementos as $elemento) {
                     // Ejecuta tu código para cada elemento
-                    
-                    $query3= mysqli_query($conectar,"INSERT INTO elementAssign (assignElement,elementId,assignId,clientId,userId,roomId,timeId) VALUES ('$elIdd','$elemento','$assignId','$clientId','$userid','$roomId','$timeId')");
+                    $myuuid1 = $gen_uuid->guidv4();
+                    $elId = substr($myuuid1, 0, 8);
+                    $query3= mysqli_query($conectar,"INSERT INTO elementAssign (assignElement,elementId,assignId,clientId,userId,roomId,timeId) VALUES ('$elId','$elemento','$assignId','$clientId','$userid','$roomId','$timeId')");
            
 
 
