@@ -1669,7 +1669,7 @@ Flight::route('GET /getClientElements/@filter/@param/@rid', function ($filter,$p
             $query= mysqli_query($conectar,"SELECT elementId,elementName,caracts,comments,isActive,status,brand,type,clientId,isApply,imgElements,amount FROM clientElements WHERE clientId='$filter' and isActive=1 and isApply=0 OR clientId='$filter' and roomId='$rid' and isApply=1 and isActive=1");
       }
       if($param=="hold"){
-        $query= mysqli_query($conectar,"SELECT e.elementId,e.elementName,e.caracts,e.comments,e.isActive,e.status,e.brand,e.type,e.clientId,e.isApply,e.imgElements,e.amount FROM clientElements e JOIN elementsAssing ea ON e.elementId=ea.elementId WHERE ea.clientId='$filter' and ea.assignId='$rid'");
+        $query= mysqli_query($conectar,"SELECT e.elementId,e.elementName,e.caracts,e.comments,e.isActive,e.status,e.brand,e.type,e.clientId,e.isApply,e.imgElements,e.amount FROM clientElements e JOIN elementAssing ea ON e.elementId=ea.elementId WHERE ea.clientId='$filter' and ea.assignId='$rid'");
   }
                 $values=[];
           
