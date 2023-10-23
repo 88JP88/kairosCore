@@ -1514,6 +1514,101 @@ Flight::route('GET /getCalendarTimedes/@filter/', function ($filter) {
 });
 
 
+Flight::route('GET /getElementsAssign/@filter/', function ($filter) {
+    header("Access-Control-Allow-Origin: *");
+    // Leer los encabezados
+    $headers = getallheaders();
+    
+    // Verificar si los encabezados 'Api-Key' y 'Secret-Key' existen
+    if (isset($headers['Api-Key']) && isset($headers['x-api-Key'])) {
+        // Leer los datos de la solicitud
+       
+        // Acceder a los encabezados
+        $apiKey = $headers['Api-Key'];
+        $xApiKey = $headers['x-api-Key'];
+        
+        $sub_domaincon=new model_domain();
+        $sub_domain=$sub_domaincon->domKairos();
+        $url = $sub_domain.'/kairosCore/apiAuth/v1/authApiKeyKairos/';
+      
+        $data = array(
+          'apiKey' =>$apiKey, 
+          'xApiKey' => $xApiKey
+          
+          );
+      $curl = curl_init();
+      
+      // Configurar las opciones de la sesión cURL
+      curl_setopt($curl, CURLOPT_URL, $url);
+      curl_setopt($curl, CURLOPT_POST, true);
+      curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+      curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+      // curl_setopt($curl, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
+      
+      // Ejecutar la solicitud y obtener la respuesta
+      $response1 = curl_exec($curl);
+
+      
+
+
+      curl_close($curl);
+
+      
+
+        // Realizar acciones basadas en los valores de los encabezados
+
+
+        if ($response1 == 'true' ) {
+           
+
+
+
+           
+            $conectar=conn();
+      
+      
+        $query= mysqli_query($conectar,"SELECT ar.assignId,ar.roomId,ar.timeId,ar.isActive,ar.status,ar.userName,ar.userId,ar.clientId,r.comments FROM roomAssign ar JOIN rooms r ON r.roomId=ar.roomId WHERE timeId='$filter'");
+           
+        
+            
+          
+                $values=[];
+          
+                while($row = $query->fetch_assoc())
+                {
+                        $value=[
+                            'assignId' => $row['assignId'],
+                            'roomId' => $row['roomId'],
+                            'timeId' => $row['timeId'],
+                            'isActive' => $row['isActive'],
+                            'status' => $row['status'],
+                            
+                            'userName' => $row['userName'],
+                            'userId' => $row['userId'],
+                            'clientId' => $row['clientId'],
+                            'comments' => $row['comments']
+                        ];
+                        
+                        array_push($values,$value);
+                        
+                }
+                $row=$query->fetch_assoc();
+                //echo json_encode($students) ;
+                echo json_encode(['assignRoom'=>$values]);
+          
+               
+           
+
+        } else {
+            echo 'Error: Autenticación fallida';
+             //echo json_encode($response1);
+        }
+    } else {
+        echo 'Error: Encabezados faltantes';
+    }
+});
+
+
 
 Flight::route('GET /getClientElements/@filter/@param/@rid', function ($filter,$param,$rid) {
     header("Access-Control-Allow-Origin: *");
@@ -1573,6 +1668,9 @@ Flight::route('GET /getClientElements/@filter/@param/@rid', function ($filter,$p
           if($param=="free"){
             $query= mysqli_query($conectar,"SELECT elementId,elementName,caracts,comments,isActive,status,brand,type,clientId,isApply,imgElements,amount FROM clientElements WHERE clientId='$filter' and isActive=1 and isApply=0 OR clientId='$filter' and roomId='$rid' and isApply=1 and isActive=1");
       }
+      if($param=="hold"){
+        $query= mysqli_query($conectar,"SELECT e.elementId,e.elementName,e.caracts,e.comments,e.isActive,e.status,e.brand,e.type,e.clientId,e.isApply,e.imgElements,e.amount FROM clientElements e JOIN elementsAssing ea ON e.elementId=ea.elementId WHERE ea.clientId='$filter' and ea.assignId='$rid'");
+  }
                 $values=[];
           
                 while($row = $query->fetch_assoc())
