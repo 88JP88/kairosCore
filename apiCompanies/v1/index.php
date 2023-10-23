@@ -834,6 +834,31 @@ Flight::route('POST /postAssignRoom/@apk/@xapk/', function ($apk,$xapk) {
 
                 
                 $query= mysqli_query($conectar,"INSERT INTO roomAssign (assignId,roomId,timeId,clientId,userId,userName) VALUES ('$assignId','$roomId','$timeId','$clientId','$userid','$username')");
+               
+               
+
+                // Divide la cadena en un array utilizando '|'
+                $elementos = explode("|", $assignments);
+                
+                // Itera sobre los elementos del array
+                foreach ($elementos as $elemento) {
+                    // Ejecuta tu código para cada elemento
+                    $myuuid1 = $gen_uuid->guidv4();
+                    $elId = substr($myuuid1, 0, 8);
+                    $query3= mysqli_query($conectar,"INSERT INTO elementAssign (assignElement,elementId,assignId,clientId,userId,roomId,timeId) VALUES ('$elId','$elemento','$assignId','$clientId','$userid','$roomId','$timeId')");
+           
+
+
+                    // Puedes hacer lo que necesites con $elemento en esta iteración
+                }
+           
+           
+           
+           
+           
+           
+           
+           
                 echo "true|¡Room asignado con exito!";
             }
 
@@ -862,6 +887,7 @@ Flight::route('POST /postAssignRoom/@apk/@xapk/', function ($apk,$xapk) {
 
                 
                 $query= mysqli_query($conectar,"DELETE FROM roomAssign where assignId='$clientId'");
+                $query= mysqli_query($conectar,"DELETE FROM elementAssign where assignId='$clientId' and timeId='$timeId' and userId IN (SELECT userId from roomAssign where assignId='$clientId')");
                 echo "true|¡Room desasignado con exito!";
            
            }   
@@ -870,6 +896,8 @@ Flight::route('POST /postAssignRoom/@apk/@xapk/', function ($apk,$xapk) {
 
             $query2= mysqli_query($conectar,"UPDATE calendarTime SET status=1 WHERE timeId='$timeId'");
             $query= mysqli_query($conectar,"DELETE FROM roomAssign where assignId='$clientId'");
+            $query= mysqli_query($conectar,"DELETE FROM elementAssign where assignId='$clientId' and timeId='$timeId' and userId IN (SELECT userId from roomAssign where assignId='$clientId')");
+             
             echo "true|¡Room desasignado con exito!";
        
        }
