@@ -886,8 +886,9 @@ Flight::route('POST /postAssignRoom/@apk/@xapk/', function ($apk,$xapk) {
             if($status1==1){
 
                 
-                $query= mysqli_query($conectar,"DELETE FROM roomAssign where assignId='$clientId'");
                 $query= mysqli_query($conectar,"DELETE FROM elementAssign where assignId='$clientId' and timeId='$timeId' and userId IN (SELECT userId from roomAssign where assignId='$clientId')");
+               
+                $query= mysqli_query($conectar,"DELETE FROM roomAssign where assignId='$clientId'");
                 echo "true|¡Room desasignado con exito!";
            
            }   
@@ -895,9 +896,9 @@ Flight::route('POST /postAssignRoom/@apk/@xapk/', function ($apk,$xapk) {
            if($status1==0){
 
             $query2= mysqli_query($conectar,"UPDATE calendarTime SET status=1 WHERE timeId='$timeId'");
-            $query= mysqli_query($conectar,"DELETE FROM roomAssign where assignId='$clientId'");
             $query= mysqli_query($conectar,"DELETE FROM elementAssign where assignId='$clientId' and timeId='$timeId' and userId IN (SELECT userId from roomAssign where assignId='$clientId')");
              
+            $query= mysqli_query($conectar,"DELETE FROM roomAssign where assignId='$clientId'");
             echo "true|¡Room desasignado con exito!";
        
        }
