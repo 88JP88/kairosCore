@@ -933,7 +933,7 @@ Flight::route('POST /postAssignRoom/@apk/@xapk/', function ($apk,$xapk) {
         // Ejecuta tu código para cada elemento
         $myuuid1 = $gen_uuid->guidv4();
                     $elId = substr($myuuid1, 0, 8);
-                    $query3= mysqli_query($conectar,"INSERT INTO elementAssign (assignElement,elementId,assignId,clientId,userId,roomId,timeId) VALUES ('$elId','$elemento','$assignId','$clientId','$userid','$roomId','$timeId')");
+                    $query3= mysqli_query($conectar,"INSERT INTO elementAssign (assignElement,elementId,assignId,clientId,userId,roomId,timeId) VALUES ('$elId','$elemento','$username','$clientId','$userid','$roomId','$timeId')");
            
 
         // Puedes hacer lo que necesites con $elemento en esta iteración
