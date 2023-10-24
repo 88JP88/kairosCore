@@ -923,7 +923,7 @@ Flight::route('POST /postAssignRoom/@apk/@xapk/', function ($apk,$xapk) {
             echo "true|¡Elemento desasignado con exito!";
      
    }
-   
+
    if($param=="asigelement"){
 
     $elementos = explode("|", $assignments);
@@ -940,7 +940,7 @@ Flight::route('POST /postAssignRoom/@apk/@xapk/', function ($apk,$xapk) {
     }
       
 
-        echo "true|¡Elemento desasignado con exito!";
+        echo "true|¡Elemento asignado con exito!";
 }
 
  
