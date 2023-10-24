@@ -1718,6 +1718,9 @@ Flight::route('GET /getClientElements/@filter/@param/@rid/@ids/@ids1', function 
 if($param=="usedbyclient"){
     $query= mysqli_query($conectar,"SELECT elementId,elementName,caracts,comments,isActive,status,brand,type,clientId,isApply,imgElements,amount FROM clientElements WHERE clientId='$filter' and roomId='$rid'");
 }
+if($param=="notusedbyclient"){
+    $query= mysqli_query($conectar,"SELECT elementId,elementName,caracts,comments,isActive,status,brand,type,clientId,isApply,imgElements,amount FROM clientElements WHERE clientId='$filter' and roomId='' OR clientId='$filter' and roomId='NULL' OR clientId='$filter' and roomId='null'");
+}
                 $values=[];
           
                 while($row = $query->fetch_assoc())
