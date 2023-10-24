@@ -1715,6 +1715,9 @@ Flight::route('GET /getClientElements/@filter/@param/@rid/@ids/@ids1', function 
   if($param=="assign"){
     $query= mysqli_query($conectar,"SELECT elementId,elementName,caracts,comments,isActive,status,brand,type,clientId,isApply,imgElements,amount FROM clientElements where clientId='$filter' and isActive=1 and isApply=0 and elementId NOT IN (SELECT elementId from elementAssign where userId='$ids' and assignId='$ids1') OR clientId='$filter' and roomId='$rid' and isApply=1 and isActive=1 and elementId NOT IN (SELECT elementId from elementAssign where userId='$ids' and assignId='$ids1')");
 }
+if($param=="usedbyclient"){
+    $query= mysqli_query($conectar,"SELECT elementId,elementName,caracts,comments,isActive,status,brand,type,clientId,isApply,imgElements,amount FROM clientElements WHERE clientId='$filter' and roomId='$rid'");
+}
                 $values=[];
           
                 while($row = $query->fetch_assoc())
