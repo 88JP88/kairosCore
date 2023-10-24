@@ -1704,22 +1704,22 @@ Flight::route('GET /getClientElements/@filter/@param/@rid/@ids/@ids1', function 
             $conectar=conn();
       
           if($param=="all"){
-                $query= mysqli_query($conectar,"SELECT elementId,elementName,caracts,comments,isActive,status,brand,type,clientId,isApply,imgElements,amount FROM clientElements WHERE clientId='$filter'");
+                $query= mysqli_query($conectar,"SELECT elementId,elementName,caracts,comments,isActive,status,brand,type,clientId,isApply,imgElements,amount,roomId FROM clientElements WHERE clientId='$filter'");
           }
           if($param=="free"){
-            $query= mysqli_query($conectar,"SELECT elementId,elementName,caracts,comments,isActive,status,brand,type,clientId,isApply,imgElements,amount FROM clientElements WHERE clientId='$filter' and isActive=1 and isApply=0 OR clientId='$filter' and roomId='$rid' and isApply=1 and isActive=1");
+            $query= mysqli_query($conectar,"SELECT elementId,elementName,caracts,comments,isActive,status,brand,type,clientId,isApply,imgElements,amount,roomId FROM clientElements WHERE clientId='$filter' and isActive=1 and isApply=0 OR clientId='$filter' and roomId='$rid' and isApply=1 and isActive=1");
       }
       if($param=="hold"){
-        $query= mysqli_query($conectar,"SELECT e.elementId,e.elementName,e.caracts,e.comments,e.isActive,e.status,e.brand,e.type,e.clientId,e.isApply,e.imgElements,e.amount FROM clientElements e JOIN elementAssign ea ON e.elementId=ea.elementId WHERE ea.clientId='$filter' and ea.assignId='$rid'");
+        $query= mysqli_query($conectar,"SELECT e.elementId,e.elementName,e.caracts,e.comments,e.isActive,e.status,e.brand,e.type,e.clientId,e.isApply,e.imgElements,e.amount,e.roomId FROM clientElements e JOIN elementAssign ea ON e.elementId=ea.elementId WHERE ea.clientId='$filter' and ea.assignId='$rid'");
   }
   if($param=="assign"){
-    $query= mysqli_query($conectar,"SELECT elementId,elementName,caracts,comments,isActive,status,brand,type,clientId,isApply,imgElements,amount FROM clientElements where clientId='$filter' and isActive=1 and isApply=0 and elementId NOT IN (SELECT elementId from elementAssign where userId='$ids' and assignId='$ids1') OR clientId='$filter' and roomId='$rid' and isApply=1 and isActive=1 and elementId NOT IN (SELECT elementId from elementAssign where userId='$ids' and assignId='$ids1')");
+    $query= mysqli_query($conectar,"SELECT elementId,elementName,caracts,comments,isActive,status,brand,type,clientId,isApply,imgElements,amount,roomId FROM clientElements where clientId='$filter' and isActive=1 and isApply=0 and elementId NOT IN (SELECT elementId from elementAssign where userId='$ids' and assignId='$ids1') OR clientId='$filter' and roomId='$rid' and isApply=1 and isActive=1 and elementId NOT IN (SELECT elementId from elementAssign where userId='$ids' and assignId='$ids1')");
 }
 if($param=="usedbyclient"){
     $query= mysqli_query($conectar,"SELECT elementId,elementName,caracts,comments,isActive,status,brand,type,clientId,isApply,imgElements,amount FROM clientElements WHERE clientId='$filter' and roomId='$rid'");
 }
 if($param=="notusedbyclient"){
-    $query= mysqli_query($conectar,"SELECT elementId,elementName,caracts,comments,isActive,status,brand,type,clientId,isApply,imgElements,amount FROM clientElements WHERE clientId='$filter' and roomId='' OR clientId='$filter' and roomId='NULL' OR clientId='$filter' and roomId='null'");
+    $query= mysqli_query($conectar,"SELECT elementId,elementName,caracts,comments,isActive,status,brand,type,clientId,isApply,imgElements,amount,roomId FROM clientElements WHERE clientId='$filter' and roomId='' OR clientId='$filter' and roomId='NULL' OR clientId='$filter' and roomId='null'");
 }
                 $values=[];
           
@@ -1737,7 +1737,8 @@ if($param=="notusedbyclient"){
                             'clientId' => $row['clientId'],
                             'isApply' => $row['isApply'],
                             'imgElements' => $row['imgElements'],
-                             'amount' => $row['amount']
+                             'amount' => $row['amount'],
+                              'roomId' => $row['roomId']
                         ];
                         
                         array_push($values,$value);
