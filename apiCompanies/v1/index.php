@@ -904,6 +904,47 @@ Flight::route('POST /postAssignRoom/@apk/@xapk/', function ($apk,$xapk) {
        }
      
     }
+
+
+    if($param=="revelement"){
+
+        $elementos = explode("|", $assignments);
+                
+        // Itera sobre los elementos del array
+        foreach ($elementos as $elemento) {
+            // Ejecuta tu código para cada elemento
+            $query= mysqli_query($conectar,"DELETE FROM elementAssign where assignId='$clientId' and timeId='$timeId' and elementId='$elemento'");
+           
+
+            // Puedes hacer lo que necesites con $elemento en esta iteración
+        }
+          
+
+            echo "true|¡Elemento desasignado con exito!";
+     
+   }
+   
+   if($param=="asigelement"){
+
+    $elementos = explode("|", $assignments);
+            
+    // Itera sobre los elementos del array
+    foreach ($elementos as $elemento) {
+        // Ejecuta tu código para cada elemento
+        $myuuid1 = $gen_uuid->guidv4();
+                    $elId = substr($myuuid1, 0, 8);
+                    $query3= mysqli_query($conectar,"INSERT INTO elementAssign (assignElement,elementId,assignId,clientId,userId,roomId,timeId) VALUES ('$elId','$elemento','$assignId','$clientId','$userid','$roomId','$timeId')");
+           
+
+        // Puedes hacer lo que necesites con $elemento en esta iteración
+    }
+      
+
+        echo "true|¡Elemento desasignado con exito!";
+}
+
+ 
+
            
      
 
