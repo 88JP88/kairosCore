@@ -1610,7 +1610,7 @@ Flight::route('GET /getElementsAssign/@filter/', function ($filter) {
 
 
 
-Flight::route('GET /getClientElements/@filter/@param/@rid', function ($filter,$param,$rid) {
+Flight::route('GET /getClientElements/@filter/@param/@rid/@ids/@ids1', function ($filter,$param,$rid,$ids,$ids1) {
     header("Access-Control-Allow-Origin: *");
     // Leer los encabezados
     $headers = getallheaders();
@@ -1671,6 +1671,9 @@ Flight::route('GET /getClientElements/@filter/@param/@rid', function ($filter,$p
       if($param=="hold"){
         $query= mysqli_query($conectar,"SELECT e.elementId,e.elementName,e.caracts,e.comments,e.isActive,e.status,e.brand,e.type,e.clientId,e.isApply,e.imgElements,e.amount FROM clientElements e JOIN elementAssign ea ON e.elementId=ea.elementId WHERE ea.clientId='$filter' and ea.assignId='$rid'");
   }
+  if($param=="assign"){
+    $query= mysqli_query($conectar,"SELECT elementId,elementName,caracts,comments,isActive,status,brand,type,clientId,isApply,imgElements,amount FROM clientElements where clientId='$filter' and isActive=1 and isApply=0 and elementId NOT IN (SELECT elementId from elementAssign where userId='$ids' and assignId='$ids1') OR clientId='$filter' and roomId='$rid' and isApply=1 and isActive=1 and elementId NOT IN (SELECT elementId from elementAssign where userId='$ids' and assignId='$ids1')");
+}
                 $values=[];
           
                 while($row = $query->fetch_assoc())
