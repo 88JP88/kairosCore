@@ -950,8 +950,6 @@ if($param=="asigelementroom"){
     // Itera sobre los elementos del array
     foreach ($elementos as $elemento) {
         // Ejecuta tu código para cada elemento
-        $myuuid1 = $gen_uuid->guidv4();
-                    $elId = substr($myuuid1, 0, 8);
                     $query3= mysqli_query($conectar,"UPDATE clientElements SET roomId='$roomId',isApply=1 where elementId='$elemento'");
            
 
@@ -970,9 +968,7 @@ if($param=="asigelementroomdes"){
     // Itera sobre los elementos del array
     foreach ($elementos as $elemento) {
         // Ejecuta tu código para cada elemento
-        $myuuid1 = $gen_uuid->guidv4();
-                    $elId = substr($myuuid1, 0, 8);
-                    $query3= mysqli_query($conectar,"UPDATE clientElements SET roomId='null',isApply=0 where elementId='$elemento'");
+                    $query3= mysqli_query($conectar,"UPDATE clientElements SET roomId='',isApply=0 where elementId='$elemento'");
            
 
         // Puedes hacer lo que necesites con $elemento en esta iteración
