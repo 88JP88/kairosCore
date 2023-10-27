@@ -798,6 +798,7 @@ Flight::route('POST /putExtClient/@apk/@xapk', function ($apk,$xapk) {
             $clientId= Flight::request()->data->clientId;
             $filter= Flight::request()->data->filter;
             $value= Flight::request()->data->value;
+            $param= Flight::request()->data->param;
 
 
             require_once '../../apiCore/v1/model/modelSecurity/uuid/uuidd.php';
@@ -814,7 +815,7 @@ Flight::route('POST /putExtClient/@apk/@xapk', function ($apk,$xapk) {
             $query= mysqli_query($conectar,"DELETE FROM clients WHERE clientId='$clientId'");
             echo "true|¡Cliente removido con exito!";
            }
-           else if($value=="delAll"){
+           if($value=="delAll"){
             $query= mysqli_query($conectar,"DELETE FROM owners WHERE ownerId IN (SELECT ownerId FROM clients WHERE clientId = '$clientId')");
             $query= mysqli_query($conectar,"DELETE FROM userSecrets WHERE userId IN (SELECT userId FROM generalUsers WHERE clientId = '$clientId')");
             $query= mysqli_query($conectar,"DELETE FROM sessionLog WHERE userId IN (SELECT userId FROM generalUsers WHERE clientId = '$clientId')");
@@ -861,11 +862,17 @@ Flight::route('POST /putExtClient/@apk/@xapk', function ($apk,$xapk) {
 
             echo "true|¡Cliente removido con toda su información con exito! -> ".$response2;
            }
-           else if($value!="del" && $value!="delAll"){
-            $query= mysqli_query($conectar,"UPDATE clients SET $filter='$value' WHERE clientId='$clientId'");
+           if($value=="client"){
+            $query= mysqli_query($conectar,"UPDATE clients SET $filter='$param' WHERE clientId='$clientId'");
  
 
             echo "true|¡Cliente actualizado con exito!";
+           }
+           if($value=="style"){
+            $query= mysqli_query($conectar,"UPDATE clientStyle SET $filter='$param' WHERE clientId='$clientId'");
+ 
+
+            echo "true|¡Estilo de cliente actualizado con exito!";
            }
 
     
