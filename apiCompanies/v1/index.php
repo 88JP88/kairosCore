@@ -1093,7 +1093,7 @@ Flight::route('POST /postClientElement/@apk/@xapk', function ($apk,$xapk) {
 });
 
 
-Flight::route('GET /getCalendarDays/@filter', function ($filter) {
+Flight::route('GET /getCalendarDays/@filter/@param', function ($filter,$param) {
     header("Access-Control-Allow-Origin: *");
     // Leer los encabezados
     $headers = getallheaders();
@@ -1144,12 +1144,12 @@ Flight::route('GET /getCalendarDays/@filter', function ($filter) {
 
            
             $conectar=conn();
-            if($filter=="all"){
-                $query= mysqli_query($conectar,"SELECT calendarId,clientId,isActive,status,month,monthDays FROM calendarDays");
+            if($param=="admin"){
+                $query= mysqli_query($conectar,"SELECT calendarId,clientId,isActive,status,month,monthDays FROM calendarDays WHERE clientId='$filter' and status = 1 and isActive=1");
            
             }
           
-            if($filter!="all"){
+            if($param=="all"){
 
               
                 $query= mysqli_query($conectar,"SELECT calendarId,clientId,isActive,status,month,monthDays FROM calendarDays WHERE clientId='$filter'");
