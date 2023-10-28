@@ -1197,7 +1197,7 @@ Flight::route('GET /getCalendarDays/@filter/@param', function ($filter,$param) {
 
 
 
-Flight::route('GET /getCalendarDaysAssign/@filter', function ($filter) {
+Flight::route('GET /getCalendarDaysAssign/@filter/@param', function ($filter,$param) {
     header("Access-Control-Allow-Origin: *");
     // Leer los encabezados
     $headers = getallheaders();
@@ -1249,11 +1249,14 @@ Flight::route('GET /getCalendarDaysAssign/@filter', function ($filter) {
            
             $conectar=conn();
             
-          
+          if($param=="all"){
            
                 $query= mysqli_query($conectar,"SELECT calendarId,calendarDay,calendarNumber,clientId,status,isActive,calendarTime,registId FROM calendarDaysAssign where calendarId='$filter' and calendarNumber>0");
-          
-          
+          }
+          if($param=="admin"){
+           
+            $query= mysqli_query($conectar,"SELECT calendarId,calendarDay,calendarNumber,clientId,status,isActive,calendarTime,registId FROM calendarDaysAssign where calendarId='$filter' and calendarNumber>0 and isActive=1 and status=1");
+      }
                 $values=[];
           
                 while($row = $query->fetch_assoc())
