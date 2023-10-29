@@ -1300,7 +1300,7 @@ Flight::route('GET /getCalendarDaysAssign/@filter/@param', function ($filter,$pa
 
 
 
-Flight::route('GET /getCalendarTime/@filter', function ($filter) {
+Flight::route('GET /getCalendarTime/@filter/@param', function ($filter,$param) {
     header("Access-Control-Allow-Origin: *");
     // Leer los encabezados
     $headers = getallheaders();
@@ -1352,11 +1352,19 @@ Flight::route('GET /getCalendarTime/@filter', function ($filter) {
            
             $conectar=conn();
             
+          if($param=="all"){
+
           
            
                 $query= mysqli_query($conectar,"SELECT registId,calendarTime,clientId,status,isActive,notApply,userApply,timeId FROM calendarTime where registId='$filter'");
+        }
+         
+        if($param=="admin"){
+
           
-          
+           
+            $query= mysqli_query($conectar,"SELECT registId,calendarTime,clientId,status,isActive,notApply,userApply,timeId FROM calendarTime where registId='$filter' and status= 1 and isActive=1");
+    }
                 $values=[];
           
                 while($row = $query->fetch_assoc())
