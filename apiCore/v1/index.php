@@ -2888,7 +2888,7 @@ Flight::route('POST /validateLogIn/@headerslink', function ($headerslink) {
             $ipId= Flight::request()->data->ipId;
            
     
-                $query1= mysqli_query($conectar,"SELECT u.userName,u.name,u.lastName,u.status,u.isActive,u.contact,u.email,u.userId,u.rolId,u.sessionCounter,t.userRanCode,tk.apiKey,s.subDays,s.bonusDays,s.subId,s.endSub,s.startSub,u.clientId FROM generalUsers u JOIN userSecrets t ON t.userId=u.userId JOIN clientSecrets tk ON tk.clientId=u.clientId JOIN subList s ON s.clientId=tk.clientId where u.email='$mail'");
+                $query1= mysqli_query($conectar,"SELECT u.userName,u.name,u.lastName,u.status,u.isActive,u.contact,u.email,u.userId,u.rolId,u.sessionCounter,t.userRanCode,tk.apiKey,s.subDays,s.bonusDays,s.subId,s.endSub,s.startSub,u.clientId,gc.clientName FROM generalUsers u JOIN userSecrets t ON t.userId=u.userId JOIN clientSecrets tk ON tk.clientId=u.clientId JOIN subList s ON s.clientId=tk.clientId JOIN clients gc ON gc.clientId=u.clientId where u.email='$mail'");
                
                
 
@@ -2917,6 +2917,7 @@ Flight::route('POST /validateLogIn/@headerslink', function ($headerslink) {
                        $endSub= $row['endSub'];
                        $startSub= $row['startSub'];
                        $clientId= $row['clientId'];
+                       $clientName= $row['clientName'];
 
 
                        if($countersession<0){
@@ -2972,11 +2973,13 @@ Flight::route('POST /validateLogIn/@headerslink', function ($headerslink) {
                                 'isActive' => $isActive,
                                 'status' => $status,
                                 'contact' => $contact,
+                                'clientId' => $clientId,
                                 
                                 'subDays' => $subDays,
                                 'subId' => $subId,
+                                'clientName' => $clientName,
                                 'sessionId' => $sessionId,
-                                'clientKey' => $clientKey,
+                                'key' => $clientKey,
                                 'ranCode' => $ranCode,
                                 'response' => "true",
                                         'message' => "¡Bienvenid@ ".$name." ".$lastName
@@ -3001,7 +3004,7 @@ Flight::route('POST /validateLogIn/@headerslink', function ($headerslink) {
                                 'isActive' => '',
                                 'status' => '',
                                 'contact' => '',
-                                
+                                'clientName' => '',
                                 'subDays' => '',
                                 'subId' => '',
                                 'sessionId' => '',
