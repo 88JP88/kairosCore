@@ -3004,7 +3004,7 @@ Flight::route('POST /validateLogIn/@headerslink', function ($headerslink) {
                                 'isActive' => '',
                                 'status' => '',
                                 'contact' => '',
-                                'clientName' => '',
+                                'clientName' => $clientName,
                                 'subDays' => '',
                                 'subId' => '',
                                 'sessionId' => '',
