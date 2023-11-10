@@ -2888,7 +2888,7 @@ Flight::route('POST /validateLogIn/@headerslink', function ($headerslink) {
             $ipId= Flight::request()->data->ipId;
            
     
-                $query1= mysqli_query($conectar,"SELECT u.userName,u.name,u.lastName,u.status,u.isActive,u.contact,u.email,u.userId,u.rolId,u.sessionCounter,t.userRanCode,tk.apiKey,s.subDays,s.bonusDays,s.subId,s.endSub,s.startSub,u.clientId,gc.clientName FROM generalUsers u JOIN userSecrets t ON t.userId=u.userId JOIN clientSecrets tk ON tk.clientId=u.clientId JOIN subList s ON s.clientId=tk.clientId JOIN clients gc ON gc.clientId=u.clientId where u.email='$mail'");
+                $query1= mysqli_query($conectar,"SELECT u.userName,u.name,u.lastName,u.status,u.isActive,u.contact,u.email,u.userId,u.rolId,u.sessionCounter,t.userRanCode,tk.apiKey,s.subDays,s.bonusDays,s.subId,s.endSub,s.startSub,u.clientId,gc.clientName,cs.bgColor,cs.textColor,cs.imgLogo,cs.imgIcon,cs.imgGif,cs.styleId FROM generalUsers u JOIN userSecrets t ON t.userId=u.userId JOIN clientSecrets tk ON tk.clientId=u.clientId JOIN subList s ON s.clientId=tk.clientId JOIN clients gc ON gc.clientId=u.clientId JOIN clientStyle cs ON cs.clientId=u.clientId where u.email='$mail'");
                
                
 
@@ -2918,6 +2918,12 @@ Flight::route('POST /validateLogIn/@headerslink', function ($headerslink) {
                        $startSub= $row['startSub'];
                        $clientId= $row['clientId'];
                        $clientName= $row['clientName'];
+                       $txtColor= $row['textColor'];
+                       $bgColor= $row['bgColor'];
+                       $cIcon= $row['imgIcon'];
+                       $cLogo= $row['imgLogo'];
+                       $cGif= $row['imgGif'];
+                       $styleId= $row['styleId'];
 
 
                        if($countersession<0){
@@ -2974,6 +2980,12 @@ Flight::route('POST /validateLogIn/@headerslink', function ($headerslink) {
                                 'status' => $status,
                                 'contact' => $contact,
                                 'clientId' => $clientId,
+                                'imgLogo' => $cLogo,
+                                'imgIcon' => $cIcon,
+                                'imgGif' => $cGif,
+                                'textColor' => $txtColor,
+                                'bgColor' => $bgColor,
+                                'styleId' => $styleId,
                                 
                                 'subDays' => $subDays,
                                 'subId' => $subId,
@@ -3009,6 +3021,13 @@ Flight::route('POST /validateLogIn/@headerslink', function ($headerslink) {
                                 'subId' => '',
                                 'sessionId' => '',
                                 'clientKey' => $clientKey,
+                                
+                                'imgLogo' => $cLogo,
+                                'imgIcon' => $cIcon,
+                                'imgGif' => $cGif,
+                                'textColor' => $txtColor,
+                                'bgColor' => $bgColor,
+                                'styleId' => $styleId,
                                 'ranCode' => '',
                                 'isPublic' => '',
                                 'response' => 'false',
