@@ -1257,7 +1257,7 @@ Flight::route('GET /getInternalUsersClient/@filter/@cid', function ($filter,$cid
           }
           if($filter=="lock"){
             $query= mysqli_query($conectar,"SELECT u.userId,u.name,u.lastName,u.email,u.userName,u.isActive,u.status,u.rolId,u.contact,u.sessionCounter,u.clientId FROM generalUsers u WHERE u.status=0 and u.clientId=$cid");
-          
+          echo "hola";
           }
           
                 $values=[];
@@ -1405,6 +1405,9 @@ Flight::route('GET /getInternalUsers/@filter', function ($filter) {
         echo 'Error: Encabezados faltantes';
     }
 });
+
+
+
 
 
 Flight::route('GET /getGeneralUsers/@filter/@user', function ($filter,$user) {
