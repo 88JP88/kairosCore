@@ -1279,7 +1279,7 @@ Flight::route('GET /getInternalUsersClient/@filter/@cid', function ($filter,$cid
             echo json_encode(['users'=>$values]);
           }
           if($filter=="lock"){
-            $query= mysqli_query($conectar,"SELECT u.userId,u.name,u.lastName,u.email,u.userName,u.isActive,u.status,u.rolId,u.contact,u.sessionCounter,u.clientId FROM generalUsers u WHERE u.status=0 and u.clientId=$cid");
+            $query= mysqli_query($conectar,"SELECT u.userId,u.name,u.lastName,u.email,u.userName,u.isActive,u.status,u.rolId,u.contact,u.sessionCounter,u.clientId FROM generalUsers u WHERE u.status=0 and u.clientId='$cid'");
             $values=[];
           
             while($row = $query->fetch_assoc())
