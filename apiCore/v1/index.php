@@ -1253,37 +1253,62 @@ Flight::route('GET /getInternalUsersClient/@filter/@cid', function ($filter,$cid
             
           if($filter=="unlock"){
             $query= mysqli_query($conectar,"SELECT u.userId,u.name,u.lastName,u.email,u.userName,u.isActive,u.status,u.rolId,u.contact,u.sessionCounter,u.clientId FROM generalUsers u WHERE u.status=1 and u.clientId=$cid");
+            $values=[];
           
+            while($row = $query->fetch_assoc())
+            {
+                    $value=[
+                        'userId' => $row['userId'],
+                        'name' => $row['name'],
+                        'lastName' => $row['lastName'],
+                        'email' => $row['email'],
+                        'userName' => $row['userName'],
+                        'isActive' => $row['isActive'],
+                        'status' => $row['status'],
+                        'rolId' => $row['rolId'],
+                        'contact' => $row['contact'],
+                        'sessionCounter' => $row['sessionCounter'],
+                        'clientId' => $row['clientId']
+                    ];
+                    
+                    array_push($values,$value);
+                    
+            }
+            $row=$query->fetch_assoc();
+            //echo json_encode($students) ;
+            echo json_encode(['users'=>$values]);
           }
           if($filter=="lock"){
             $query= mysqli_query($conectar,"SELECT u.userId,u.name,u.lastName,u.email,u.userName,u.isActive,u.status,u.rolId,u.contact,u.sessionCounter,u.clientId FROM generalUsers u WHERE u.status=0 and u.clientId=$cid");
-          echo "hola";
+            $values=[];
+          
+            while($row = $query->fetch_assoc())
+            {
+                    $value=[
+                        'userId' => $row['userId'],
+                        'name' => $row['name'],
+                        'lastName' => $row['lastName'],
+                        'email' => $row['email'],
+                        'userName' => $row['userName'],
+                        'isActive' => $row['isActive'],
+                        'status' => $row['status'],
+                        'rolId' => $row['rolId'],
+                        'contact' => $row['contact'],
+                        'sessionCounter' => $row['sessionCounter'],
+                        'clientId' => $row['clientId']
+                    ];
+                    
+                    array_push($values,$value);
+                    
+            }
+            $row=$query->fetch_assoc();
+            //echo json_encode($students) ;
+            echo json_encode(['users'=>$values]);
+          
+            //echo "hola";
           }
           
-                $values=[];
-          
-                while($row = $query->fetch_assoc())
-                {
-                        $value=[
-                            'userId' => $row['userId'],
-                            'name' => $row['name'],
-                            'lastName' => $row['lastName'],
-                            'email' => $row['email'],
-                            'userName' => $row['userName'],
-                            'isActive' => $row['isActive'],
-                            'status' => $row['status'],
-                            'rolId' => $row['rolId'],
-                            'contact' => $row['contact'],
-                            'sessionCounter' => $row['sessionCounter'],
-                            'clientId' => $row['clientId']
-                        ];
-                        
-                        array_push($values,$value);
-                        
-                }
-                //$row=$query->fetch_assoc();
-                //echo json_encode($students) ;
-              //  echo json_encode(['users'=>$values]);
+               
           
                
            
