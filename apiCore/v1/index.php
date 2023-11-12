@@ -1275,8 +1275,7 @@ Flight::route('GET /getInternalUsersClient/@filter/@cid', function ($filter,$cid
                             'rolId' => $row['rolId'],
                             'contact' => $row['contact'],
                             'sessionCounter' => $row['sessionCounter'],
-                            'clientId' => $row['clientId'],
-                            'clientName' => $row['clientName']
+                            'clientId' => $row['clientId']
                         ];
                         
                         array_push($values,$value);
