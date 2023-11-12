@@ -5517,7 +5517,7 @@ Flight::route('GET /getProfileInfoClient/@userName', function ($userName) {
             $conectar=conn();
             
           
-            $query= mysqli_query($conectar,"SELECT u.name,u.lastName,u.sessionCounter,c.bgColor,c.textColor,c.imgIcon,c.imgLogo,c.imgGif from generalUsers u JOIN clientStyle cs ON u.clientId=cs.clientId where u.userId='$userName'");
+            $query= mysqli_query($conectar,"SELECT u.name,u.lastName,u.sessionCounter,c.bgColor,c.textColor,c.imgIcon,c.imgLogo,c.imgGif from generalUsers u JOIN clientStyle c ON u.clientId=c.clientId where u.userId='$userName'");
                
           
                 $values=[];
