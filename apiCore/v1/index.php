@@ -1283,7 +1283,7 @@ Flight::route('GET /getInternalUsersClient/@filter/@cid', function ($filter,$cid
                 }
                 $row=$query->fetch_assoc();
                 //echo json_encode($students) ;
-                echo json_encode(['users'=>$values]);
+              //  echo json_encode(['users'=>$values]);
           
                
            
