@@ -5439,7 +5439,7 @@ Flight::route('GET /getProfileInfoClient/@userName', function ($userName) {
 
 
         } else {
-            echo 'Error: Autenticación fallida';
+            echo 'Error: Autenticación fallida 23';
              //echo json_encode($response1);
         }
     } else {
