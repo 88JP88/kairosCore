@@ -223,7 +223,7 @@ Flight::route('POST /authApiKeyLog', function () {
     
     );
    $tkn= Flight::request()->data->xApiKey;
-    if(strlen($tkn) > 24){
+    if(strlen($tkn) > 19){
       
        
             
