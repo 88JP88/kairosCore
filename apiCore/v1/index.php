@@ -4153,6 +4153,192 @@ Flight::route('POST /validateLogOutInternal/@headerslink', function ($headerslin
 
 
 
+
+
+
+
+Flight::route('POST /validateLogOutClient/@headerslink', function ($headerslink) {
+    header("Access-Control-Allow-Origin: *");
+    header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
+    header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept");
+    
+    // Verificar si los encabezados 'Api-Key' y 'Secret-Key' existen
+    if (!empty($headerslink)) {
+    
+       
+        
+        $sub_domaincon=new model_domain();
+        $sub_domain=$sub_domaincon->dom();
+        $url = $sub_domain.'/kairosCore/apiAuth/v1/authApiKeyLog/';
+      
+        $data = array(
+          'xApiKey' => $headerslink
+          
+          );
+      $curl = curl_init();
+      $dta1=json_encode($data);
+      // Configurar las opciones de la sesión cURL
+      curl_setopt($curl, CURLOPT_URL, $url);
+      curl_setopt($curl, CURLOPT_POST, true);
+      curl_setopt($curl, CURLOPT_POSTFIELDS, $dta1);
+      curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+      curl_setopt($curl, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
+      
+      // Ejecutar la solicitud y obtener la respuesta
+      $response1 = curl_exec($curl);
+
+      
+
+
+      curl_close($curl);
+
+
+        // Realizar acciones basadas en los valores de los encabezados
+
+
+        if ($response1 != 'false' ) {
+            $conectar=conn();
+           // require_once '../../apiUsers/v1/model/modelSecurity/crypt/cryptic.php';
+
+            
+            $userId= Flight::request()->data->userId;
+  
+            $sessionId= Flight::request()->data->sessionId;
+            $value= Flight::request()->data->value;
+           if($value=="force"){
+
+            $query2= mysqli_query($conectar,"DELETE FROM sessionLog where userId='$userId' and sessionId='$sessionId' and isActive=0");
+                      
+
+           }
+           if($value=="forceSession"){
+
+
+
+
+            $query1= mysqli_query($conectar,"SELECT userName,name,lastName,status,isActive,contact,email,userId,rolId,sessionCounter FROM generalUsers where userId='$userId'");
+               
+               
+
+
+            if ($query1) {
+                while ($row = $query1->fetch_assoc()) {
+                    
+
+                   $countersession= $row['sessionCounter'];
+                   $userId= $row['userId'];
+              
+                   if($countersession<0){
+                    $countersession=0;
+                   }
+
+                   $counterLoged=$countersession -1;
+                    if($counterLoged<=2 && $counterLoged>=0){
+
+
+
+                        
+                        $query2= mysqli_query($conectar,"UPDATE generalUsers SET sessionCounter='$counterLoged' where userId='$userId'");
+                        $query2= mysqli_query($conectar,"UPDATE sessionLog SET isActive=0 where userId='$userId' and sessionId='$sessionId'");
+       //                 $query2= mysqli_query($conectar,"DELETE FROM sessionLog where profileId='$profileId' and sessionId='$sessionId' and isActive=1");
+       
+                  
+                  
+                       echo "true|¡Sesión finalizada con exito!";
+                  
+                  
+                  
+                    } else{
+                        echo "false|Error no se pudo finalizar sesión!";
+                    }
+
+                  // $userName2= $row['sessionCounter'];
+                  
+                
+
+          
+                }
+            } else {
+                // Manejar el error de la consulta
+                echo "false*¡Error en la consulta! " . mysqli_error($conectar);
+            }
+
+
+
+           
+
+           }
+    if($value=="logOut"){
+                $query1= mysqli_query($conectar,"SELECT userName,name,lastName,status,isActive,contact,email,userId,rolId,sessionCounter FROM generalUsers where userId='$userId'");
+               
+               
+
+
+                if ($query1) {
+                    while ($row = $query1->fetch_assoc()) {
+                        
+
+                       $countersession= $row['sessionCounter'];
+                       $userId= $row['userId'];
+                  
+                       if($countersession<0){
+                        $countersession=0;
+                       }
+
+                       $counterLoged=$countersession -1;
+                        if($counterLoged<=2 && $counterLoged>=0){
+
+
+
+                            
+                            $query2= mysqli_query($conectar,"UPDATE generalUsers SET sessionCounter='$counterLoged' where userId='$userId'");
+                           // $query2= mysqli_query($conectar,"UPDATE sessionLog SET isActive=0 where profileId='$profileId' and sessionId='$sessionId'");
+                            $query2= mysqli_query($conectar,"DELETE FROM sessionLog where userId='$userId' and sessionId='$sessionId' and isActive=1");
+           
+                      
+                      
+                           echo "true|¡Sesión finalizada con exito!";
+                      
+                      
+                      
+                        } else{
+                            echo "false|Error no se pudo finalizar sesión!";
+                        }
+
+                      // $userName2= $row['sessionCounter'];
+                      
+                    
+
+              
+                    }
+                } else {
+                    // Manejar el error de la consulta
+                    echo "false*¡Error en la consulta! " . mysqli_error($conectar);
+                }
+          
+            }
+            
+}else {
+    
+    echo 'false|¡Autenticación fallida!';
+}
+
+
+
+
+           
+          
+           // echo json_encode($response1);
+        } else {
+            echo 'false*¡Encabezados faltantes!';
+            
+             //echo json_encode($response1);
+        }
+});
+
+
+
+
 Flight::route('POST /putUsersRolBySuperAdmin/@apk/@xapk', function ($apk,$xapk) {
   
     header("Access-Control-Allow-Origin: *");
@@ -5751,6 +5937,10 @@ Flight::route('GET /getMySessions/@headerslink/@userName', function ($headerslin
         echo 'Error: Encabezados faltantes';
     }
 });
+
+
+
+
 
 
 Flight::route('GET /getProfileInfoLogChange/@userName/', function ($userName) {
