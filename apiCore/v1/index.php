@@ -745,8 +745,10 @@ function generateApiTokenadmin() {
 
 
 Flight::route('POST /putExtClient/@apk/@xapk', function ($apk,$xapk) {
-  
+    header("Access-Control-Allow-Headers: Authorization, Content-Type");
     header("Access-Control-Allow-Origin: *");
+    header('content-type: application/json; charset=utf-8');
+    //header("Access-Control-Allow-Origin: *");
     // Verificar si los encabezados 'Api-Key' y 'Secret-Key' existen
     if (!empty($apk) && !empty($xapk)) {    
         // Leer los datos de la solicitud

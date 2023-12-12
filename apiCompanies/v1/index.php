@@ -1751,7 +1751,7 @@ Flight::route('GET /getClientElements/@filter/@param/@rid/@ids/@ids1', function 
                 $query= mysqli_query($conectar,"SELECT elementId,elementName,caracts,comments,isActive,status,brand,type,clientId,isApply,imgElements,amount,roomId FROM clientElements WHERE clientId='$filter'");
           }
           if($param=="free"){
-            $query= mysqli_query($conectar,"SELECT elementId,elementName,caracts,comments,isActive,status,brand,type,clientId,isApply,imgElements,amount,roomId FROM clientElements WHERE clientId='$filter' and roomId='$rid'");
+            $query= mysqli_query($conectar,"SELECT elementId,elementName,caracts,comments,isActive,status,brand,type,clientId,isApply,imgElements,amount,roomId FROM clientElements WHERE clientId='$filter' and isActive=1 and isApply=0 OR clientId='$filter' and roomId='$rid' and isApply=1 and isActive=1");
       }
       if($param=="hold"){
         $query= mysqli_query($conectar,"SELECT e.elementId,e.elementName,e.caracts,e.comments,e.isActive,e.status,e.brand,e.type,e.clientId,e.isApply,e.imgElements,e.amount,e.roomId FROM clientElements e JOIN elementAssign ea ON e.elementId=ea.elementId WHERE ea.clientId='$filter' and ea.assignId='$rid'");
