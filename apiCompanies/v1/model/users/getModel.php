@@ -70,7 +70,7 @@ class modelGet {
                                                 'status' => $status,
                                                 'sentData'=>$dta
                                             ],
-                                            'rooms' => $values
+                                            'clientRoom' => $values
                                         ];
                                         
                                         return json_encode($responseData);
@@ -92,7 +92,7 @@ class modelGet {
                                                 'status' => $status,
                                                 'sentData'=>$dta
                                             ],
-                                            'rooms' => $values
+                                            'clientRoom' => $values
                                         ];
                                         array_push($values,$value);
                                         
@@ -121,7 +121,7 @@ class modelGet {
                                                 'status' => $status,
                                                 'sentData'=>$dta
                                             ],
-                                            'rooms' => $values
+                                            'clientRoom' => $values
                                         ];
                                         array_push($values,$value);
                                         
