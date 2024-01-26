@@ -317,7 +317,7 @@ $parentId=$categoryId;
 class modelPut{
 
       
-            public static function putProduct($dta) {
+            public static function putRoom($dta) {
             
                 // Asegúrate de proporcionar la ruta correcta al archivo de conexión a la base de datos
             
@@ -332,42 +332,41 @@ class modelPut{
                 
         
                 // Escapa los valores para prevenir inyección SQL
-                $clientId = mysqli_real_escape_string($conectar, $dta['clientId']);
-                $param = mysqli_real_escape_string($conectar, $dta['param']);
+                $reason = mysqli_real_escape_string($conectar, $dta['reason']);
+                $filter = mysqli_real_escape_string($conectar, $dta['filter']);
                 $value = mysqli_real_escape_string($conectar, $dta['value']);
-                $productId = mysqli_real_escape_string($conectar, $dta['productId']);
+                $roomId = mysqli_real_escape_string($conectar, $dta['roomId']);
             
                 //$dato_encriptado = $keyword;
                 
         
-                if($param=="isEcommerce" && $value=="1" || $param=="isPos" && $value=="1"){
-                    $query = mysqli_query($conectar, "UPDATE generalProducts SET $param='$value' ,isStocked=0,isInternal=0 where clientId='$clientId' and productId='$productId'");
-
-                }
-                if($param=="isStocked" && $value=="1"){
-                    $query = mysqli_query($conectar, "UPDATE generalProducts SET $param='$value' ,isEcommerce=0,isPos=0,isInternal=0 where clientId='$clientId' and productId='$productId'");
-
-                }
-                if($param=="isInternal" && $value=="1"){
-                    $query = mysqli_query($conectar, "UPDATE generalProducts SET $param='$value' ,isEcommerce=0,isPos=0,isStocked=0 where clientId='$clientId' and productId='$productId'");
-
-                }else{
-                    $query = mysqli_query($conectar, "UPDATE generalProducts SET $param='$value' where clientId='$clientId' and productId='$productId'");
-
-                }
+                if($reason=="comments"){
+                    $query= mysqli_query($conectar,"UPDATE rooms SET $filter = '$value' WHERE roomId='$roomId'");
+             
+                   
+        
+                   }
+                   if($reason=="isActive"){
+                    $query= mysqli_query($conectar,"UPDATE rooms SET $filter = '$value' WHERE roomId='$roomId'");
+        
+                     }
+                   if($reason=="del"){
+                    $query= mysqli_query($conectar,"DELETE FROM rooms WHERE roomId='$roomId'");
+             
+                   }
                 if($query){
                     $filasAfectadas = mysqli_affected_rows($conectar);
                     if ($filasAfectadas > 0) {
                         // Éxito: La actualización se realizó correctamente
                     $response="true";
                     $message="Actualización exitosa. Filas afectadas: $filasAfectadas";
-                    $apiMessage="¡Producto actualizado con éxito!";
+                    $apiMessage="¡Room actualizado con éxito!";
                         $status="201";
                     } else {
                         $response="false";
                     $message="Actualización no exitosa. Filas afectadas: $filasAfectadas";
                         $status="500";
-                        $apiMessage="¡Producto no actualizado con éxito!";
+                        $apiMessage="¡Room no actualizado con éxito!";
                     }
                 //  return "true";
                 //echo "ups! el id del repo está repetido , intenta nuevamente, gracias.";
@@ -375,7 +374,7 @@ class modelPut{
                     $response="true";
                     $message="Error en la actualización: " . mysqli_error($conectar);
                     $status="404";
-                    $apiMessage="¡Producto no actualizado con éxito!";
+                    $apiMessage="¡Room no actualizado con éxito!";
                 
                                     }
         
