@@ -134,7 +134,7 @@ class modelGet {
                                     
             }
 
-            public static function getCatalogs($dta) {
+            public static function getCalendarDAYS($dta) {
             
                 
 
@@ -159,104 +159,21 @@ class modelGet {
                     $value = mysqli_real_escape_string($conectar, $dta['value']);
                    
 
-            $array = explode("|", $filter);
-            $filter=$array[0];
-            $ids=$array[1];
            
             $conectar=conn();
             
         
-         
-     
-if($filter=="all"){
-
-          
+            if($param=="admin"){
+                $query= mysqli_query($conectar,"SELECT calendarId,clientId,isActive,status,month,monthDays FROM calendarDays WHERE clientId='$clientId' and status = 1 and isActive=1");
            
-    $query= mysqli_query($conectar,"SELECT ca.catalogId,ca.clientId,ca.productId,ca.categoryId,ca.stock,ca.secStock,ca.minQty,ca.maxQty,ca.storeId,ca.outPrice,ca.promoId,ca.isActive,ca.discount,ca.isPromo,ca.isDiscount,ca.isEcommerce,ca.isPos,ca.isInternal,ca.isStocked,ca.unit,ca.readUnit,ca.unitQty,ca.unitUnit,s.storeName,ct.catName,p.productName,p.description,p.imgProduct,p.spcProduct,p.keyWords FROM generalCatalogs ca JOIN generalStores s ON ca.storeId=s.storeId JOIN generalCategories ct ON ct.catId=ca.categoryId JOIN generalProducts p ON p.productId=ca.productId  where ca.clientId='$clientId' and ca.status=1");
-
-
-}
-
-if($filter=="deleted"){
-
+            }
           
+            if($param=="all"){
+
+              
+                $query= mysqli_query($conectar,"SELECT calendarId,clientId,isActive,status,month,monthDays FROM calendarDays WHERE clientId='$clientId'");
            
-    $query= mysqli_query($conectar,"SELECT ca.catalogId,ca.clientId,ca.productId,ca.categoryId,ca.stock,ca.secStock,ca.minQty,ca.maxQty,ca.storeId,ca.outPrice,ca.promoId,ca.isActive,ca.discount,ca.isPromo,ca.isDiscount,ca.isEcommerce,ca.isPos,ca.isInternal,ca.isStocked,ca.unit,ca.readUnit,ca.unitQty,ca.unitUnit,s.storeName,ct.catName,p.productName,p.description,p.imgProduct,p.spcProduct,p.keyWords FROM generalCatalogs ca JOIN generalStores s ON ca.storeId=s.storeId JOIN generalCategories ct ON ct.catId=ca.categoryId JOIN generalProducts p ON p.productId=ca.productId  where ca.clientId='$clientId' and ca.status=0");
-
-
-}
-
-          
-  
-if($filter=="basic"){
-
-          
-           
-    $query= mysqli_query($conectar,"SELECT ca.catalogId,ca.clientId,ca.productId,ca.categoryId,ca.stock,ca.secStock,ca.minQty,ca.maxQty,ca.storeId,ca.outPrice,ca.promoId,ca.isActive,ca.discount,ca.isPromo,ca.isDiscount,ca.isEcommerce,ca.isPos,ca.isInternal,ca.isStocked,ca.unit,ca.readUnit,ca.unitQty,ca.unitUnit,s.storeName,ct.catName,p.productName,p.description,p.imgProduct,p.spcProduct,p.keyWords FROM generalCatalogs ca JOIN generalStores s ON ca.storeId=s.storeId JOIN generalCategories ct ON ct.catId=ca.categoryId JOIN generalProducts p ON p.productId=ca.productId where ca.clientId='$clientId' and ca.$param ='$value' and ca.status=1");
-
-
-}
-  
-if($filter=="ecm"){
-
-          
-           
-    $query= mysqli_query($conectar,"SELECT ca.catalogId,ca.clientId,ca.productId,ca.categoryId,ca.stock,ca.secStock,ca.minQty,ca.maxQty,ca.storeId,ca.outPrice,ca.promoId,ca.isActive,ca.discount,ca.isPromo,ca.isDiscount,ca.isEcommerce,ca.isPos,ca.isInternal,ca.isStocked,ca.unit,ca.readUnit,ca.unitQty,ca.unitUnit,s.storeName,ct.catName,p.productName,p.description,p.imgProduct,p.spcProduct,p.keyWords FROM generalCatalogs ca JOIN generalStores s ON ca.storeId=s.storeId JOIN generalCategories ct ON ct.catId=ca.categoryId JOIN generalProducts p ON p.productId=ca.productId where ca.clientId='$clientId' and  ca.isEcommerce=1 and ca.status=1");
-
-
-}
-if($filter=="pos"){
-
-          
-           
-    $query= mysqli_query($conectar,"SELECT ca.catalogId,ca.clientId,ca.productId,ca.categoryId,ca.stock,ca.secStock,ca.minQty,ca.maxQty,ca.storeId,ca.outPrice,ca.promoId,ca.isActive,ca.discount,ca.isPromo,ca.isDiscount,ca.isEcommerce,ca.isPos,ca.isInternal,ca.isStocked,ca.unit,ca.readUnit,ca.unitQty,ca.unitUnit,s.storeName,ct.catName,p.productName,p.description,p.imgProduct,p.spcProduct,p.keyWords FROM generalCatalogs ca JOIN generalStores s ON ca.storeId=s.storeId JOIN generalCategories ct ON ct.catId=ca.categoryId JOIN generalProducts p ON p.productId=ca.productId where ca.clientId='$clientId' and ca.isPos=1 and ca.status=1");
-
-
-}
-
-if($filter=="internal"){
-
-          
-           
-    $query= mysqli_query($conectar,"SELECT ca.catalogId,ca.clientId,ca.productId,ca.categoryId,ca.stock,ca.secStock,ca.minQty,ca.maxQty,ca.storeId,ca.outPrice,ca.promoId,ca.isActive,ca.discount,ca.isPromo,ca.isDiscount,ca.isEcommerce,ca.isPos,ca.isInternal,ca.isStocked,ca.unit,ca.readUnit,ca.unitQty,ca.unitUnit,s.storeName,ct.catName,p.productName,p.description,p.imgProduct,p.spcProduct,p.keyWords FROM generalCatalogs ca JOIN generalStores s ON ca.storeId=s.storeId JOIN generalCategories ct ON ct.catId=ca.categoryId JOIN generalProducts p ON p.productId=ca.productId where ca.clientId='$clientId' and ca.isInternal=1 and ca.status=1");
-
-
-}
-if($filter=="stocked"){
-
-          
-           
-    $query= mysqli_query($conectar,"SELECT ca.catalogId,ca.clientId,ca.productId,ca.categoryId,ca.stock,ca.secStock,ca.minQty,ca.maxQty,ca.storeId,ca.outPrice,ca.promoId,ca.isActive,ca.discount,ca.isPromo,ca.isDiscount,ca.isEcommerce,ca.isPos,ca.isInternal,ca.isStocked,ca.unit,ca.readUnit,ca.unitQty,ca.unitUnit,s.storeName,ct.catName,p.productName,p.description,p.imgProduct,p.spcProduct,p.keyWords FROM generalCatalogs ca JOIN generalStores s ON ca.storeId=s.storeId JOIN generalCategories ct ON ct.catId=ca.categoryId JOIN generalProducts p ON p.productId=ca.productId where ca.clientId='$clientId' and ca.isStocked=1 and ca.status=1");
-
-
-}
-if($filter=="browser"){
-
-          
-           
-    $query= mysqli_query($conectar,"SELECT ca.catalogId,ca.clientId,ca.productId,ca.categoryId,ca.stock,ca.secStock,ca.minQty,ca.maxQty,ca.storeId,ca.outPrice,ca.promoId,ca.isActive,ca.discount,ca.isPromo,ca.isDiscount,ca.isEcommerce,ca.isPos,ca.isInternal,ca.isStocked,ca.unit,ca.readUnit,ca.unitQty,ca.unitUnit,s.storeName,ct.catName,p.productName,p.description,p.imgProduct,p.spcProduct,p.keyWords FROM generalCatalogs ca JOIN generalStores s ON ca.storeId=s.storeId JOIN generalCategories ct ON ct.catId=ca.categoryId JOIN generalProducts p ON p.productId=ca.productId where ca.clientId='$clientId' and p.keyWords LIKE '%$value%' and ca.status=1");
-
-
-}
-
-if($filter=="filter"){
-
-          
-           
-    $query= mysqli_query($conectar,"SELECT ca.catalogId,ca.clientId,ca.productId,ca.categoryId,ca.stock,ca.secStock,ca.minQty,ca.maxQty,ca.storeId,ca.outPrice,ca.promoId,ca.isActive,ca.discount,ca.isPromo,ca.isDiscount,ca.isEcommerce,ca.isPos,ca.isInternal,ca.isStocked,ca.unit,ca.readUnit,ca.unitQty,ca.unitUnit,s.storeName,ct.catName,p.productName,p.description,p.imgProduct,p.spcProduct,p.keyWords FROM generalCatalogs ca JOIN generalStores s ON ca.storeId=s.storeId JOIN generalCategories ct ON ct.catId=ca.categoryId JOIN generalProducts p ON p.productId=ca.productId where ca.clientId='$clientId' and ca.storeId='$ids' and p.keyWords LIKE ('%$value%')  and ca.status=1");
-
-
-}
-
-if($filter=="store"){
-
-          
-           
-    $query= mysqli_query($conectar,"SELECT ca.catalogId,ca.clientId,ca.productId,ca.categoryId,ca.stock,ca.secStock,ca.minQty,ca.maxQty,ca.storeId,ca.outPrice,ca.promoId,ca.isActive,ca.discount,ca.isPromo,ca.isDiscount,ca.isEcommerce,ca.isPos,ca.isInternal,ca.isStocked,ca.unit,ca.readUnit,ca.unitQty,ca.unitUnit,s.storeName,ct.catName,p.productName,p.description,p.imgProduct,p.spcProduct,p.keyWords FROM generalCatalogs ca JOIN generalStores s ON ca.storeId=s.storeId JOIN generalCategories ct ON ct.catId=ca.categoryId JOIN generalProducts p ON p.productId=ca.productId where ca.clientId='$clientId' and ca.storeId='$ids' and ca.status=1");
-
-
-}
-
+            }
 
                     if($query){
                         $numRows = mysqli_num_rows($query);
@@ -265,43 +182,22 @@ if ($numRows > 0) {
                         $response="true";
                         $message="Consulta exitosa";
                         $status="202";
-                        $apiMessage="¡Catálogos seleccionados ($numRows)!";
+                        $apiMessage="¡Dias de calendario seleccionados ($numRows)!";
                         $values=[];
 
                         while ($row = $query->fetch_assoc()) {
+                            $calid=$row['calendarId'];
+                    $query1= mysqli_query($conectar,"SELECT COUNT(registId) as counterId FROM calendarDaysAssign WHERE calendarId='$calid' and status=1 and calendarNumber>0 and calendarNumber<32 and isActive=1");
+                    $row1 = mysqli_fetch_assoc($query1);
+                    $counterId = $row1['counterId'];
                             $value=[
-                                'productId' => $row['productId'],
+                                'calendarId' => $row['calendarId'],
                                 'clientId' => $row['clientId'],
-                                'productName' => $row['productName'],
-                                'catalogId' => $row['catalogId'],
-                                'categoryId' => $row['categoryId'],
-                                'stock' => $row['stock'],
-                                'secStock' => $row['secStock'],
-                                
-                                'minQty' => $row['minQty'],
-                                'maxQty' => $row['maxQty'],
-                                'storeId' => $row['storeId'],
-                                'outPrice' => $row['outPrice'],
-                                'promoId' => $row['promoId'],
                                 'isActive' => $row['isActive'],
-                                'discount' => $row['discount'],
-                                'isPromo' => $row['isPromo'],
-                                'isDiscount' => $row['isDiscount'],
-                                'isEcommerce' => $row['isEcommerce'],
-                                'isPos' => $row['isPos'],
-                                'isInternal' => $row['isInternal'],
-                                'isStocked' => $row['isStocked'],
-                                'unit' => $row['unit'],
-                                'readUnit' => $row['readUnit'],
-                                'unitQty' => $row['unitQty'],
-                                'unitUnit' => $row['unitUnit'],
-                                'storeName' => $row['storeName'],
-                                'categoryName' => $row['catName'],
-                                'description' => $row['description'],
-                                'imgProduct' => $row['imgProduct'],
-                                'spcProduct' => $row['spcProduct'],
-                                'keyWords' => $row['keyWords']
-    
+                                'status' => $row['status'],
+                                'month' => $row['month'],
+                                'monthDays' => $row['monthDays'],
+                                'counterId' => $counterId
                             ];
                             
                             array_push($values,$value);
@@ -319,7 +215,7 @@ if ($numRows > 0) {
                                 'status' => $status,
                                 'sentData'=>$dta
                             ],
-                            'catalogs' => $values
+                            'calendarDays' => $values
                         ];
                         
                         return json_encode($responseData);
@@ -342,7 +238,7 @@ if ($numRows > 0) {
                                 'status' => $status,
                                 'sentData'=>$dta
                             ],
-                            'catalogs' => $values
+                            'calendarDays' => $values
                         ];
                         array_push($values,$value);
                         
@@ -357,7 +253,7 @@ if ($numRows > 0) {
                         $response="false";
                         $message="Error en la consulta: " . mysqli_error($conectar);
                         $status="404";
-                        $apiMessage="¡Catálogos no selleccionados con éxito!";
+                        $apiMessage="¡Dias de calendario no selleccionados con éxito!";
                         $values=[];
 
                         $value = [
@@ -371,7 +267,7 @@ if ($numRows > 0) {
                                 'status' => $status,
                                 'sentData'=>$dta
                             ],
-                            'catalogs' => $values
+                            'calendarDays' => $values
                         ];
                         array_push($values,$value);
                         
@@ -385,7 +281,7 @@ if ($numRows > 0) {
 }
 
 
-public static function getStores($dta) {
+public static function getCalendarDAYSASSIGN($dta) {
             
                 
 
@@ -409,29 +305,14 @@ public static function getStores($dta) {
         $param = mysqli_real_escape_string($conectar, $dta['param']);
         $value = mysqli_real_escape_string($conectar, $dta['value']);
        
-     
-if($filter=="all"){
-
-          
+        if($param=="all"){
            
-    $query= mysqli_query($conectar,"SELECT storeId,clientId,storeName,comments,isActive,storeType,keyWords FROM generalStores where clientId='$clientId'");
-
-
-}
-
-if($filter=="browser"){
-
-          
-    $query= mysqli_query($conectar,"SELECT storeId,clientId,storeName,comments,isActive,storeType,keyWords FROM generalStores where clientId='$clientId' and keyWords LIKE ('%$value%')");
-
-}
-
-if($filter=="filter"){
-
-          
-    $query= mysqli_query($conectar,"SELECT storeId,clientId,storeName,comments,isActive,storeType,keyWords FROM generalStores where clientId='$clientId' and $param='$value'");
-
-}
+            $query= mysqli_query($conectar,"SELECT calendarId,calendarDay,calendarNumber,clientId,status,isActive,calendarTime,registId FROM calendarDaysAssign where calendarId='$filter' and calendarNumber>0");
+      }
+      if($param=="admin"){
+       
+        $query= mysqli_query($conectar,"SELECT calendarId,calendarDay,calendarNumber,clientId,status,isActive,calendarTime,registId FROM calendarDaysAssign where calendarId='$filter' and calendarNumber>0 and isActive=1 and status=1");
+  }
         if($query){
             $numRows = mysqli_num_rows($query);
 
@@ -439,19 +320,25 @@ if ($numRows > 0) {
             $response="true";
             $message="Consulta exitosa";
             $status="202";
-            $apiMessage="¡Tiendas seleccionadas ($numRows)!";
+            $apiMessage="¡Dias de calendario asignados seleccionadas ($numRows)!";
             $values=[];
 
             while ($row = $query->fetch_assoc()) {
-                $value=[
-                    'storeId' => $row['storeId'],
-                    'storeName' => $row['storeName'],
-                    'comments' => $row['comments'],
-                    'isActive' => $row['isActive'],
-                    'storeType' => $row['storeType'],
-                    'clientId' => $row['clientId'],
-                    'keyWords' => $row['keyWords']
-                ];
+                $calid=$row['registId'];
+                $query1= mysqli_query($conectar,"SELECT COUNT(timeId) as counterId FROM calendarTime WHERE registId='$calid' and status=1 and notApply='free' and isActive=1");
+                $row1 = mysqli_fetch_assoc($query1);
+                $counterId = $row1['counterId'];
+                    $value=[
+                        'calendarId' => $row['calendarId'],
+                        'calendarDay' => $row['calendarDay'],
+                        'calendarNumber' => $row['calendarNumber'],
+                        'clientId' => $row['clientId'],
+                        'status' => $row['status'],
+                        'isActive' => $row['isActive'],
+                        'calendarTime' => $row['calendarTime'],
+                        'registId' => $row['registId'],
+                        'counterId' => $counterId
+                    ];
                 
                 array_push($values,$value);
             }
@@ -468,7 +355,7 @@ if ($numRows > 0) {
                     'status' => $status,
                     'sentData'=>$dta
                 ],
-                'stores' => $values
+                'calendarDaysAssign' => $values
             ];
             
             return json_encode($responseData);
@@ -491,7 +378,7 @@ if ($numRows > 0) {
                     'status' => $status,
                     'sentData'=>$dta
                 ],
-                'stores' => $values
+                'calendarDaysAssign' => $values
             ];
             array_push($values,$value);
             
@@ -506,7 +393,7 @@ if ($numRows > 0) {
             $response="false";
             $message="Error en la consulta: " . mysqli_error($conectar);
             $status="404";
-            $apiMessage="¡Tiendas no selleccionados con éxito!";
+            $apiMessage="¡Dias de calendario asignados no selleccionados con éxito!";
             $values=[];
 
             $value = [
@@ -520,7 +407,7 @@ if ($numRows > 0) {
                     'status' => $status,
                     'sentData'=>$dta
                 ],
-                'stores' => $values
+                'calendarDaysAssign' => $values
             ];
             array_push($values,$value);
             
@@ -534,7 +421,7 @@ if ($numRows > 0) {
 }
 
 
-public static function getCategories($dta) {
+public static function getCalendarTIME($dta) {
             
                 
 
@@ -559,27 +446,19 @@ public static function getCategories($dta) {
         $value = mysqli_real_escape_string($conectar, $dta['value']);
                     
                     
-                if($filter=="all"){
+        if($param=="all"){
 
-                        
-                        
-                    $query= mysqli_query($conectar,"SELECT catId,clientId,catName,comments,isActive,parentId,catType,keyWords FROM generalCategories where clientId='$clientId'");
-                
+          
+           
+            $query= mysqli_query($conectar,"SELECT registId,calendarTime,clientId,status,isActive,notApply,userApply,timeId FROM calendarTime where registId='$filter'");
+    }
+     
+    if($param=="admin"){
 
-
-                }
-
-                if($filter=="browser"){
-
-                        
-                    $query= mysqli_query($conectar,"SELECT catId,clientId,catName,comments,isActive,parentId,catType,keyWords FROM generalCategories where clientId='$clientId' and keyWords LIKE ('%$value%')");
-
-                }
-                if($filter=="filter"){
-                        
-                    $query= mysqli_query($conectar,"SELECT catId,clientId,catName,comments,isActive,parentId,catType,keyWords FROM generalCategories where clientId='$clientId' and $param='$value'");
-
-                }
+      
+       
+        $query= mysqli_query($conectar,"SELECT registId,calendarTime,clientId,status,isActive,notApply,userApply,timeId FROM calendarTime where registId='$filter' and status= 1 and isActive=1");
+}
 
         if($query){
             $numRows = mysqli_num_rows($query);
@@ -592,16 +471,24 @@ if ($numRows > 0) {
             $values=[];
 
             while ($row = $query->fetch_assoc()) {
-                $value = [
-                    'categoryId' => $row['catId'],
-                    'categoryName' => $row['catName'],
-                    'comments' => $row['comments'],
-                    'isActive' => $row['isActive'],
-                    'categoryType' => $row['catType'],
-                    'clientId' => $row['clientId'],
-                    'parentId' => $row['parentId'],
-                    'keyWords' => $row['keyWords']
-                ];
+                $cid=$row['clientId'];
+                $calid=$row['timeId'];
+                $query1= mysqli_query($conectar,"SELECT COUNT(r.roomId) as counterId FROM rooms r WHERE r.roomId NOT IN (SELECT ra.roomId FROM roomAssign ra WHERE ra.timeId = '$calid') and r.clientId='$cid' and r.status=1 and r.isActive=1");
+                $row1 = mysqli_fetch_assoc($query1);
+                $counterId = $row1['counterId'];
+
+                    $value=[
+                        'registId' => $row['registId'],
+                        'userApply' => $row['userApply'],
+                        'clientId' => $row['clientId'],
+                        'status' => $row['status'],
+                        'isActive' => $row['isActive'],
+                        'calendarTime' => $row['calendarTime'],
+                        'notApply' => $row['notApply'],
+                        
+                        'timeId' => $row['timeId'],
+                        'counterId' => $counterId
+                    ];
                 
                 array_push($values,$value);
             }
@@ -618,7 +505,7 @@ if ($numRows > 0) {
                     'status' => $status,
                     'sentData'=>$dta
                 ],
-                'categories' => $values
+                'calendarTime' => $values
             ];
             
             return json_encode($responseData);
@@ -642,7 +529,7 @@ if ($numRows > 0) {
                     'status' => $status,
                     'sentData'=>$dta
                 ],
-                'categories' => $values
+                'calendarTime' => $values
             ];
             array_push($values,$value);
             
@@ -671,7 +558,7 @@ if ($numRows > 0) {
                     'status' => $status,
                     'sentData'=>$dta
                 ],
-                'categories' => $values
+                'calendarTime' => $values
             ];
             array_push($values,$value);
             
