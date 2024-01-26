@@ -134,6 +134,159 @@ class modelGet {
                                     
             }
 
+            
+        public static function getElements($dta) {
+            
+                
+
+
+            // Asegúrate de proporcionar la ruta correcta al archivo de conexión a la base de datos
+            
+                // Realiza la conexión a la base de datos (reemplaza conn() con tu propia lógica de conexión)
+                $conectar = conn();
+        
+                // Verifica si la conexión se realizó correctamente
+                if (!$conectar) {
+                    return "Error de conexión a la base de datos";
+                }
+        
+                
+                    
+
+                // Escapa los valores para prevenir inyección SQL
+                $clientId = mysqli_real_escape_string($conectar, $dta['clientId']);
+                $filter = mysqli_real_escape_string($conectar, $dta['filter']);
+                $param = mysqli_real_escape_string($conectar, $dta['param']);
+                $value = mysqli_real_escape_string($conectar, $dta['value']);
+                $value1 = mysqli_real_escape_string($conectar, $dta['value1']);
+                $value2 = mysqli_real_escape_string($conectar, $dta['value2']);
+               
+        
+                if($param=="all"){
+                    $query= mysqli_query($conectar,"SELECT elementId,elementName,caracts,comments,isActive,status,brand,type,clientId,isApply,imgElements,amount,roomId FROM clientElements WHERE clientId='$clientId'");
+              }
+              if($param=="free"){
+                $query= mysqli_query($conectar,"SELECT elementId,elementName,caracts,comments,isActive,status,brand,type,clientId,isApply,imgElements,amount,roomId FROM clientElements WHERE clientId='$clientId' and isActive=1 and isApply=0 OR clientId='$clientId' and roomId='$value' and isApply=1 and isActive=1");
+          }
+          if($param=="hold"){
+            $query= mysqli_query($conectar,"SELECT e.elementId,e.elementName,e.caracts,e.comments,e.isActive,e.status,e.brand,e.type,e.clientId,e.isApply,e.imgElements,e.amount,e.roomId FROM clientElements e JOIN elementAssign ea ON e.elementId=ea.elementId WHERE ea.clientId='$clientId' and ea.assignId='$value'");
+      }
+      if($param=="assign"){
+        $query= mysqli_query($conectar,"SELECT elementId,elementName,caracts,comments,isActive,status,brand,type,clientId,isApply,imgElements,amount,roomId FROM clientElements where clientId='$clientId' and isActive=1 and isApply=0 and elementId NOT IN (SELECT elementId from elementAssign where userId='$value1' and assignId='$value2') OR clientId='$clientId' and roomId='$value' and isApply=1 and isActive=1 and elementId NOT IN (SELECT elementId from elementAssign where userId='$value1' and assignId='$value2')");
+    }
+    if($param=="usedbyclient"){
+        $query= mysqli_query($conectar,"SELECT elementId,elementName,caracts,comments,isActive,status,brand,type,clientId,isApply,imgElements,amount,roomId FROM clientElements WHERE clientId='$clientId' and roomId='$value'");
+    }
+    if($param=="notusedbyclient"){
+        $query= mysqli_query($conectar,"SELECT elementId,elementName,caracts,comments,isActive,status,brand,type,clientId,isApply,imgElements,amount,roomId FROM clientElements WHERE clientId='$clientId' and roomId='' OR clientId='$clientId' and roomId='NULL' OR clientId='$clientId' and roomId='null'");
+    }
+                if($query){
+                    $numRows = mysqli_num_rows($query);
+
+if ($numRows > 0) {
+                    $response="true";
+                    $message="Consulta exitosa";
+                    $status="202";
+                    $apiMessage="¡Elementos seleccionados ($numRows)!";
+                    $values=[];
+
+                    while ($row = $query->fetch_assoc()) {
+                        $value=[
+                            'elementId' => $row['elementId'],
+                            'elementName' => $row['elementName'],
+                            'caracts' => $row['caracts'],
+                            'comments' => $row['comments'],
+                            'isActive' => $row['isActive'],
+                            'status' => $row['status'],
+                            'brand' => $row['brand'],
+                            'type' => $row['type'],
+                            'clientId' => $row['clientId'],
+                            'isApply' => $row['isApply'],
+                            'imgElements' => $row['imgElements'],
+                             'amount' => $row['amount'],
+                              'roomId' => $row['roomId']
+                        ];
+                        
+                        
+                        array_push($values,$value);
+                    }
+                    
+                    $row = $query->fetch_assoc();
+                   // return json_encode(['products'=>$values]);
+                    
+                    // Crear un array separado para el objeto 'response'
+                    $responseData = [
+                        'response' => [
+                            'response' => $response,
+                            'message' => $message,
+                            'apiMessage' => $apiMessage,
+                            'status' => $status,
+                            'sentData'=>$dta
+                        ],
+                        'clientElement' => $values
+                    ];
+                    
+                    return json_encode($responseData);
+                }else {
+                    // La consulta no arrojó resultados
+                    $response="false";
+                    $message="Error en la consulta";
+                    $status="204";
+                    $apiMessage="¡La consulta no produjo resultados, filas seleccionadas ($numRows)!";
+                    $values=[];
+                    $value = [
+                        
+                    ];
+                    $responseData = [
+                        'response' => [
+                            'response' => $response,
+                            'message' => $message,
+                            'apiMessage' => $apiMessage,
+                            'status' => $status,
+                            'sentData'=>$dta
+                        ],
+                        'clientElement' => $values
+                    ];
+                    array_push($values,$value);
+                    
+        
+            //echo json_encode($students) ;
+            return json_encode($responseData);
+                }
+
+                //  return "true";
+                //echo "ups! el id del repo está repetido , intenta nuevamente, gracias.";
+                }else{
+                    $response="false";
+                    $message="Error en la consulta: " . mysqli_error($conectar);
+                    $status="404";
+                    $apiMessage="¡Elementos no seleccionados con éxito!";
+                    $values=[];
+
+                    $value = [
+                        
+                    ];
+                    $responseData = [
+                        'response' => [
+                            'response' => $response,
+                            'message' => $message,
+                            'apiMessage' => $apiMessage,
+                            'status' => $status,
+                            'sentData'=>$dta
+                        ],
+                        'clientElement' => $values
+                    ];
+                    array_push($values,$value);
+                    
+        
+            //echo json_encode($students) ;
+            return json_encode($responseData);
+                                    }
+
+                                    
+                
+}
+
             public static function getCalendarDAYS($dta) {
             
                 

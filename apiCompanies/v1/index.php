@@ -1398,113 +1398,48 @@ Flight::route('GET /getElementsAssign/@filter/', function ($filter) {
 
 
 
-Flight::route('GET /getClientElements/@filter/@param/@rid/@ids/@ids1', function ($filter,$param,$rid,$ids,$ids1) {
+Flight::route('GET /getClientElements/@apiData', function ($apiData) {
+   
+
     header("Access-Control-Allow-Origin: *");
     // Leer los encabezados
     $headers = getallheaders();
-    
+    $postData = json_decode($apiData, true);
     // Verificar si los encabezados 'Api-Key' y 'Secret-Key' existen
-    if (isset($headers['Api-Key']) && isset($headers['x-api-Key'])) {
+    if (isset($headers['Api-Key']) ) {
         // Leer los datos de la solicitud
        
         // Acceder a los encabezados
         $apiKey = $headers['Api-Key'];
         $xApiKey = $headers['x-api-Key'];
-        
-        $sub_domaincon=new model_domain();
-        $sub_domain=$sub_domaincon->domKairos();
-        $url = $sub_domain.'/kairosCore/apiAuth/v1/authApiKeyKairos/';
-      
-        $data = array(
-          'apiKey' =>$apiKey, 
-          'xApiKey' => $xApiKey
-          
-          );
-      $curl = curl_init();
-      
-      // Configurar las opciones de la sesión cURL
-      curl_setopt($curl, CURLOPT_URL, $url);
-      curl_setopt($curl, CURLOPT_POST, true);
-      curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
-      curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-      // curl_setopt($curl, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
-      
-      // Ejecutar la solicitud y obtener la respuesta
-      $response1 = curl_exec($curl);
 
-      
-
-
-      curl_close($curl);
-
-      
-
-        // Realizar acciones basadas en los valores de los encabezados
-
+        $response1=modelAuth::authModel($apiKey,$xApiKey);//AUTH MODULE
 
         if ($response1 == 'true' ) {
            
-
-
-
-           
-            $conectar=conn();
-      
-          if($param=="all"){
-                $query= mysqli_query($conectar,"SELECT elementId,elementName,caracts,comments,isActive,status,brand,type,clientId,isApply,imgElements,amount,roomId FROM clientElements WHERE clientId='$filter'");
-          }
-          if($param=="free"){
-            $query= mysqli_query($conectar,"SELECT elementId,elementName,caracts,comments,isActive,status,brand,type,clientId,isApply,imgElements,amount,roomId FROM clientElements WHERE clientId='$filter' and isActive=1 and isApply=0 OR clientId='$filter' and roomId='$rid' and isApply=1 and isActive=1");
-      }
-      if($param=="hold"){
-        $query= mysqli_query($conectar,"SELECT e.elementId,e.elementName,e.caracts,e.comments,e.isActive,e.status,e.brand,e.type,e.clientId,e.isApply,e.imgElements,e.amount,e.roomId FROM clientElements e JOIN elementAssign ea ON e.elementId=ea.elementId WHERE ea.clientId='$filter' and ea.assignId='$rid'");
-  }
-  if($param=="assign"){
-    $query= mysqli_query($conectar,"SELECT elementId,elementName,caracts,comments,isActive,status,brand,type,clientId,isApply,imgElements,amount,roomId FROM clientElements where clientId='$filter' and isActive=1 and isApply=0 and elementId NOT IN (SELECT elementId from elementAssign where userId='$ids' and assignId='$ids1') OR clientId='$filter' and roomId='$rid' and isApply=1 and isActive=1 and elementId NOT IN (SELECT elementId from elementAssign where userId='$ids' and assignId='$ids1')");
-}
-if($param=="usedbyclient"){
-    $query= mysqli_query($conectar,"SELECT elementId,elementName,caracts,comments,isActive,status,brand,type,clientId,isApply,imgElements,amount,roomId FROM clientElements WHERE clientId='$filter' and roomId='$rid'");
-}
-if($param=="notusedbyclient"){
-    $query= mysqli_query($conectar,"SELECT elementId,elementName,caracts,comments,isActive,status,brand,type,clientId,isApply,imgElements,amount,roomId FROM clientElements WHERE clientId='$filter' and roomId='' OR clientId='$filter' and roomId='NULL' OR clientId='$filter' and roomId='null'");
-}
-                $values=[];
           
-                while($row = $query->fetch_assoc())
-                {
-                        $value=[
-                            'elementId' => $row['elementId'],
-                            'elementName' => $row['elementName'],
-                            'caracts' => $row['caracts'],
-                            'comments' => $row['comments'],
-                            'isActive' => $row['isActive'],
-                            'status' => $row['status'],
-                            'brand' => $row['brand'],
-                            'type' => $row['type'],
-                            'clientId' => $row['clientId'],
-                            'isApply' => $row['isApply'],
-                            'imgElements' => $row['imgElements'],
-                             'amount' => $row['amount'],
-                              'roomId' => $row['roomId']
-                        ];
-                        
-                        array_push($values,$value);
-                        
-                }
-                $row=$query->fetch_assoc();
-                //echo json_encode($students) ;
-                echo json_encode(['clientElement'=>$values]);
+//echo $apiData;
+echo modelGet::getElements($postData);
           
-               
-           
 
-        } else {
-            echo 'Error: Autenticación fallida';
-             //echo json_encode($response1);
-        }
-    } else {
-        echo 'Error: Encabezados faltantes';
-    }
+}else { 
+    
+    $responseSQL="false";
+    $apiMessageSQL="¡Autenticación fallida!";
+    $apiStatusSQL="401";
+    $messageSQL="¡Autenticación fallida!";
+    echo modelResponse::responsePost($responseSQL,$apiMessageSQL,$apiStatusSQL,$messageSQL);//RESPONSE FUNCTION
+
+}
+} else {
+
+$responseSQL="false";
+$apiMessageSQL="¡Encabezados faltantes!";
+$apiStatusSQL="403";
+$messageSQL="¡Encabezados faltantes!";
+echo modelResponse::responsePost($responseSQL,$apiMessageSQL,$apiStatusSQL,$messageSQL);//RESPONSE FUNCTION
+
+}
 });
 
 
