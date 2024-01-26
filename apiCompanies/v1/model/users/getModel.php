@@ -2,7 +2,7 @@
     require_once 'database/db_users.php';
 class modelGet {
           
-        public static function getProducts($dta) {
+        public static function getRooms($dta) {
             
                 
 
@@ -27,29 +27,14 @@ class modelGet {
                                     $value = mysqli_real_escape_string($conectar, $dta['value']);
                                    
                             
-                                    if($filter=="all"){
-
-                
-                
-                                        $query= mysqli_query($conectar,"SELECT productId,clientId,productName,description,ean1,ean2,sku,productType,inPrice,providerId,imgProduct,spcProduct,isActive,keyWords FROM generalProducts where clientId='$clientId'");
-                                }
-                                
-                                if($filter=="browser"){
-                
-                                
-                                
-                                    $query= mysqli_query($conectar,"SELECT productId,clientId,productName,description,ean1,ean2,sku,productType,inPrice,providerId,imgProduct,spcProduct,isActive,keyWords FROM generalProducts where clientId='$clientId' and keyWords LIKE ('%$value%')");
-                                
-                                
-                                }
-                        if($filter=="filter"){
-                
-                                
-                                
-                            $query= mysqli_query($conectar,"SELECT productId,clientId,productName,description,ean1,ean2,sku,productType,inPrice,providerId,imgProduct,spcProduct,isActive,keyWords FROM generalProducts where clientId='$clientId' and $param='$value'");
-                
-                
-                        }       
+                                    if($param=="all"){
+                                        $query= mysqli_query($conectar,"SELECT roomId,comments,isActive,status,clientId FROM rooms WHERE clientId='$clientId'");
+                                           
+                                      }    
+                                      if($param!="all"){
+                                        $query= mysqli_query($conectar,"SELECT r.roomId, r.comments, r.isActive, r.status, r.clientId FROM rooms r WHERE r.roomId NOT IN (SELECT ra.roomId FROM roomAssign ra WHERE ra.timeId = '$param') and r.clientId='$clientId' and r.isActive=1");
+                                           
+                                      }        
                                     if($query){
                                         $numRows = mysqli_num_rows($query);
 
@@ -57,28 +42,20 @@ class modelGet {
                                         $response="true";
                                         $message="Consulta exitosa";
                                         $status="202";
-                                        $apiMessage="¡Productos seleccionados ($numRows)!";
+                                        $apiMessage="¡Rooms seleccionados ($numRows)!";
                                         $values=[];
                 
                                         while ($row = $query->fetch_assoc()) {
-                                            $value = [
-                                                'productId' => $row['productId'],
-                                                'clientId' => $row['clientId'],
-                                                'productName' => $row['productName'],
-                                                'description' => $row['description'],
-                                                'ean1' => $row['ean1'],
-                                                'ean2' => $row['ean2'],
-                                                'sku' => $row['sku'],
-                                                'productType' => $row['productType'],
-                                                'inPrice' => $row['inPrice'],
-                                                'providerId' => $row['providerId'],
-                                                'imgProduct' => $row['imgProduct'],
-                                                'spcProduct' => $row['spcProduct'],
+                                            $value=[
+                                                'roomId' => $row['roomId'],
+                                                'comments' => $row['comments'],
                                                 'isActive' => $row['isActive'],
-                                                'keyWords' => $row['keyWords']
+                                                'status' => $row['status'],
+                                                
+                                                'clientId' => $row['clientId']
                                             ];
-                                        
-                                            array_push($values, $value);
+                                            
+                                            array_push($values,$value);
                                         }
                                         
                                         $row = $query->fetch_assoc();
@@ -93,7 +70,7 @@ class modelGet {
                                                 'status' => $status,
                                                 'sentData'=>$dta
                                             ],
-                                            'products' => $values
+                                            'rooms' => $values
                                         ];
                                         
                                         return json_encode($responseData);
@@ -115,7 +92,7 @@ class modelGet {
                                                 'status' => $status,
                                                 'sentData'=>$dta
                                             ],
-                                            'products' => $values
+                                            'rooms' => $values
                                         ];
                                         array_push($values,$value);
                                         
@@ -130,7 +107,7 @@ class modelGet {
                                         $response="false";
                                         $message="Error en la consulta: " . mysqli_error($conectar);
                                         $status="404";
-                                        $apiMessage="¡Productos no selleccionados con éxito!";
+                                        $apiMessage="¡Rooms no selleccionados con éxito!";
                                         $values=[];
 
                                         $value = [
@@ -144,7 +121,7 @@ class modelGet {
                                                 'status' => $status,
                                                 'sentData'=>$dta
                                             ],
-                                            'products' => $values
+                                            'rooms' => $values
                                         ];
                                         array_push($values,$value);
                                         
