@@ -635,7 +635,7 @@ $apiMessage="¡Elemento desasignado con éxito!";
         
     }
 
-    public static function postCategorie($dta) {
+    public static function postElement($dta) {
     
            
 
@@ -654,23 +654,20 @@ $apiMessage="¡Elemento desasignado con éxito!";
             
         $gen_uuid = new generateUuid();
         $myuuid = $gen_uuid->guidv4();
-        $categoryId = substr($myuuid, 0, 8);
+        $elementId = substr($myuuid, 0, 8);
 
         // Escapa los valores para prevenir inyección SQL
         $clientId = mysqli_real_escape_string($conectar, $dta['clientId']);
-        $categoryName = mysqli_real_escape_string($conectar, $dta['categoryName']);
+        $name = mysqli_real_escape_string($conectar, $dta['name']);
         $comments = mysqli_real_escape_string($conectar, $dta['comments']);
-        $parentId = mysqli_real_escape_string($conectar, $dta['parentId']);
-        $categoryType = mysqli_real_escape_string($conectar, $dta['categoryType']);
+        $caract = mysqli_real_escape_string($conectar, $dta['caract']);
+        $brand = mysqli_real_escape_string($conectar, $dta['brand']);
+        $type = mysqli_real_escape_string($conectar, $dta['type']);
+        $img = mysqli_real_escape_string($conectar, $dta['img']);
+        $val = mysqli_real_escape_string($conectar, $dta['value']);
         //$dato_encriptado = $keyword;
         
-        $keywords=$categoryName." ".$comments." ".$categoryType;
-
-        if($categoryType=="main"){
-$parentId=$categoryId;
-        }
-        
-        $query = mysqli_query($conectar, "INSERT INTO generalCategories (catId, clientId, catName, comments, parentId,catType,keyWords) VALUES ('$categoryId', '$clientId', '$categoryName', '$comments', '$parentId','$categoryType','$keywords')");
+        $query= mysqli_query($conectar,"INSERT INTO clientElements (elementId,elementName,caracts,comments,brand,type,clientId,imgElements,amount) VALUES ('$elementId','$name','$caract','$comments','$brand','$type','$clientId','$img','$val')");
 
         if($query){
             $filasAfectadas = mysqli_affected_rows($conectar);
@@ -678,13 +675,13 @@ $parentId=$categoryId;
                 // Éxito: La actualización se realizó correctamente
             $response="true";
             $message="Creación exitosa. Filas afectadas: $filasAfectadas";
-            $apiMessage="¡Categoría creada con éxito!";
+            $apiMessage="¡Elemento creado con éxito!";
                 $status="201";
             } else {
                 $response="false";
             $message="Creación no exitosa. Filas afectadas: $filasAfectadas";
                 $status="500";
-                $apiMessage="¡Categoría no creda con éxito!";
+                $apiMessage="¡Elemento no credo con éxito!";
             }
         //  return "true";
         //echo "ups! el id del repo está repetido , intenta nuevamente, gracias.";
@@ -692,7 +689,7 @@ $parentId=$categoryId;
             $response="true";
             $message="Error en la actualización: " . mysqli_error($conectar);
             $status="404";
-            $apiMessage="¡Categoría no creada con éxito!";
+            $apiMessage="¡Elemento no creado con éxito!";
         
                             }
 
