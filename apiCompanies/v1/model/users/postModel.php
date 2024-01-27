@@ -73,7 +73,7 @@ class modelPost {
                                     
             }
             
-        public static function postCatalog($dta) {
+        public static function postCalendar($dta) {
             
                 
                 // Asegúrate de proporcionar la ruta correcta al archivo de conexión a la base de datos
@@ -90,29 +90,231 @@ class modelPost {
                         
                     $gen_uuid = new generateUuid();
                     $myuuid = $gen_uuid->guidv4();
-                    $catalogId = substr($myuuid, 0, 8);
+                    $calendarId = substr($myuuid, 0, 8);
 
                     // Escapa los valores para prevenir inyección SQL
                     $clientId = mysqli_real_escape_string($conectar, $dta['clientId']);
-                    $productId = mysqli_real_escape_string($conectar, $dta['productId']);
-                    $categoryId = mysqli_real_escape_string($conectar, $dta['categoryId']);
-                    $stock = mysqli_real_escape_string($conectar, $dta['stock']);
-                    $secStock = mysqli_real_escape_string($conectar, $dta['secStock']);
-                    $minQty = mysqli_real_escape_string($conectar, $dta['minQty']);
-                    $maxQty = mysqli_real_escape_string($conectar, $dta['maxQty']);
-                    $storeId = mysqli_real_escape_string($conectar, $dta['storeId']);
-                    $outPrice = mysqli_real_escape_string($conectar, $dta['outPrice']);
-                    $promoId = mysqli_real_escape_string($conectar, $dta['promoId']);
-                    $discount = mysqli_real_escape_string($conectar, $dta['discount']);
-                    $unit = mysqli_real_escape_string($conectar, $dta['unit']);
-                    $readUnit = mysqli_real_escape_string($conectar, $dta['readUnit']);
-                    $unitQty = mysqli_real_escape_string($conectar, $dta['unitQty']);
-                    $unitUnit = mysqli_real_escape_string($conectar, $dta['unitUnit']);
-                    //$dato_encriptado = $keyword;
+                    $month = mysqli_real_escape_string($conectar, $dta['month']);
+                    $monthDays = mysqli_real_escape_string($conectar, $dta['monthDays']);
+                    $dayWeek = mysqli_real_escape_string($conectar, $dta['dayWeek']);
                     
-            
-                    $query = mysqli_query($conectar, "INSERT INTO generalCatalogs (catalogId, clientId, productId, categoryId, stock, secStock, minQty, maxQty, storeId, outPrice, promoId, discount,unit,readUnit,unitQty,unitUnit) VALUES ('$catalogId', '$clientId', '$productId', '$categoryId', $stock, $secStock, $minQty, $maxQty, '$storeId', $outPrice, '$promoId', $discount,'$unit','$readUnit',$unitQty,'$unitUnit')");
+                     
 
+                    $numVeces=6;
+                    $query= mysqli_query($conectar,"INSERT INTO calendarDays (calendarId,clientId,month,monthDays) VALUES ('$calendarId','$clientId','$month','$monthDays')");
+                    
+                    $s=-$dayWeek+1;
+               
+                    for ($i = 0; $i < $numVeces; $i++) {
+               
+               
+               
+                       $myuuid1 = $gen_uuid->guidv4();
+                       $regestId = substr($myuuid1, 0, 8);
+                       $s++;
+                       if($s<1 || $s>$monthDays){
+                           $ss="0";
+                       }
+                       if($s>0 && $s<=$monthDays){
+                           $ss=$s;
+                       }
+                    $query= mysqli_query($conectar,"INSERT INTO calendarDaysAssign (calendarId,calendarDay,calendarNumber,clientId,registId) VALUES ('$calendarId','sunday',$ss,'$clientId','$regestId')");
+                   
+                    $numVeces1=24;
+                    $ht=0;
+                    if($ss==0){
+               
+                    }
+                    if($ss>0){
+               
+                   
+                    for ($ii = 0; $ii < $numVeces1; $ii++) {
+                       $myuuid1 = $gen_uuid->guidv4();
+                       $registId1 = substr($myuuid1, 0, 8);
+                       $tt=$ht.":"."00";
+                     
+                    $query= mysqli_query($conectar,"INSERT INTO calendarTime (registId,calendarTime,clientId,timeId) VALUES ('$regestId','$tt','$clientId','$registId1')");
+                    $ht++;
+                   }
+               
+               
+                    }
+               
+               
+                   $myuuid1 = $gen_uuid->guidv4();
+                   $regestId = substr($myuuid1, 0, 8);
+                   $s++;
+                   if($s<1 || $s>$monthDays){
+                       $ss="0";
+                   }
+                   if($s>0 && $s<=$monthDays){
+                       $ss=$s;
+                   }
+                    $query= mysqli_query($conectar,"INSERT INTO calendarDaysAssign (calendarId,calendarDay,calendarNumber,clientId,registId) VALUES ('$calendarId','monday','$ss','$clientId','$regestId')");
+                    
+                    
+                    $ht=0;
+                    $numVeces1=24;
+                    if($ss==0){
+               
+                    }
+                    if($ss>0){
+               
+                    for ($ii = 0; $ii < $numVeces1; $ii++) {
+                       $myuuid1 = $gen_uuid->guidv4();
+                       $registId1 = substr($myuuid1, 0, 8);
+                       $tt=$ht.":"."00";
+                     
+                    $query= mysqli_query($conectar,"INSERT INTO calendarTime (registId,calendarTime,clientId,timeId) VALUES ('$regestId','$tt','$clientId','$registId1')");
+                    $ht++;
+                   }
+               
+                    }
+               
+               
+                   
+                   $myuuid1 = $gen_uuid->guidv4();
+                   $regestId = substr($myuuid1, 0, 8);
+                   $s++;
+                   if($s<1 || $s>$monthDays){
+                       $ss="0";
+                   }
+                   if($s>0 && $s<=$monthDays){
+                       $ss=$s;
+                   }
+                    $query= mysqli_query($conectar,"INSERT INTO calendarDaysAssign (calendarId,calendarDay,calendarNumber,clientId,registId) VALUES ('$calendarId','tuesday','$ss','$clientId','$regestId')");
+                   
+                    $ht=0;
+                    $numVeces1=24;
+                    if($ss==0){
+               
+                    }
+                    if($ss>0){
+               
+                    for ($ii = 0; $ii < $numVeces1; $ii++) {
+                       $myuuid1 = $gen_uuid->guidv4();
+                       $registId1 = substr($myuuid1, 0, 8);
+                       $tt=$ht.":"."00";
+                     
+                    $query= mysqli_query($conectar,"INSERT INTO calendarTime (registId,calendarTime,clientId,timeId) VALUES ('$regestId','$tt','$clientId','$registId1')");
+                    $ht++;
+                   }
+               
+                    }
+                   
+                   $myuuid1 = $gen_uuid->guidv4();
+                   $regestId = substr($myuuid1, 0, 8);
+                   $s++;
+                   if($s<1 || $s>$monthDays){
+                       $ss="0";
+                   }
+                   if($s>0 && $s<=$monthDays){
+                       $ss=$s;
+                   }
+                    $query= mysqli_query($conectar,"INSERT INTO calendarDaysAssign (calendarId,calendarDay,calendarNumber,clientId,registId) VALUES ('$calendarId','wednesday','$ss','$clientId','$regestId')");
+                    
+                    $ht=0;
+                    $numVeces1=24;
+                    if($ss==0){
+               
+                    }
+                    if($ss>0){
+               
+                    for ($ii = 0; $ii < $numVeces1; $ii++) {
+                       $myuuid1 = $gen_uuid->guidv4();
+                       $registId1 = substr($myuuid1, 0, 8);
+                       $tt=$ht.":"."00";
+                     
+                    $query= mysqli_query($conectar,"INSERT INTO calendarTime (registId,calendarTime,clientId,timeId) VALUES ('$regestId','$tt','$clientId','$registId1')");
+                    $ht++;
+                   }
+                    }
+                   
+                   $myuuid1 = $gen_uuid->guidv4();
+                   $regestId = substr($myuuid1, 0, 8);
+                   $s++;
+                   if($s<1 || $s>$monthDays){
+                       $ss="0";
+                   }
+                   if($s>0 && $s<=$monthDays){
+                       $ss=$s;
+                   }
+                    $query= mysqli_query($conectar,"INSERT INTO calendarDaysAssign (calendarId,calendarDay,calendarNumber,clientId,registId) VALUES ('$calendarId','thursday','$ss','$clientId','$regestId')");
+                  
+                    $ht=0;
+                    $numVeces1=24;
+                    if($ss==0){
+               
+                    }
+                    if($ss>0){
+               
+                    for ($ii = 0; $ii < $numVeces1; $ii++) {
+                       $myuuid1 = $gen_uuid->guidv4();
+                       $registId1 = substr($myuuid1, 0, 8);
+                       $tt=$ht.":"."00";
+                     
+                    $query= mysqli_query($conectar,"INSERT INTO calendarTime (registId,calendarTime,clientId,timeId) VALUES ('$regestId','$tt','$clientId','$registId1')");
+                    $ht++;
+                   }
+                    }
+                   
+                   $myuuid1 = $gen_uuid->guidv4();
+                   $regestId = substr($myuuid1, 0, 8);
+                   $s++;
+                   if($s<1 || $s>$monthDays){
+                       $ss="0";
+                   }
+                   if($s>0 && $s<=$monthDays){
+                       $ss=$s;
+                   }
+                    $query= mysqli_query($conectar,"INSERT INTO calendarDaysAssign (calendarId,calendarDay,calendarNumber,clientId,registId) VALUES ('$calendarId','friday','$ss','$clientId','$regestId')");
+                    
+                    $ht=0;
+                    $numVeces1=24;
+                    if($ss==0){
+               
+                    }
+                    if($ss>0){
+               
+                    for ($ii = 0; $ii < $numVeces1; $ii++) {
+                       $myuuid1 = $gen_uuid->guidv4();
+                       $registId1 = substr($myuuid1, 0, 8);
+                       $tt=$ht.":"."00";
+                     
+                    $query= mysqli_query($conectar,"INSERT INTO calendarTime (registId,calendarTime,clientId,timeId) VALUES ('$regestId','$tt','$clientId','$registId1')");
+                    $ht++;
+                   }
+                    }
+               
+                   
+                   $myuuid1 = $gen_uuid->guidv4();
+                   $regestId = substr($myuuid1, 0, 8);
+                   $s++;
+                   if($s<1 || $s>$monthDays){
+                       $ss="0";
+                   }
+                   if($s>0 && $s<=$monthDays){
+                       $ss=$s;
+                   }
+                    $query= mysqli_query($conectar,"INSERT INTO calendarDaysAssign (calendarId,calendarDay,calendarNumber,clientId,registId) VALUES ('$calendarId','saturday','$ss','$clientId','$regestId')");
+                    
+                    $ht=0;
+                    $numVeces1=24;
+                    if($ss==0){
+               
+                    }
+                    if($ss>0){
+               
+                    for ($ii = 0; $ii < $numVeces1; $ii++) {
+                       $myuuid1 = $gen_uuid->guidv4();
+                       $registId1 = substr($myuuid1, 0, 8);
+                       $tt=$ht.":"."00";
+                     
+                    $query= mysqli_query($conectar,"INSERT INTO calendarTime (registId,calendarTime,clientId,timeId) VALUES ('$regestId','$tt','$clientId','$registId1')");
+                    $ht++;
+                   }
+                    }
+                   }
                     if($query){
                                 $filasAfectadas = mysqli_affected_rows($conectar);
                                     if ($filasAfectadas > 0) 
@@ -120,14 +322,14 @@ class modelPost {
                                             // Éxito: La actualización se realizó correctamente
                                             $response="true";
                                             $message="Creación exitosa. Filas afectadas: $filasAfectadas";
-                                            $apiMessage="¡Catálogo creado con éxito!";
+                                            $apiMessage="¡Calendario creado con éxito!";
                                             $status="201";
                                         } 
                                         else {
                                             $response="false";
                                             $message="Creación no exitosa. Filas afectadas: $filasAfectadas";
                                             $status="500";
-                                            $apiMessage="¡Catálogo no credo con éxito!";
+                                            $apiMessage="¡Calendario no credo con éxito!";
                                             }
                             //  return "true";
                             //echo "ups! el id del repo está repetido , intenta nuevamente, gracias.";
@@ -136,7 +338,7 @@ class modelPost {
                             $response="true";
                             $message="Error en la actualización: " . mysqli_error($conectar);
                             $status="404";
-                            $apiMessage="¡Catálogo no creado con éxito!";
+                            $apiMessage="¡Calendario no creado con éxito!";
                         
                         }
 

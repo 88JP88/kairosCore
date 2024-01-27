@@ -17,306 +17,51 @@ Flight::route('POST /postClientCalendar/@apk/@xapk', function ($apk,$xapk) {
     header("Access-Control-Allow-Origin: *");
     // Verificar si los encabezados 'Api-Key' y 'Secret-Key' existen
     if (!empty($apk) && !empty($xapk)) {    
-        // Leer los datos de la solicitud
-       
+    
 
 
+        $response11=modelAuth::authModel($apk,$xapk);//AUTH MODULE
 
 
-        
+//DATA EXTRACTION ARRAY - JSON CONVERT
 
-
-
-
-        $sub_domaincon=new model_domain();
-        $sub_domain=$sub_domaincon->domKairos();
-        $url = $sub_domain.'/kairosCore/apiAuth/v1/authApiKey/';
-      
-        $data = array(
-            'apiKey' =>$apk, 
-            'xApiKey' => $xapk
-          
-          );
-      $curl = curl_init();
-      
-      // Configurar las opciones de la sesión cURL
-      curl_setopt($curl, CURLOPT_URL, $url);
-      curl_setopt($curl, CURLOPT_POST, true);
-      curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
-      curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-      // curl_setopt($curl, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
-      
-      // Ejecutar la solicitud y obtener la respuesta
-      $response11 = curl_exec($curl);
-
-      
-
-
-      curl_close($curl);
-
-      
-
-        // Realizar acciones basadas en los valores de los encabezados
+$postData = Flight::request()->data->getData();
+$dt=json_encode($postData);
+//DATA EXTRACTION**
 
 
         if ($response11 == 'true' ) {
-
-
-
-            $clientId= Flight::request()->data->clientId;
-            $month= Flight::request()->data->month;
-            $monthDays= Flight::request()->data->monthDays;
-            $dayWeek= Flight::request()->data->dayWeek;
-
-
-            require_once '../../apiCore/v1/model/modelSecurity/uuid/uuidd.php';
            
-   
+        $query= modelPost::postCalendar($postData);  //DATA MODAL
 
-            $gen_uuid = new generateUuid();
-            $myuuid = $gen_uuid->guidv4();
-         
-            $myuuid2 = $gen_uuid->guidv4();
-            $myuuid3 = $gen_uuid->guidv4();
+    //JSON DECODE RESPPNSE
+        $data = json_decode($query, true);
+        $responseSQL=$data['response'][0]['response'];
+        $messageSQL=$data['response'][0]['message'];
+        $apiMessageSQL=$data['response'][0]['apiMessage'];
+        $apiStatusSQL=$data['response'][0]['status'];
+        //JSON DECODE**
 
-            $calendarId = substr($myuuid, 0, 8);
-            
-         
-          
-
-            $conectar=conn();
-           
-                       
-
-            $numVeces=6;
-     $query= mysqli_query($conectar,"INSERT INTO calendarDays (calendarId,clientId,month,monthDays) VALUES ('$calendarId','$clientId','$month','$monthDays')");
-     
-     $s=-$dayWeek+1;
-
-     for ($i = 0; $i < $numVeces; $i++) {
-
-
-
-        $myuuid1 = $gen_uuid->guidv4();
-        $regestId = substr($myuuid1, 0, 8);
-        $s++;
-        if($s<1 || $s>$monthDays){
-            $ss="0";
-        }
-        if($s>0 && $s<=$monthDays){
-            $ss=$s;
-        }
-     $query= mysqli_query($conectar,"INSERT INTO calendarDaysAssign (calendarId,calendarDay,calendarNumber,clientId,registId) VALUES ('$calendarId','sunday',$ss,'$clientId','$regestId')");
-    
-     $numVeces1=24;
-     $ht=0;
-     if($ss==0){
-
-     }
-     if($ss>0){
-
-    
-     for ($ii = 0; $ii < $numVeces1; $ii++) {
-        $myuuid1 = $gen_uuid->guidv4();
-        $registId1 = substr($myuuid1, 0, 8);
-        $tt=$ht.":"."00";
-      
-     $query= mysqli_query($conectar,"INSERT INTO calendarTime (registId,calendarTime,clientId,timeId) VALUES ('$regestId','$tt','$clientId','$registId1')");
-     $ht++;
-    }
-
-
-     }
-
-
-    $myuuid1 = $gen_uuid->guidv4();
-    $regestId = substr($myuuid1, 0, 8);
-    $s++;
-    if($s<1 || $s>$monthDays){
-        $ss="0";
-    }
-    if($s>0 && $s<=$monthDays){
-        $ss=$s;
-    }
-     $query= mysqli_query($conectar,"INSERT INTO calendarDaysAssign (calendarId,calendarDay,calendarNumber,clientId,registId) VALUES ('$calendarId','monday','$ss','$clientId','$regestId')");
-     
-     
-     $ht=0;
-     $numVeces1=24;
-     if($ss==0){
-
-     }
-     if($ss>0){
-
-     for ($ii = 0; $ii < $numVeces1; $ii++) {
-        $myuuid1 = $gen_uuid->guidv4();
-        $registId1 = substr($myuuid1, 0, 8);
-        $tt=$ht.":"."00";
-      
-     $query= mysqli_query($conectar,"INSERT INTO calendarTime (registId,calendarTime,clientId,timeId) VALUES ('$regestId','$tt','$clientId','$registId1')");
-     $ht++;
-    }
-
-     }
-
-
-    
-    $myuuid1 = $gen_uuid->guidv4();
-    $regestId = substr($myuuid1, 0, 8);
-    $s++;
-    if($s<1 || $s>$monthDays){
-        $ss="0";
-    }
-    if($s>0 && $s<=$monthDays){
-        $ss=$s;
-    }
-     $query= mysqli_query($conectar,"INSERT INTO calendarDaysAssign (calendarId,calendarDay,calendarNumber,clientId,registId) VALUES ('$calendarId','tuesday','$ss','$clientId','$regestId')");
-    
-     $ht=0;
-     $numVeces1=24;
-     if($ss==0){
-
-     }
-     if($ss>0){
-
-     for ($ii = 0; $ii < $numVeces1; $ii++) {
-        $myuuid1 = $gen_uuid->guidv4();
-        $registId1 = substr($myuuid1, 0, 8);
-        $tt=$ht.":"."00";
-      
-     $query= mysqli_query($conectar,"INSERT INTO calendarTime (registId,calendarTime,clientId,timeId) VALUES ('$regestId','$tt','$clientId','$registId1')");
-     $ht++;
-    }
-
-     }
-    
-    $myuuid1 = $gen_uuid->guidv4();
-    $regestId = substr($myuuid1, 0, 8);
-    $s++;
-    if($s<1 || $s>$monthDays){
-        $ss="0";
-    }
-    if($s>0 && $s<=$monthDays){
-        $ss=$s;
-    }
-     $query= mysqli_query($conectar,"INSERT INTO calendarDaysAssign (calendarId,calendarDay,calendarNumber,clientId,registId) VALUES ('$calendarId','wednesday','$ss','$clientId','$regestId')");
-     
-     $ht=0;
-     $numVeces1=24;
-     if($ss==0){
-
-     }
-     if($ss>0){
-
-     for ($ii = 0; $ii < $numVeces1; $ii++) {
-        $myuuid1 = $gen_uuid->guidv4();
-        $registId1 = substr($myuuid1, 0, 8);
-        $tt=$ht.":"."00";
-      
-     $query= mysqli_query($conectar,"INSERT INTO calendarTime (registId,calendarTime,clientId,timeId) VALUES ('$regestId','$tt','$clientId','$registId1')");
-     $ht++;
-    }
-     }
-    
-    $myuuid1 = $gen_uuid->guidv4();
-    $regestId = substr($myuuid1, 0, 8);
-    $s++;
-    if($s<1 || $s>$monthDays){
-        $ss="0";
-    }
-    if($s>0 && $s<=$monthDays){
-        $ss=$s;
-    }
-     $query= mysqli_query($conectar,"INSERT INTO calendarDaysAssign (calendarId,calendarDay,calendarNumber,clientId,registId) VALUES ('$calendarId','thursday','$ss','$clientId','$regestId')");
-   
-     $ht=0;
-     $numVeces1=24;
-     if($ss==0){
-
-     }
-     if($ss>0){
-
-     for ($ii = 0; $ii < $numVeces1; $ii++) {
-        $myuuid1 = $gen_uuid->guidv4();
-        $registId1 = substr($myuuid1, 0, 8);
-        $tt=$ht.":"."00";
-      
-     $query= mysqli_query($conectar,"INSERT INTO calendarTime (registId,calendarTime,clientId,timeId) VALUES ('$regestId','$tt','$clientId','$registId1')");
-     $ht++;
-    }
-     }
-    
-    $myuuid1 = $gen_uuid->guidv4();
-    $regestId = substr($myuuid1, 0, 8);
-    $s++;
-    if($s<1 || $s>$monthDays){
-        $ss="0";
-    }
-    if($s>0 && $s<=$monthDays){
-        $ss=$s;
-    }
-     $query= mysqli_query($conectar,"INSERT INTO calendarDaysAssign (calendarId,calendarDay,calendarNumber,clientId,registId) VALUES ('$calendarId','friday','$ss','$clientId','$regestId')");
-     
-     $ht=0;
-     $numVeces1=24;
-     if($ss==0){
-
-     }
-     if($ss>0){
-
-     for ($ii = 0; $ii < $numVeces1; $ii++) {
-        $myuuid1 = $gen_uuid->guidv4();
-        $registId1 = substr($myuuid1, 0, 8);
-        $tt=$ht.":"."00";
-      
-     $query= mysqli_query($conectar,"INSERT INTO calendarTime (registId,calendarTime,clientId,timeId) VALUES ('$regestId','$tt','$clientId','$registId1')");
-     $ht++;
-    }
-     }
-
-    
-    $myuuid1 = $gen_uuid->guidv4();
-    $regestId = substr($myuuid1, 0, 8);
-    $s++;
-    if($s<1 || $s>$monthDays){
-        $ss="0";
-    }
-    if($s>0 && $s<=$monthDays){
-        $ss=$s;
-    }
-     $query= mysqli_query($conectar,"INSERT INTO calendarDaysAssign (calendarId,calendarDay,calendarNumber,clientId,registId) VALUES ('$calendarId','saturday','$ss','$clientId','$regestId')");
-     
-     $ht=0;
-     $numVeces1=24;
-     if($ss==0){
-
-     }
-     if($ss>0){
-
-     for ($ii = 0; $ii < $numVeces1; $ii++) {
-        $myuuid1 = $gen_uuid->guidv4();
-        $registId1 = substr($myuuid1, 0, 8);
-        $tt=$ht.":"."00";
-      
-     $query= mysqli_query($conectar,"INSERT INTO calendarTime (registId,calendarTime,clientId,timeId) VALUES ('$regestId','$tt','$clientId','$registId1')");
-     $ht++;
-    }
-     }
-    }
-     
-     
-     
-
-            echo "true|¡Calendario creado con exito!";
-        
-           // echo json_encode($response1);
         } else {
-            echo 'false|¡Autenticación fallida!';
-           // echo json_encode($data);
+            $responseSQL="false";
+            $apiMessageSQL="¡Autenticación fallida!";
+            $apiStatusSQL="401";
+            $messageSQL="¡Autenticación fallida!";
+
         }
     } else {
-        echo 'false|¡Encabezados faltantes!';
+
+        $responseSQL="false";
+        $apiMessageSQL="¡Encabezados faltantes!";
+        $apiStatusSQL="403";
+        $messageSQL="¡Encabezados faltantes!";
     }
+
+
+       // kronos($responseSQL,$apiMessageSQL,$apiMessageSQL,Flight::request()->data->clientId,$dt,Flight::request()->url,'RECEIVED',Flight::request()->data->trackId);  //LOG FUNCTION  
+
+echo modelResponse::responsePost($responseSQL,$apiMessageSQL,$apiStatusSQL,$messageSQL);//RESPONSE FUNCTION
+
 });
 
 
@@ -573,6 +318,9 @@ Flight::route('POST /putClientElement/@apk/@xapk', function ($apk,$xapk) {
     } else {
         echo 'false|¡Encabezados faltantes!';
     }
+
+
+    
 });
 
 
