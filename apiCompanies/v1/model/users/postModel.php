@@ -361,7 +361,7 @@ class modelPost {
             }
 
 
-        public static function postSrore($dta) {
+        public static function postRoomAssign($dta) {
     
            
 
@@ -380,18 +380,218 @@ class modelPost {
             
         $gen_uuid = new generateUuid();
         $myuuid = $gen_uuid->guidv4();
-        $storeId = substr($myuuid, 0, 8);
+        $assignId = substr($myuuid, 0, 8);
 
         // Escapa los valores para prevenir inyección SQL
         $clientId = mysqli_real_escape_string($conectar, $dta['clientId']);
-        $storeName = mysqli_real_escape_string($conectar, $dta['storeName']);
-        $comments = mysqli_real_escape_string($conectar, $dta['comments']);
-        $storeType = mysqli_real_escape_string($conectar, $dta['storeType']);
+        $roomId = mysqli_real_escape_string($conectar, $dta['roomId']);
+        $userId = mysqli_real_escape_string($conectar, $dta['userId']);
+        $timeId = mysqli_real_escape_string($conectar, $dta['timeId']);
+
+        $param = mysqli_real_escape_string($conectar, $dta['param']);
+
+        $assignments = mysqli_real_escape_string($conectar, $dta['assignments']);
         //$dato_encriptado = $keyword;
         
+        $array = explode("|", $userId);
+        $userid=$array[0];
+        $username=$array[1];
+        
+       if($param=="assign"){
 
-        $keywords=$storeName." ".$comments." ".$storeType;
-        $query = mysqli_query($conectar, "INSERT INTO generalStores (storeId, storeName, clientId, comments, storeType,keyWords) VALUES ('$storeId', '$storeName', '$clientId', '$comments', '$storeType','$keywords')");
+        $query= mysqli_query($conectar,"SELECT COUNT(r.roomId) as counterId FROM rooms r WHERE r.roomId IN (SELECT ra.roomId FROM roomAssign ra WHERE ra.timeId = '$timeId') and r.clientId='$clientId' and r.status=1 and r.isActive=1");
+        $row1 = mysqli_fetch_assoc($query);
+        $counterId = $row1['counterId'];
+
+        $query= mysqli_query($conectar,"SELECT COUNT(r.roomId) as counterIdr FROM rooms r WHERE r.clientId='$clientId' and r.status=1 and r.isActive=1");
+        $row2 = mysqli_fetch_assoc($query);
+        $counterIdRoom = $row2['counterIdr'];
+$sum= $counterId+1;
+        if($sum==$counterIdRoom){
+
+            $query= mysqli_query($conectar,"UPDATE calendarTime SET status=0 WHERE timeId='$timeId'");
+            $query= mysqli_query($conectar,"INSERT INTO roomAssign (assignId,roomId,timeId,clientId,userId,userName) VALUES ('$assignId','$roomId','$timeId','$clientId','$userid','$username')");
+       
+       
+            
+
+            // Divide la cadena en un array utilizando '|'
+            $elementos = explode("|", $assignments);
+            
+            // Itera sobre los elementos del array
+            foreach ($elementos as $elemento) {
+                // Ejecuta tu código para cada elemento
+                $myuuid1 = $gen_uuid->guidv4();
+                $elId = substr($myuuid1, 0, 8);
+                $query= mysqli_query($conectar,"INSERT INTO elementAssign (assignElement,elementId,assignId,clientId,userId,roomId,timeId) VALUES ('$elId','$elemento','$assignId','$clientId','$userid','$roomId','$timeId')");
+       
+
+
+                // Puedes hacer lo que necesites con $elemento en esta iteración
+            }
+       
+       
+       
+       
+       
+       
+       
+       
+            $apiMessage="¡Room asignado con éxito!";
+       
+       
+       
+       
+        }
+        if($sum<$counterIdRoom){
+
+            
+            $query= mysqli_query($conectar,"INSERT INTO roomAssign (assignId,roomId,timeId,clientId,userId,userName) VALUES ('$assignId','$roomId','$timeId','$clientId','$userid','$username')");
+           
+           
+
+            // Divide la cadena en un array utilizando '|'
+            $elementos = explode("|", $assignments);
+            
+            // Itera sobre los elementos del array
+            foreach ($elementos as $elemento) {
+                // Ejecuta tu código para cada elemento
+                $myuuid1 = $gen_uuid->guidv4();
+                $elId = substr($myuuid1, 0, 8);
+                $query= mysqli_query($conectar,"INSERT INTO elementAssign (assignElement,elementId,assignId,clientId,userId,roomId,timeId) VALUES ('$elId','$elemento','$assignId','$clientId','$userid','$roomId','$timeId')");
+       
+
+
+                // Puedes hacer lo que necesites con $elemento en esta iteración
+            }
+       
+       
+       
+       
+       
+       
+       
+       
+            $apiMessage="¡Room asignado con éxito!";
+        }
+
+
+
+        if($sum>$counterIdRoom){
+            $apiMessage="¡Room no asignado!";
+            
+        }
+       }
+               
+
+
+
+
+       
+       if($param=="notassign"){
+
+       
+
+        $query= mysqli_query($conectar,"SELECT status FROM calendarTime WHERE timeId='$timeId'");
+        $row2 = mysqli_fetch_assoc($query);
+        $status1 = $row2['status'];
+
+        if($status1==1){
+
+            
+            $query= mysqli_query($conectar,"DELETE FROM elementAssign where assignId='$clientId' and timeId='$timeId' and userId IN (SELECT userId from roomAssign where assignId='$clientId')");
+           
+            $query= mysqli_query($conectar,"DELETE FROM roomAssign where assignId='$clientId'");
+            $apiMessage="¡Room desasignado con éxito!";
+       
+       }   
+       
+       if($status1==0){
+
+        $query= mysqli_query($conectar,"UPDATE calendarTime SET status=1 WHERE timeId='$timeId'");
+        $query= mysqli_query($conectar,"DELETE FROM elementAssign where assignId='$clientId' and timeId='$timeId' and userId IN (SELECT userId from roomAssign where assignId='$clientId')");
+         
+        $query= mysqli_query($conectar,"DELETE FROM roomAssign where assignId='$clientId'");
+        $apiMessage="¡Room desasignado con éxito!";
+   
+   }
+ 
+}
+
+
+if($param=="revelement"){
+
+    $elementos = explode("|", $assignments);
+            
+    // Itera sobre los elementos del array
+    foreach ($elementos as $elemento) {
+        // Ejecuta tu código para cada elemento
+        $query= mysqli_query($conectar,"DELETE FROM elementAssign where assignId='$clientId' and timeId='$timeId' and elementId='$elemento'");
+       
+
+        // Puedes hacer lo que necesites con $elemento en esta iteración
+    }
+      
+
+    $apiMessage="¡Elemento desasignado con éxito!";
+ 
+}
+
+if($param=="asigelement"){
+
+$elementos = explode("|", $assignments);
+        
+// Itera sobre los elementos del array
+foreach ($elementos as $elemento) {
+    // Ejecuta tu código para cada elemento
+    $myuuid1 = $gen_uuid->guidv4();
+                $elId = substr($myuuid1, 0, 8);
+                $query= mysqli_query($conectar,"INSERT INTO elementAssign (assignElement,elementId,assignId,clientId,userId,roomId,timeId) VALUES ('$elId','$elemento','$username','$clientId','$userid','$roomId','$timeId')");
+       
+
+    // Puedes hacer lo que necesites con $elemento en esta iteración
+}
+  
+
+$apiMessage="¡Elemento asignado con éxito!";
+}
+
+if($param=="asigelementroom"){
+
+$elementos = explode("|", $assignments);
+        
+// Itera sobre los elementos del array
+foreach ($elementos as $elemento) {
+    // Ejecuta tu código para cada elemento
+                $query= mysqli_query($conectar,"UPDATE clientElements SET roomId='$roomId',isApply=1 where elementId='$elemento'");
+       
+
+    // Puedes hacer lo que necesites con $elemento en esta iteración
+}
+  
+$apiMessage="¡Elemento asignado con éxito!";
+}
+
+
+if($param=="asigelementroomdes"){
+
+$elementos = explode("|", $assignments);
+        
+// Itera sobre los elementos del array
+foreach ($elementos as $elemento) {
+    // Ejecuta tu código para cada elemento
+                $query= mysqli_query($conectar,"UPDATE clientElements SET roomId='',isApply=0 where elementId='$elemento'");
+       
+
+    // Puedes hacer lo que necesites con $elemento en esta iteración
+}
+  
+$apiMessage="¡Elemento desasignado con éxito!";
+    
+}
+
+       
+ 
 
         if($query){
             $filasAfectadas = mysqli_affected_rows($conectar);
@@ -399,13 +599,13 @@ class modelPost {
                 // Éxito: La actualización se realizó correctamente
             $response="true";
             $message="Creación exitosa. Filas afectadas: $filasAfectadas";
-            $apiMessage="¡Tienda creada con éxito!";
+           // $apiMessage="¡Tienda creada con éxito!";
                 $status="201";
             } else {
                 $response="false";
             $message="Creación no exitosa. Filas afectadas: $filasAfectadas";
                 $status="500";
-                $apiMessage="¡Tienda no creda con éxito!";
+                $apiMessage="¡Creación no exitosa!";
             }
         //  return "true";
         //echo "ups! el id del repo está repetido , intenta nuevamente, gracias.";
@@ -598,7 +798,7 @@ class modelPut{
         
                     }
 
-                    public static function putCategorie($dta) {
+                    public static function putCalendar($dta) {
             
                         // Asegúrate de proporcionar la ruta correcta al archivo de conexión a la base de datos
                     
@@ -613,24 +813,27 @@ class modelPut{
                         
                 
                         // Escapa los valores para prevenir inyección SQL
-                        $clientId = mysqli_real_escape_string($conectar, $dta['clientId']);
-                        $param = mysqli_real_escape_string($conectar, $dta['param']);
+                        $calendarId = mysqli_real_escape_string($conectar, $dta['calendarId']);
+                        $filter = mysqli_real_escape_string($conectar, $dta['filter']);
+                        $reason = mysqli_real_escape_string($conectar, $dta['reason']);
                         $value = mysqli_real_escape_string($conectar, $dta['value']);
-                        $categoryId = mysqli_real_escape_string($conectar, $dta['categoryId']);
                     
                         //$dato_encriptado = $keyword;
-                        if($param=="parentId"){
-                            if($categoryId==$value){
-                                $query = mysqli_query($conectar, "UPDATE generalCategories SET $param='$value' ,catType='main' where clientId='$clientId' and catId='$categoryId'");
-                
-                            }else{
-                                $query = mysqli_query($conectar, "UPDATE generalCategories SET $param='$value' ,catType='sec' where clientId='$clientId' and catId='$categoryId'");
-                
-                            }
+                        if($reason=="calendarDays"){
+                            $query= mysqli_query($conectar,"UPDATE calendarDays SET $filter = '$value' WHERE calendarId='$calendarId'");
+                     
                            
+                
                            }
-                           else{
-                            $query = mysqli_query($conectar, "UPDATE generalCategories SET $param='$value' where clientId='$clientId' and catId='$categoryId'");
+                           if($reason=="calendarDaysAssign"){
+                            $query= mysqli_query($conectar,"UPDATE calendarDaysAssign SET $filter = '$value' WHERE registId='$calendarId'");
+                     
+                
+                           }
+                                       
+                           if($reason=="calendarTime"){
+                            $query= mysqli_query($conectar,"UPDATE calendarTime SET $filter = '$value' WHERE timeId='$calendarId'");
+                     
                 
                            }
                         if($query){
@@ -639,13 +842,13 @@ class modelPut{
                                 // Éxito: La actualización se realizó correctamente
                             $response="true";
                             $message="Actualización exitosa. Filas afectadas: $filasAfectadas";
-                            $apiMessage="¡Categoría actualizada con éxito!";
+                            $apiMessage="¡Calendario actualizad0 con éxito!";
                                 $status="201";
                             } else {
                                 $response="false";
                             $message="Actualización no exitosa. Filas afectadas: $filasAfectadas";
                                 $status="500";
-                                $apiMessage="¡Categoría no actualizado con éxito!";
+                                $apiMessage="¡Calendario no actualizado con éxito!";
                             }
                         //  return "true";
                         //echo "ups! el id del repo está repetido , intenta nuevamente, gracias.";
@@ -653,7 +856,7 @@ class modelPut{
                             $response="true";
                             $message="Error en la actualización: " . mysqli_error($conectar);
                             $status="404";
-                            $apiMessage="¡Categoría no actualizado con éxito!";
+                            $apiMessage="¡Calendario no actualizado con éxito!";
                         
                                             }
                 
@@ -675,7 +878,7 @@ class modelPut{
                 
                             }
 
-                            public static function putStore($dta) {
+                            public static function putElement($dta) {
             
                                 // Asegúrate de proporcionar la ruta correcta al archivo de conexión a la base de datos
                             
@@ -690,27 +893,38 @@ class modelPut{
                                 
                         
                                 // Escapa los valores para prevenir inyección SQL
-                                $clientId = mysqli_real_escape_string($conectar, $dta['clientId']);
-                                $param = mysqli_real_escape_string($conectar, $dta['param']);
+                                $elementId = mysqli_real_escape_string($conectar, $dta['elementId']);
+                                $filter = mysqli_real_escape_string($conectar, $dta['filter']);
+                                $reason = mysqli_real_escape_string($conectar, $dta['reason']);
                                 $value = mysqli_real_escape_string($conectar, $dta['value']);
-                                $storeId = mysqli_real_escape_string($conectar, $dta['storeId']);
                             
                                 //$dato_encriptado = $keyword;
-                                $query = mysqli_query($conectar, "UPDATE generalStores SET $param='$value' where clientId='$clientId' and storeId='$storeId'");
-
+                                if($reason=="data"){
+                                    $query= mysqli_query($conectar,"UPDATE clientElements SET $filter = '$value' WHERE elementId='$elementId'");
+                             
+                        
+                                   }
+                                   if($reason=="isActive"){
+                                    $query= mysqli_query($conectar,"UPDATE clientElements SET $filter = '$value' WHERE elementId='$elementId'");
+                                                            
+                                   }
+                                   if($reason=="del"){
+                                    $query= mysqli_query($conectar,"DELETE FROM clientElements WHERE elementId='$elementId'");
+                                                  
+                                   }
                                 if($query){
                                     $filasAfectadas = mysqli_affected_rows($conectar);
                                     if ($filasAfectadas > 0) {
                                         // Éxito: La actualización se realizó correctamente
                                     $response="true";
                                     $message="Actualización exitosa. Filas afectadas: $filasAfectadas";
-                                    $apiMessage="¡Tienda actualizada con éxito!";
+                                    $apiMessage="¡Elemento actualizado con éxito!";
                                         $status="201";
                                     } else {
                                         $response="false";
                                     $message="Actualización no exitosa. Filas afectadas: $filasAfectadas";
                                         $status="500";
-                                        $apiMessage="¡Tienda no actualizado con éxito!";
+                                        $apiMessage="¡Elemento no actualizado con éxito!";
                                     }
                                 //  return "true";
                                 //echo "ups! el id del repo está repetido , intenta nuevamente, gracias.";
@@ -718,7 +932,7 @@ class modelPut{
                                     $response="true";
                                     $message="Error en la actualización: " . mysqli_error($conectar);
                                     $status="404";
-                                    $apiMessage="¡Tienda no actualizado con éxito!";
+                                    $apiMessage="¡Elemento no actualizado con éxito!";
                                 
                                                     }
                         

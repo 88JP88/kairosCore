@@ -68,98 +68,55 @@ echo modelResponse::responsePost($responseSQL,$apiMessageSQL,$apiStatusSQL,$mess
 
 Flight::route('POST /putClientCalendar/@apk/@xapk', function ($apk,$xapk) {
   
+   
     header("Access-Control-Allow-Origin: *");
     // Verificar si los encabezados 'Api-Key' y 'Secret-Key' existen
     if (!empty($apk) && !empty($xapk)) {    
-        // Leer los datos de la solicitud
-       
+    
 
 
+        $response11=modelAuth::authModel($apk,$xapk);//AUTH MODULE
 
 
-        
+//DATA EXTRACTION ARRAY - JSON CONVERT
 
-
-
-
-        $sub_domaincon=new model_domain();
-        $sub_domain=$sub_domaincon->domKairos();
-        $url = $sub_domain.'/kairosCore/apiAuth/v1/authApiKey/';
-      
-        $data = array(
-            'apiKey' =>$apk, 
-            'xApiKey' => $xapk
-          
-          );
-      $curl = curl_init();
-      
-      // Configurar las opciones de la sesión cURL
-      curl_setopt($curl, CURLOPT_URL, $url);
-      curl_setopt($curl, CURLOPT_POST, true);
-      curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
-      curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-      // curl_setopt($curl, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
-      
-      // Ejecutar la solicitud y obtener la respuesta
-      $response11 = curl_exec($curl);
-
-      
-
-
-      curl_close($curl);
-
-      
-
-        // Realizar acciones basadas en los valores de los encabezados
+$postData = Flight::request()->data->getData();
+$dt=json_encode($postData);
+//DATA EXTRACTION**
 
 
         if ($response11 == 'true' ) {
+           
+        $query= modelPut::putCalendar($postData);  //DATA MODAL
 
+    //JSON DECODE RESPPNSE
+        $data = json_decode($query, true);
+        $responseSQL=$data['response'][0]['response'];
+        $messageSQL=$data['response'][0]['message'];
+        $apiMessageSQL=$data['response'][0]['apiMessage'];
+        $apiStatusSQL=$data['response'][0]['status'];
+        //JSON DECODE**
 
-
-            $calendarId= Flight::request()->data->calendarId;
-            $filter= Flight::request()->data->filter;
-            $reason= Flight::request()->data->reason;
-            $value= Flight::request()->data->value;
-
-
-         
-
-         
-          
-
-            $conectar=conn();
-           if($reason=="calendarDays"){
-            $query= mysqli_query($conectar,"UPDATE calendarDays SET $filter = '$value' WHERE calendarId='$calendarId'");
-     
-            echo "true|¡Calendario actualizado con exito!";
-
-           }
-           if($reason=="calendarDaysAssign"){
-            $query= mysqli_query($conectar,"UPDATE calendarDaysAssign SET $filter = '$value' WHERE registId='$calendarId'");
-            echo "true|¡Día actualizado con exito!";
-     
-
-           }
-                       
-           if($reason=="calendarTime"){
-            $query= mysqli_query($conectar,"UPDATE calendarTime SET $filter = '$value' WHERE timeId='$calendarId'");
-            echo "true|¡Hora actualizada con exito!";
-     
-
-           }
-     
-
-       
-        
-           // echo json_encode($response1);
         } else {
-            echo 'false|¡Autenticación fallida!';
-           // echo json_encode($data);
+            $responseSQL="false";
+            $apiMessageSQL="¡Autenticación fallida!";
+            $apiStatusSQL="401";
+            $messageSQL="¡Autenticación fallida!";
+
         }
     } else {
-        echo 'false|¡Encabezados faltantes!';
+
+        $responseSQL="false";
+        $apiMessageSQL="¡Encabezados faltantes!";
+        $apiStatusSQL="403";
+        $messageSQL="¡Encabezados faltantes!";
     }
+
+
+       // kronos($responseSQL,$apiMessageSQL,$apiMessageSQL,Flight::request()->data->clientId,$dt,Flight::request()->url,'RECEIVED',Flight::request()->data->trackId);  //LOG FUNCTION  
+
+echo modelResponse::responsePost($responseSQL,$apiMessageSQL,$apiStatusSQL,$messageSQL);//RESPONSE FUNCTION
+
 });
 
 
@@ -223,101 +180,55 @@ echo modelResponse::responsePost($responseSQL,$apiMessageSQL,$apiStatusSQL,$mess
 
 Flight::route('POST /putClientElement/@apk/@xapk', function ($apk,$xapk) {
   
+
+    
     header("Access-Control-Allow-Origin: *");
     // Verificar si los encabezados 'Api-Key' y 'Secret-Key' existen
     if (!empty($apk) && !empty($xapk)) {    
-        // Leer los datos de la solicitud
-       
+    
 
 
+        $response11=modelAuth::authModel($apk,$xapk);//AUTH MODULE
 
 
-        
+//DATA EXTRACTION ARRAY - JSON CONVERT
 
-
-
-
-        $sub_domaincon=new model_domain();
-        $sub_domain=$sub_domaincon->domKairos();
-        $url = $sub_domain.'/kairosCore/apiAuth/v1/authApiKey/';
-      
-        $data = array(
-            'apiKey' =>$apk, 
-            'xApiKey' => $xapk
-          
-          );
-      $curl = curl_init();
-      
-      // Configurar las opciones de la sesión cURL
-      curl_setopt($curl, CURLOPT_URL, $url);
-      curl_setopt($curl, CURLOPT_POST, true);
-      curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
-      curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-      // curl_setopt($curl, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
-      
-      // Ejecutar la solicitud y obtener la respuesta
-      $response11 = curl_exec($curl);
-
-      
-
-
-      curl_close($curl);
-
-      
-
-        // Realizar acciones basadas en los valores de los encabezados
+$postData = Flight::request()->data->getData();
+$dt=json_encode($postData);
+//DATA EXTRACTION**
 
 
         if ($response11 == 'true' ) {
+           
+        $query= modelPut::putElement($postData);  //DATA MODAL
 
+    //JSON DECODE RESPPNSE
+        $data = json_decode($query, true);
+        $responseSQL=$data['response'][0]['response'];
+        $messageSQL=$data['response'][0]['message'];
+        $apiMessageSQL=$data['response'][0]['apiMessage'];
+        $apiStatusSQL=$data['response'][0]['status'];
+        //JSON DECODE**
 
-
-            $elementId= Flight::request()->data->elementId;
-            $filter= Flight::request()->data->filter;
-            $reason= Flight::request()->data->reason;
-            $value= Flight::request()->data->value;
-
-
-         
-
-         
-          
-
-            $conectar=conn();
-           if($reason=="data"){
-            $query= mysqli_query($conectar,"UPDATE clientElements SET $filter = '$value' WHERE elementId='$elementId'");
-     
-            echo "true|¡Elemento actualizado con exito!";
-
-           }
-           if($reason=="isActive"){
-            $query= mysqli_query($conectar,"UPDATE clientElements SET $filter = '$value' WHERE elementId='$elementId'");
-
-            if($value==1){            echo "true|¡Elemento activado con exito!";
-            }
-
-            if($value==0){            echo "true|¡Elemento desactivado con exito!";
-            }
-           }
-           if($reason=="del"){
-            $query= mysqli_query($conectar,"DELETE FROM clientElements WHERE elementId='$elementId'");
-     
-            echo "true|¡Elemento removido con exito!";
-
-           }
-              
-     
-
-       
-        
-           // echo json_encode($response1);
         } else {
-            echo 'false|¡Autenticación fallida!';
-           // echo json_encode($data);
+            $responseSQL="false";
+            $apiMessageSQL="¡Autenticación fallida!";
+            $apiStatusSQL="401";
+            $messageSQL="¡Autenticación fallida!";
+
         }
     } else {
-        echo 'false|¡Encabezados faltantes!';
+
+        $responseSQL="false";
+        $apiMessageSQL="¡Encabezados faltantes!";
+        $apiStatusSQL="403";
+        $messageSQL="¡Encabezados faltantes!";
     }
+
+
+       // kronos($responseSQL,$apiMessageSQL,$apiMessageSQL,Flight::request()->data->clientId,$dt,Flight::request()->url,'RECEIVED',Flight::request()->data->trackId);  //LOG FUNCTION  
+
+echo modelResponse::responsePost($responseSQL,$apiMessageSQL,$apiStatusSQL,$messageSQL);//RESPONSE FUNCTION
 
 
     
@@ -384,289 +295,55 @@ echo modelResponse::responsePost($responseSQL,$apiMessageSQL,$apiStatusSQL,$mess
 
 Flight::route('POST /postAssignRoom/@apk/@xapk/', function ($apk,$xapk) {
   
+    
     header("Access-Control-Allow-Origin: *");
     // Verificar si los encabezados 'Api-Key' y 'Secret-Key' existen
     if (!empty($apk) && !empty($xapk)) {    
-        // Leer los datos de la solicitud
-       
+    
 
 
+        $response11=modelAuth::authModel($apk,$xapk);//AUTH MODULE
 
 
-        
+//DATA EXTRACTION ARRAY - JSON CONVERT
 
-
-
-
-        $sub_domaincon=new model_domain();
-        $sub_domain=$sub_domaincon->domKairos();
-        $url = $sub_domain.'/kairosCore/apiAuth/v1/authApiKey/';
-      
-        $data = array(
-            'apiKey' =>$apk, 
-            'xApiKey' => $xapk
-          
-          );
-      $curl = curl_init();
-      
-      // Configurar las opciones de la sesión cURL
-      curl_setopt($curl, CURLOPT_URL, $url);
-      curl_setopt($curl, CURLOPT_POST, true);
-      curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
-      curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-      // curl_setopt($curl, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
-      
-      // Ejecutar la solicitud y obtener la respuesta
-      $response11 = curl_exec($curl);
-
-      
-
-
-      curl_close($curl);
-
-      
-
-        // Realizar acciones basadas en los valores de los encabezados
+$postData = Flight::request()->data->getData();
+$dt=json_encode($postData);
+//DATA EXTRACTION**
 
 
         if ($response11 == 'true' ) {
-
-
-
-            $clientId= Flight::request()->data->clientId;
-            $roomId= Flight::request()->data->roomId;
-            $userId= Flight::request()->data->userId;
-            $timeId= Flight::request()->data->timeId;
-            $param= Flight::request()->data->param;
-            $assignments= Flight::request()->data->assignments;
-
-
-            require_once '../../apiCompanies/v1/model/modelSecurity/uuid/uuidd.php';
            
-   
+        $query= modelPost::postRoomAssign($postData);  //DATA MODAL
 
-            $gen_uuid = new generateUuid();
-            $myuuid = $gen_uuid->guidv4();
-            
-         
+    //JSON DECODE RESPPNSE
+        $data = json_decode($query, true);
+        $responseSQL=$data['response'][0]['response'];
+        $messageSQL=$data['response'][0]['message'];
+        $apiMessageSQL=$data['response'][0]['apiMessage'];
+        $apiStatusSQL=$data['response'][0]['status'];
+        //JSON DECODE**
 
-            $assignId = substr($myuuid, 0, 8);
-            
-
-         
-            $conectar=conn();
-
-            $array = explode("|", $userId);
-            $userid=$array[0];
-            $username=$array[1];
-            
-           if($param=="assign"){
-
-            $query1= mysqli_query($conectar,"SELECT COUNT(r.roomId) as counterId FROM rooms r WHERE r.roomId IN (SELECT ra.roomId FROM roomAssign ra WHERE ra.timeId = '$timeId') and r.clientId='$clientId' and r.status=1 and r.isActive=1");
-            $row1 = mysqli_fetch_assoc($query1);
-            $counterId = $row1['counterId'];
-   
-            $query2= mysqli_query($conectar,"SELECT COUNT(r.roomId) as counterIdr FROM rooms r WHERE r.clientId='$clientId' and r.status=1 and r.isActive=1");
-            $row2 = mysqli_fetch_assoc($query2);
-            $counterIdRoom = $row2['counterIdr'];
-    $sum= $counterId+1;
-            if($sum==$counterIdRoom){
-
-                $query2= mysqli_query($conectar,"UPDATE calendarTime SET status=0 WHERE timeId='$timeId'");
-                $query= mysqli_query($conectar,"INSERT INTO roomAssign (assignId,roomId,timeId,clientId,userId,userName) VALUES ('$assignId','$roomId','$timeId','$clientId','$userid','$username')");
-           
-           
-                
-
-                // Divide la cadena en un array utilizando '|'
-                $elementos = explode("|", $assignments);
-                
-                // Itera sobre los elementos del array
-                foreach ($elementos as $elemento) {
-                    // Ejecuta tu código para cada elemento
-                    $myuuid1 = $gen_uuid->guidv4();
-                    $elId = substr($myuuid1, 0, 8);
-                    $query3= mysqli_query($conectar,"INSERT INTO elementAssign (assignElement,elementId,assignId,clientId,userId,roomId,timeId) VALUES ('$elId','$elemento','$assignId','$clientId','$userid','$roomId','$timeId')");
-           
-
-
-                    // Puedes hacer lo que necesites con $elemento en esta iteración
-                }
-           
-           
-           
-           
-           
-           
-           
-           
-                echo "true|¡Room asignado con exito!";
-           
-           
-           
-           
-            }
-            if($sum<$counterIdRoom){
-
-                
-                $query= mysqli_query($conectar,"INSERT INTO roomAssign (assignId,roomId,timeId,clientId,userId,userName) VALUES ('$assignId','$roomId','$timeId','$clientId','$userid','$username')");
-               
-               
-
-                // Divide la cadena en un array utilizando '|'
-                $elementos = explode("|", $assignments);
-                
-                // Itera sobre los elementos del array
-                foreach ($elementos as $elemento) {
-                    // Ejecuta tu código para cada elemento
-                    $myuuid1 = $gen_uuid->guidv4();
-                    $elId = substr($myuuid1, 0, 8);
-                    $query3= mysqli_query($conectar,"INSERT INTO elementAssign (assignElement,elementId,assignId,clientId,userId,roomId,timeId) VALUES ('$elId','$elemento','$assignId','$clientId','$userid','$roomId','$timeId')");
-           
-
-
-                    // Puedes hacer lo que necesites con $elemento en esta iteración
-                }
-           
-           
-           
-           
-           
-           
-           
-           
-                echo "true|¡Room asignado con exito!";
-            }
-
-
-
-            if($sum>$counterIdRoom){
-                echo "false|¡Room no asignado!";
-                
-            }
-           }
-                   
-
-
-
-
-           
-           if($param=="notassign"){
-
-           
-   
-            $query2= mysqli_query($conectar,"SELECT status FROM calendarTime WHERE timeId='$timeId'");
-            $row2 = mysqli_fetch_assoc($query2);
-            $status1 = $row2['status'];
-    
-            if($status1==1){
-
-                
-                $query= mysqli_query($conectar,"DELETE FROM elementAssign where assignId='$clientId' and timeId='$timeId' and userId IN (SELECT userId from roomAssign where assignId='$clientId')");
-               
-                $query= mysqli_query($conectar,"DELETE FROM roomAssign where assignId='$clientId'");
-                echo "true|¡Room desasignado con exito!";
-           
-           }   
-           
-           if($status1==0){
-
-            $query2= mysqli_query($conectar,"UPDATE calendarTime SET status=1 WHERE timeId='$timeId'");
-            $query= mysqli_query($conectar,"DELETE FROM elementAssign where assignId='$clientId' and timeId='$timeId' and userId IN (SELECT userId from roomAssign where assignId='$clientId')");
-             
-            $query= mysqli_query($conectar,"DELETE FROM roomAssign where assignId='$clientId'");
-            echo "true|¡Room desasignado con exito!";
-       
-       }
-     
-    }
-
-
-    if($param=="revelement"){
-
-        $elementos = explode("|", $assignments);
-                
-        // Itera sobre los elementos del array
-        foreach ($elementos as $elemento) {
-            // Ejecuta tu código para cada elemento
-            $query= mysqli_query($conectar,"DELETE FROM elementAssign where assignId='$clientId' and timeId='$timeId' and elementId='$elemento'");
-           
-
-            // Puedes hacer lo que necesites con $elemento en esta iteración
-        }
-          
-
-            echo "true|¡Elemento desasignado con exito!";
-     
-   }
-
-   if($param=="asigelement"){
-
-    $elementos = explode("|", $assignments);
-            
-    // Itera sobre los elementos del array
-    foreach ($elementos as $elemento) {
-        // Ejecuta tu código para cada elemento
-        $myuuid1 = $gen_uuid->guidv4();
-                    $elId = substr($myuuid1, 0, 8);
-                    $query3= mysqli_query($conectar,"INSERT INTO elementAssign (assignElement,elementId,assignId,clientId,userId,roomId,timeId) VALUES ('$elId','$elemento','$username','$clientId','$userid','$roomId','$timeId')");
-           
-
-        // Puedes hacer lo que necesites con $elemento en esta iteración
-    }
-      
-
-        echo "true|¡Elemento asignado con exito!";
-}
-
-if($param=="asigelementroom"){
-
-    $elementos = explode("|", $assignments);
-            
-    // Itera sobre los elementos del array
-    foreach ($elementos as $elemento) {
-        // Ejecuta tu código para cada elemento
-                    $query3= mysqli_query($conectar,"UPDATE clientElements SET roomId='$roomId',isApply=1 where elementId='$elemento'");
-           
-
-        // Puedes hacer lo que necesites con $elemento en esta iteración
-    }
-      
-
-        echo "true|¡Elemento asignado con exito!";
-}
-
- 
-if($param=="asigelementroomdes"){
-
-    $elementos = explode("|", $assignments);
-            
-    // Itera sobre los elementos del array
-    foreach ($elementos as $elemento) {
-        // Ejecuta tu código para cada elemento
-                    $query3= mysqli_query($conectar,"UPDATE clientElements SET roomId='',isApply=0 where elementId='$elemento'");
-           
-
-        // Puedes hacer lo que necesites con $elemento en esta iteración
-    }
-      
-
-        echo "true|¡Elemento desasignado con exito!";
-}
-
-           
-     
-
-       
-        
-           // echo json_encode($response1);
         } else {
-            echo 'false|¡Autenticación fallida!';
-           // echo json_encode($data);
+            $responseSQL="false";
+            $apiMessageSQL="¡Autenticación fallida!";
+            $apiStatusSQL="401";
+            $messageSQL="¡Autenticación fallida!";
+
         }
     } else {
-        echo 'false|¡Encabezados faltantes!';
+
+        $responseSQL="false";
+        $apiMessageSQL="¡Encabezados faltantes!";
+        $apiStatusSQL="403";
+        $messageSQL="¡Encabezados faltantes!";
     }
+
+
+       // kronos($responseSQL,$apiMessageSQL,$apiMessageSQL,Flight::request()->data->clientId,$dt,Flight::request()->url,'RECEIVED',Flight::request()->data->trackId);  //LOG FUNCTION  
+
+echo modelResponse::responsePost($responseSQL,$apiMessageSQL,$apiStatusSQL,$messageSQL);//RESPONSE FUNCTION
+
 });
 
 
