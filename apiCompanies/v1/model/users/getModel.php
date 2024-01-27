@@ -851,6 +851,142 @@ if ($numRows > 0) {
                          
         
 }
+
+
+
+public static function getCalendarTIMEDES($dta) {
+            
+                
+
+
+    // Asegúrate de proporcionar la ruta correcta al archivo de conexión a la base de datos
+    
+        // Realiza la conexión a la base de datos (reemplaza conn() con tu propia lógica de conexión)
+        $conectar = conn();
+
+        // Verifica si la conexión se realizó correctamente
+        if (!$conectar) {
+            return "Error de conexión a la base de datos";
+        }
+
+        
+            
+
+        // Escapa los valores para prevenir inyección SQL
+        $clientId = mysqli_real_escape_string($conectar, $dta['clientId']);
+        $filter = mysqli_real_escape_string($conectar, $dta['filter']);
+        $param = mysqli_real_escape_string($conectar, $dta['param']);
+        $value = mysqli_real_escape_string($conectar, $dta['value']);
+                    
+                    
+        $query= mysqli_query($conectar,"SELECT ar.assignId,ar.roomId,ar.timeId,ar.isActive,ar.status,ar.userName,ar.userId,ar.clientId,r.comments FROM roomAssign ar JOIN rooms r ON r.roomId=ar.roomId WHERE timeId='$filter'");
+         
+        if($query){
+            $numRows = mysqli_num_rows($query);
+
+if ($numRows > 0) {
+            $response="true";
+            $message="Consulta exitosa";
+            $status="202";
+            $apiMessage="¡Registros seleccionados ($numRows)!";
+            $values=[];
+
+            while ($row = $query->fetch_assoc()) {
+       
+
+                $value=[
+                    'assignId' => $row['assignId'],
+                    'roomId' => $row['roomId'],
+                    'timeId' => $row['timeId'],
+                    'isActive' => $row['isActive'],
+                    'status' => $row['status'],
+                    
+                    'userName' => $row['userName'],
+                    'userId' => $row['userId'],
+                    'clientId' => $row['clientId'],
+                    'comments' => $row['comments']
+                ];
+                
+                array_push($values,$value);
+            }
+            
+            $row = $query->fetch_assoc();
+           // return json_encode(['products'=>$values]);
+            
+            // Crear un array separado para el objeto 'response'
+            $responseData = [
+                'response' => [
+                    'response' => $response,
+                    'message' => $message,
+                    'apiMessage' => $apiMessage,
+                    'status' => $status,
+                    'sentData'=>$dta
+                ],
+                'assignRoom' => $values
+            ];
+            
+            return json_encode($responseData);
+          //return "hello";
+        }else {
+            // La consulta no arrojó resultados
+            $response="false";
+            $message="Error en la consulta";
+            $status="204";
+            $apiMessage="¡La consulta no produjo resultados, filas seleccionadas ($numRows)!";
+            $values=[];
+
+            $value = [
+                                            
+            ];
+            $responseData = [
+                'response' => [
+                    'response' => $response,
+                    'message' => $message,
+                    'apiMessage' => $apiMessage,
+                    'status' => $status,
+                    'sentData'=>$dta
+                ],
+                'assignRoom' => $values
+            ];
+            array_push($values,$value);
+            
+
+    //echo json_encode($students) ;
+    return json_encode($responseData);
+        }
+
+        //  return "true";
+        //echo "ups! el id del repo está repetido , intenta nuevamente, gracias.";
+        }else{
+            $response="false";
+            $message="Error en la consulta: ";
+            $status="404";
+            $apiMessage="¡Registros no seleccionados con éxito!";
+            $values=[];
+
+            $value = [
+                                            
+            ];
+            $responseData = [
+                'response' => [
+                    'response' => $response,
+                    'message' => $message,
+                    'apiMessage' => $apiMessage,
+                    'status' => $status,
+                    'sentData'=>$dta
+                ],
+                'assignRoom' => $values
+            ];
+            array_push($values,$value);
+            
+
+    //echo json_encode($students) ;
+    return json_encode($responseData);
+                            }
+
+                         
+        
+}
     }
 
 
