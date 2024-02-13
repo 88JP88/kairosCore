@@ -588,11 +588,11 @@ public static function getCalendarDAYSASSIGN($dta) {
        
         if($param=="all"){
            
-            $query= mysqli_query($conectar,"SELECT calendarId,calendarDay,calendarNumber,clientId,status,isActive,calendarTime,registId FROM calendarDaysAssign where calendarId='$filter' and calendarNumber>0");
+            $query= mysqli_query($conectar,"SELECT calendarId,calendarDay,calendarNumber,clientId,status,isActive,calendarTime,registId FROM calendarDaysAssign where calendarId='$value' and calendarNumber>0");
       }
       if($param=="admin"){
        
-        $query= mysqli_query($conectar,"SELECT calendarId,calendarDay,calendarNumber,clientId,status,isActive,calendarTime,registId FROM calendarDaysAssign where calendarId='$filter' and calendarNumber>0 and isActive=1 and status=1");
+        $query= mysqli_query($conectar,"SELECT calendarId,calendarDay,calendarNumber,clientId,status,isActive,calendarTime,registId FROM calendarDaysAssign where calendarId='$value' and calendarNumber>0 and isActive=1 and status=1");
   }
         if($query){
             $numRows = mysqli_num_rows($query);
