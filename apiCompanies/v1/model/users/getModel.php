@@ -158,8 +158,8 @@ class modelGet {
                 $filter = mysqli_real_escape_string($conectar, $dta['filter']);
                 $param = mysqli_real_escape_string($conectar, $dta['param']);
                 $value = mysqli_real_escape_string($conectar, $dta['value']);
-                $value1 = mysqli_real_escape_string($conectar, $dta['value1']);
-                $value2 = mysqli_real_escape_string($conectar, $dta['value2']);
+                $value1 = mysqli_real_escape_string($conectar, $dta['value']);
+                $value2 = mysqli_real_escape_string($conectar, $dta['value']);
                
         
                 if($param=="all"){
