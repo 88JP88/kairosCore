@@ -1319,103 +1319,47 @@ Flight::route('GET /getInternalUsersClient/@filter/@cid', function ($filter,$cid
 
 
 
-Flight::route('GET /getInternalUsers/@filter', function ($filter) {
+Flight::route('GET /getInternalUsers/@apiData', function ($apiData) {
+   
     header("Access-Control-Allow-Origin: *");
     // Leer los encabezados
     $headers = getallheaders();
-    
+    $postData = json_decode($apiData, true);
     // Verificar si los encabezados 'Api-Key' y 'Secret-Key' existen
-    if (isset($headers['Api-Key']) && isset($headers['x-api-Key'])) {
+    if (isset($headers['Api-Key']) ) {
         // Leer los datos de la solicitud
        
         // Acceder a los encabezados
         $apiKey = $headers['Api-Key'];
         $xApiKey = $headers['x-api-Key'];
-        
-        $sub_domaincon=new model_domain();
-        $sub_domain=$sub_domaincon->domKairos();
-        $url = $sub_domain.'/kairosCore/apiAuth/v1/authApiKeyKairos/';
-      
-        $data = array(
-          'apiKey' =>$apiKey, 
-          'xApiKey' => $xApiKey
-          
-          );
-      $curl = curl_init();
-      
-      // Configurar las opciones de la sesión cURL
-      curl_setopt($curl, CURLOPT_URL, $url);
-      curl_setopt($curl, CURLOPT_POST, true);
-      curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
-      curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-      // curl_setopt($curl, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
-      
-      // Ejecutar la solicitud y obtener la respuesta
-      $response1 = curl_exec($curl);
 
-      
-
-
-      curl_close($curl);
-
-      
-
-        // Realizar acciones basadas en los valores de los encabezados
-
+        $response1=modelAuth::authModel($apiKey,$xApiKey);//AUTH MODULE
 
         if ($response1 == 'true' ) {
            
+          
+//echo $apiData;
+echo modelGet::getUsersINTERNAL($postData);
+          
 
+}else { 
+    
+    $responseSQL="false";
+    $apiMessageSQL="¡Autenticación fallida!";
+    $apiStatusSQL="401";
+    $messageSQL="¡Autenticación fallida!";
+    echo modelResponse::responsePost($responseSQL,$apiMessageSQL,$apiStatusSQL,$messageSQL);//RESPONSE FUNCTION
 
+}
+} else {
 
-           
-            $conectar=conn();
-            
-          if($filter=="unlock"){
-            $query= mysqli_query($conectar,"SELECT u.userId,u.name,u.lastName,u.email,u.userName,u.isActive,u.status,u.rolId,u.contact,u.sessionCounter,u.clientId,c.clientName FROM internalUsers u JOIN clients c ON c.clientId=u.clientId WHERE u.status=1");
-          
-          }
-          if($filter=="lock"){
-            $query= mysqli_query($conectar,"SELECT u.userId,u.name,u.lastName,u.email,u.userName,u.isActive,u.status,u.rolId,u.contact,u.sessionCounter,u.clientId,c.clientName FROM internalUsers u JOIN clients c ON c.clientId=u.clientId WHERE u.status=0");
-          
-          }
-          
-                $values=[];
-          
-                while($row = $query->fetch_assoc())
-                {
-                        $value=[
-                            'userId' => $row['userId'],
-                            'name' => $row['name'],
-                            'lastName' => $row['lastName'],
-                            'email' => $row['email'],
-                            'userName' => $row['userName'],
-                            'isActive' => $row['isActive'],
-                            'status' => $row['status'],
-                            'rolId' => $row['rolId'],
-                            'contact' => $row['contact'],
-                            'sessionCounter' => $row['sessionCounter'],
-                            'clientId' => $row['clientId'],
-                            'clientName' => $row['clientName']
-                        ];
-                        
-                        array_push($values,$value);
-                        
-                }
-                $row=$query->fetch_assoc();
-                //echo json_encode($students) ;
-                echo json_encode(['users'=>$values]);
-          
-               
-           
+$responseSQL="false";
+$apiMessageSQL="¡Encabezados faltantes!";
+$apiStatusSQL="403";
+$messageSQL="¡Encabezados faltantes!";
+echo modelResponse::responsePost($responseSQL,$apiMessageSQL,$apiStatusSQL,$messageSQL);//RESPONSE FUNCTION
 
-        } else {
-            echo 'Error: Autenticación fallida';
-             //echo json_encode($response1);
-        }
-    } else {
-        echo 'Error: Encabezados faltantes';
-    }
+}
 });
 
 
