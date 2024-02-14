@@ -1440,8 +1440,8 @@ Flight::route('GET /getGeneralUsers/@apiData', function ($apiData) {
         if ($response1 == 'true' ) {
            
           
-echo $apiData;
-//echo modelGet::getUsersGENERAL($postData);
+//echo $apiData;
+echo modelGet::getUsersGENERAL($postData);
           
 
 }else { 
