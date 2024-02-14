@@ -1421,47 +1421,47 @@ Flight::route('GET /getInternalUsers/@filter', function ($filter) {
 
 Flight::route('GET /getGeneralUsers/@apiData', function ($apiData) {
     
-
+echo "hello";
     
-    header("Access-Control-Allow-Origin: *");
-    // Leer los encabezados
-    $headers = getallheaders();
-    $postData = json_decode($apiData, true);
-    // Verificar si los encabezados 'Api-Key' y 'Secret-Key' existen
-    if (isset($headers['Api-Key']) ) {
-        // Leer los datos de la solicitud
+//     header("Access-Control-Allow-Origin: *");
+//     // Leer los encabezados
+//     $headers = getallheaders();
+//     $postData = json_decode($apiData, true);
+//     // Verificar si los encabezados 'Api-Key' y 'Secret-Key' existen
+//     if (isset($headers['Api-Key']) ) {
+//         // Leer los datos de la solicitud
        
-        // Acceder a los encabezados
-        $apiKey = $headers['Api-Key'];
-        $xApiKey = $headers['x-api-Key'];
+//         // Acceder a los encabezados
+//         $apiKey = $headers['Api-Key'];
+//         $xApiKey = $headers['x-api-Key'];
 
-        $response1=modelAuth::authModel($apiKey,$xApiKey);//AUTH MODULE
+//         $response1=modelAuth::authModel($apiKey,$xApiKey);//AUTH MODULE
 
-        if ($response1 == 'true' ) {
+//         if ($response1 == 'true' ) {
            
           
-//echo $apiData;
-echo modelGet::getUsersGENERAL($postData);
+// //echo $apiData;
+// echo modelGet::getUsersGENERAL($postData);
           
 
-}else { 
+// }else { 
     
-    $responseSQL="false";
-    $apiMessageSQL="¡Autenticación fallida!";
-    $apiStatusSQL="401";
-    $messageSQL="¡Autenticación fallida!";
-    echo modelResponse::responsePost($responseSQL,$apiMessageSQL,$apiStatusSQL,$messageSQL);//RESPONSE FUNCTION
+//     $responseSQL="false";
+//     $apiMessageSQL="¡Autenticación fallida!";
+//     $apiStatusSQL="401";
+//     $messageSQL="¡Autenticación fallida!";
+//     echo modelResponse::responsePost($responseSQL,$apiMessageSQL,$apiStatusSQL,$messageSQL);//RESPONSE FUNCTION
 
-}
-} else {
+// }
+// } else {
 
-$responseSQL="false";
-$apiMessageSQL="¡Encabezados faltantes!";
-$apiStatusSQL="403";
-$messageSQL="¡Encabezados faltantes!";
-echo modelResponse::responsePost($responseSQL,$apiMessageSQL,$apiStatusSQL,$messageSQL);//RESPONSE FUNCTION
+// $responseSQL="false";
+// $apiMessageSQL="¡Encabezados faltantes!";
+// $apiStatusSQL="403";
+// $messageSQL="¡Encabezados faltantes!";
+// echo modelResponse::responsePost($responseSQL,$apiMessageSQL,$apiStatusSQL,$messageSQL);//RESPONSE FUNCTION
 
-}
+// }
 });
 
 
