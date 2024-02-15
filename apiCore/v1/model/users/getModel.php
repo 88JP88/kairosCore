@@ -288,4 +288,148 @@ if ($numRows > 0) {
                 
 }
 
+
+
+
+public static function getClients($dta) {
+            
+                
+
+
+    // Asegúrate de proporcionar la ruta correcta al archivo de conexión a la base de datos
+    
+        // Realiza la conexión a la base de datos (reemplaza conn() con tu propia lógica de conexión)
+        $conectar = conn();
+
+        // Verifica si la conexión se realizó correctamente
+        if (!$conectar) {
+            return "Error de conexión a la base de datos";
+        }
+
+        
+            
+
+        // Escapa los valores para prevenir inyección SQL
+        $clientId = mysqli_real_escape_string($conectar, $dta['clientId']);
+        $filter = mysqli_real_escape_string($conectar, $dta['filter']);
+        $param = mysqli_real_escape_string($conectar, $dta['param']);
+        $value = mysqli_real_escape_string($conectar, $dta['value']);
+       
+
+        if($filter=="unlock"){
+            $query= mysqli_query($conectar,"SELECT c.clientId,c.clientName,c.comments,c.isActive,c.status,c.ownerId,c.styleId,c.subId,c.clientType,o.name,o.lastName,o.contact,o.email,s.apiKey FROM clients c JOIN owners o ON c.ownerId=o.ownerId JOIN clientSecrets s ON s.clientId=c.clientId WHERE c.status=1");
+       
+        }
+      
+        if($filter=="lock"){
+            $query= mysqli_query($conectar,"SELECT c.clientId,c.clientName,c.comments,c.isActive,c.status,c.ownerId,c.styleId,c.subId,c.clientType,o.name,o.lastName,o.contact,o.email,s.apiKey FROM clients c JOIN owners o ON c.ownerId=o.ownerId JOIN clientSecrets s ON s.clientId=c.clientId WHERE c.status=0");
+       
+        }
+        if($query){
+            $numRows = mysqli_num_rows($query);
+
+if ($numRows > 0) {
+            $response="true";
+            $message="Consulta exitosa";
+            $status="202";
+            $apiMessage="¡Clientes seleccionados ($numRows)!";
+            $values=[];
+
+            while ($row = $query->fetch_assoc()) {
+                $value=[
+                    'ownerId' => $row['ownerId'],
+                    'name' => $row['name'],
+                    'lastName' => $row['lastName'],
+                    'email' => $row['email'],
+                    'key' => $row['apiKey'],
+                    'isActive' => $row['isActive'],
+                    'status' => $row['status'],
+                    'styleId' => $row['styleId'],
+                    'contact' => $row['contact'],
+                    'subId' => $row['subId'],
+                    'clientId' => $row['clientId'],
+                    'clientName' => $row['clientName'],
+                    'comments' => $row['comments'],
+                    'clientType' => $row['clientType']
+                ];
+                
+                array_push($values,$value);
+            }
+            
+            $row = $query->fetch_assoc();
+           // return json_encode(['products'=>$values]);
+            
+            // Crear un array separado para el objeto 'response'
+            $responseData = [
+                'response' => [
+                    'response' => $response,
+                    'message' => $message,
+                    'apiMessage' => $apiMessage,
+                    'status' => $status,
+                    'sentData'=>$dta
+                ],
+                'clients' => $values
+            ];
+            
+            return json_encode($responseData);
+        }else {
+            // La consulta no arrojó resultados
+            $response="false";
+            $message="Error en la consulta";
+            $status="204";
+            $apiMessage="¡La consulta no produjo resultados, filas seleccionadas ($numRows)!";
+            $values=[];
+            $value = [
+                
+            ];
+            $responseData = [
+                'response' => [
+                    'response' => $response,
+                    'message' => $message,
+                    'apiMessage' => $apiMessage,
+                    'status' => $status,
+                    'sentData'=>$dta
+                ],
+                'clients' => $values
+            ];
+            array_push($values,$value);
+            
+
+    //echo json_encode($students) ;
+    return json_encode($responseData);
+        }
+
+        //  return "true";
+        //echo "ups! el id del repo está repetido , intenta nuevamente, gracias.";
+        }else{
+            $response="false";
+            $message="Error en la consulta: " . mysqli_error($conectar);
+            $status="404";
+            $apiMessage="¡Clientes no seleccionados con éxito!";
+            $values=[];
+
+            $value = [
+                
+            ];
+            $responseData = [
+                'response' => [
+                    'response' => $response,
+                    'message' => $message,
+                    'apiMessage' => $apiMessage,
+                    'status' => $status,
+                    'sentData'=>$dta
+                ],
+                'clients' => $values
+            ];
+            array_push($values,$value);
+            
+
+    //echo json_encode($students) ;
+    return json_encode($responseData);
+                            }
+
+                            
+        
+}
+
 }
